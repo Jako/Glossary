@@ -1,6 +1,8 @@
 Changelog for Glossary
 ======================
 
+- 2.2.0
+    - Output the result to custom placeholders via the toPlaceholder parameter.
 - 2.1.0
     - The explanation uses an Rich Text Editor (if a MODX RTE is installed and
       the Glossary system setting html is enabled).

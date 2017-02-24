@@ -2,7 +2,7 @@
 /**
  * Glossary Base Classfile
  *
- * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
+ * Copyright 2012-2017 by Alan Pich <alan.pich@gmail.com>
  *
  * @package glossary
  * @subpackage classfile
@@ -29,7 +29,7 @@ class GlossaryBase
      * The version
      * @var string $version
      */
-    public $version = '1.2.0';
+    public $version = '2.2.0';
 
     /**
      * The class config

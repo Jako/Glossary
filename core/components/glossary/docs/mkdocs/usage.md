@@ -23,6 +23,12 @@ groupTpl | Template chunk for glossary item group. | Glossary.listGroupTpl
 termTpl | Template chunk for glossary term items. | Glossary.listItemTpl
 navOuterTpl | Template chunk for outer nav-bar wrapper. | Glossary.navOuterTpl
 navItemTpl | Template chunk for each item in the nav-bar. | Glossary.navItemTpl
+toPlaceholder | If set, will assign the result to this placeholder instead of outputting it directly. [^1] | -
+
+[^1]: If you fill the toPlaceholder property i.e. with the value
+`glossaryResult`, the placeholder `[[+glossaryResult]]` is filled by the output
+of the snippet. This also creates two additional placeholders:
+`[[+glossaryResult.nav]]` and `[[+glossaryResult.items]]`.
 
 ## Plugin
 The Highlighter plugin parses page content field on render and replaces all
@@ -41,7 +47,7 @@ html | Allow HTML in the explanation (enables a rich-text editor in the editing 
 
 ## Available placeholders
 The following placeholders are available in the chunks used by the snippet and
-the plugin:
+the plugin or in the resource output:
 
 Placeholder | Description | Chunk
 ------------|-------------|------
@@ -53,6 +59,11 @@ term | The term being referenced. | listItemTpl, highlighterTpl
 explanation | The explanation for this term. | listItemTpl, highlighterTpl
 letters | The list of letters in the letter nav. | navOuterTpl
 letter | One letter in the letter nav. | groupTpl, navItemTpl
+placeholder | Optional placeholder, that is created by the toPlaceholder property: The whole snippet output [^2] | Resource output
+placeholder.nav | Optional placeholder, that is created by the toPlaceholder property: Outputs the nav only [^2] | Resource output
+placeholder.items | Optional placeholder, that is created by the toPlaceholder property: Outputs the items (terms & explanations) [^2] | Resource output
+
+[^2]: See the toPlaceholder snippet property.
 
 The default chunks for these placeholders are available with the `Glossary.`
 prefix. If you want to change the chunks, you have to duplicate them and

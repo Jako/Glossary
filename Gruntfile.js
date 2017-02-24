@@ -124,8 +124,8 @@ module.exports = function (grunt) {
         bump: {
             copyright: {
                 files: [{
-                    src: 'core/components/glossary/model/glossary/glossary.class.php',
-                    dest: 'core/components/glossary/model/glossary/glossary.class.php'
+                    src: 'core/components/glossary/model/glossary/glossarybase.class.php',
+                    dest: 'core/components/glossary/model/glossary/glossarybase.class.php'
                 }],
                 options: {
                     replacements: [{
@@ -136,8 +136,8 @@ module.exports = function (grunt) {
             },
             version: {
                 files: [{
-                    src: 'core/components/glossary/model/glossary/glossary.class.php',
-                    dest: 'core/components/glossary/model/glossary/glossary.class.php'
+                    src: 'core/components/glossary/model/glossary/glossarybase.class.php',
+                    dest: 'core/components/glossary/model/glossary/glossarybase.class.php'
                 }],
                 options: {
                     replacements: [{

@@ -190,7 +190,7 @@ Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
     onClick: function (e) {
         var t = e.getTarget();
         var elm = t.className.split(' ')[0];
-        if (elm == 'icon') {
+        if (elm === 'icon') {
             var act = t.className.split(' ')[1];
             var record = this.getSelectionModel().getSelected();
             this.menu.record = record.data;
@@ -246,7 +246,7 @@ Glossary.window.CreateUpdateTerm = function (config) {
 };
 Ext.extend(Glossary.window.CreateUpdateTerm, MODx.Window, {
     initTinyMCE: function (c) {
-        if (typeof MODx.loadRTE != 'undefined' && Glossary.config.html) {
+        if (typeof MODx.loadRTE !== 'undefined' && Glossary.config.html) {
             MODx.loadRTE(c.ident + '-glossary-explanation');
         }
     }
