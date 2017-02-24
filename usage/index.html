@@ -186,6 +186,11 @@ The following properties could be set in the snippet call:</p>
 <td>Template chunk for each item in the nav-bar.</td>
 <td>Glossary.navItemTpl</td>
 </tr>
+<tr>
+<td>toPlaceholder</td>
+<td>If set, will assign the result to this placeholder instead of outputting it directly. <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></td>
+<td>-</td>
+</tr>
 </tbody>
 </table>
 <h2 id="plugin">Plugin</h2>
@@ -236,7 +241,7 @@ could be controlled by the following MODX System settings:</p>
 </table>
 <h2 id="available-placeholders">Available placeholders</h2>
 <p>The following placeholders are available in the chunks used by the snippet and
-the plugin:</p>
+the plugin or in the resource output:</p>
 <table>
 <thead>
 <tr>
@@ -286,12 +291,41 @@ the plugin:</p>
 <td>One letter in the letter nav.</td>
 <td>groupTpl, navItemTpl</td>
 </tr>
+<tr>
+<td>placeholder</td>
+<td>Optional placeholder, that is created by the toPlaceholder property: The whole snippet output <sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></td>
+<td>Resource output</td>
+</tr>
+<tr>
+<td>placeholder.nav</td>
+<td>Optional placeholder, that is created by the toPlaceholder property: Outputs the nav only <sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></td>
+<td>Resource output</td>
+</tr>
+<tr>
+<td>placeholder.items</td>
+<td>Optional placeholder, that is created by the toPlaceholder property: Outputs the items (terms &amp; explanations) <sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></td>
+<td>Resource output</td>
+</tr>
 </tbody>
 </table>
 <p>The default chunks for these placeholders are available with the <code>Glossary.</code>
 prefix. If you want to change the chunks, you have to duplicate them and
 change the duplicates. The default chunks are reset with each update of the 
-Glossary extra.</p></div>
+Glossary extra.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>If you fill the toPlaceholder property i.e. with the value
+<code>glossaryResult</code>, the placeholder <code>[[+glossaryResult]]</code> is filled by the output
+of the snippet. This also creates two additional placeholders:
+<code>[[+glossaryResult.nav]]</code> and <code>[[+glossaryResult.items]]</code>.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>See the toPlaceholder snippet property.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></div>
         </div>
 
         <footer class="col-md-12">
