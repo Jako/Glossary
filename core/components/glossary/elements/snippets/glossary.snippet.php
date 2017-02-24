@@ -21,6 +21,7 @@ $termTpl = $modx->getOption('termTpl', $scriptProperties, 'Glossary.listItemTpl'
 $navOuterTpl = $modx->getOption('navOuterTpl', $scriptProperties, 'Glossary.navOuterTpl', true);
 $navItemTpl = $modx->getOption('navItemTpl', $scriptProperties, 'Glossary.navItemTpl', true);
 $showNav = (bool)$modx->getOption('showNav', $scriptProperties, true, true);
+$toPlaceholder = $modx->getOption('toPlaceholder', $scriptProperties, '', true);
 
 // Outputness
 $output = '';
@@ -29,27 +30,34 @@ $output = '';
 $letters = $glossary->getGroupedTerms();
 
 // Show navigation list (if on)
+$navHTML = '';
 if ($showNav) {
     // Prepare letter chunks
     $tplLetters = '';
     foreach ($letters as $letter => $terms) {
         if (count($terms) > 0) {
-            $tplLetters .= $modx->getChunk($navItemTpl, array('letter' => $letter));
+            $tplLetters .= $modx->getChunk($navItemTpl, array(
+                'letter' => $letter
+            ));
         };
     };
     // Wrap letters in outer tpl
-    $output .= $modx->getChunk($navOuterTpl, array('letters' => $tplLetters));
+    $navHTML = $modx->getChunk($navOuterTpl, array(
+        'letters' => $tplLetters
+    ));
+    $output .= $navHTML;
 };
 
 // Output all terms (grouped)
+$termsHTML = '';
 $groupsHTML = '';
 foreach ($letters as $letter => $terms) {
     if (count($terms)) {
         // Prepare Terms HTML
-        $termsHTML = '';
         foreach ($terms as $term) {
             $params = array_merge($term, array(
-                'anchor' => strtolower(str_replace(' ', '-', $term['term']))
+                'anchor' => strtolower(str_replace(' ', '-', $term['term'])),
+                'letter' => $letter
             ));
             $termsHTML .= $modx->getChunk($termTpl, $params);
         };
@@ -62,6 +70,16 @@ foreach ($letters as $letter => $terms) {
 };
 
 // Add groups to outer wrapper
-$output .= $modx->getChunk($outerTpl, array('groups' => $groupsHTML));
+$output .= $modx->getChunk($outerTpl, array(
+    'groups' => $groupsHTML
+));
 
+if ($toPlaceholder != '') {
+    $modx->setPlaceholders(array(
+       '.nav' => $navHTML,
+       '.items' => $termsHTML,
+       '' => $output,
+    ), $toPlaceholder);
+    $output = '';
+}
 return $output;
