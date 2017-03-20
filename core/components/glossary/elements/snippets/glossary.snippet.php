@@ -49,9 +49,9 @@ if ($showNav) {
 };
 
 // Output all terms (grouped)
-$termsHTML = '';
 $groupsHTML = '';
 foreach ($letters as $letter => $terms) {
+    $termsHTML = '';
     if (count($terms)) {
         // Prepare Terms HTML
         foreach ($terms as $term) {
