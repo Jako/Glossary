@@ -1,6 +1,8 @@
 Changelog for Glossary
 ======================
 
+- 2.2.1
+    - Bugfix for duplicated entries in the glossary overview.
 - 2.2.0
     - Output the result to custom placeholders via the toPlaceholder parameter.
 - 2.1.0
