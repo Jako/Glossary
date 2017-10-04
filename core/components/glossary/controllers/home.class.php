@@ -15,7 +15,9 @@ class GlossaryHomeManagerController extends modExtraManagerController
     public function initialize()
     {
         $path = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path') . 'components/glossary/');
-        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $path . '/model/glossary/');
+        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $path . '/model/glossary/', array(
+            'core_path' => $path
+        ));
     }
 
     public function loadCustomCssJs()
@@ -27,14 +29,14 @@ class GlossaryHomeManagerController extends modExtraManagerController
         $cssSourceUrl = $assetsUrl . '../../../source/css/mgr/';
 
         if ($this->glossary->getOption('debug') && ($this->glossary->getOption('assetsUrl') != MODX_ASSETS_URL . 'components/glossary/')) {
+            $this->addCss($cssSourceUrl . 'glossary.css');
             $this->addJavascript($jsSourceUrl . 'glossary.js');
             $this->addJavascript($jsSourceUrl . 'widgets/home.panel.js');
             $this->addJavascript($jsSourceUrl . 'widgets/terms.grid.js');
             $this->addLastJavascript($jsSourceUrl . 'sections/home.js');
-            $this->addCss($cssSourceUrl . 'glossary.css');
         } else {
-            $this->addJavascript($jsUrl . 'glossary.min.js');
             $this->addCss($cssUrl . 'glossary.min.css?v=v' . $this->glossary->version);
+            $this->addLastJavascript($jsUrl . 'glossary.min.js');
         }
         $this->addHtml('<script type="text/javascript">
         Ext.onReady(function() {
