@@ -6,7 +6,7 @@ Search for Glossary in the Package Manager of a MODX installation and install it
 
 If you can't access the MODX Extras Repository in your MODX installation, you can manually install Glossary.
 
-* Download the transport package from [MODX Extras](http://modx.com/extras/package/glossaryofterms)
+* Download the transport package from [MODX Extras](https://modx.com/extras/package/glossaryofterms)
   (or one of the pre built transport packages in [_packages](https://github.com/Jako/Glossary/tree/master/_packages))
 * Upload the zip file to your MODX installation's `core/packages` folder or upload it on the Package Manager page.
 * In the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown 
