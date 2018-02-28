@@ -17,7 +17,7 @@ Glossary.grid.Terms = function (config) {
         id: 'glossary-grid-terms',
         url: Glossary.config.connectorUrl,
         baseParams: {
-            action: 'mgr/term/getList'
+            action: 'mgr/term/getlist'
         },
         autosave: true,
         save_action: 'mgr/term/updateFromGrid',
