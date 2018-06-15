@@ -2,7 +2,8 @@
 /**
  * Glossary Base Classfile
  *
- * Copyright 2012-2017 by Alan Pich <alan.pich@gmail.com>
+ * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
+ * Copyright 2016-2018 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package glossary
  * @subpackage classfile

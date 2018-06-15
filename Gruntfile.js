@@ -104,8 +104,8 @@ module.exports = function (grunt) {
                 }],
                 options: {
                     replacements: [{
-                        pattern: /Copyright 2012(-\d{4})? by/g,
-                        replacement: 'Copyright ' + (new Date().getFullYear() > 2012 ? '2012-' : '') + new Date().getFullYear() + ' by'
+                        pattern: /Copyright 2016(-\d{4})? by/g,
+                        replacement: 'Copyright ' + (new Date().getFullYear() > 2016 ? '2016-' : '') + new Date().getFullYear() + ' by'
                     }]
                 }
             },
@@ -118,6 +118,18 @@ module.exports = function (grunt) {
                     replacements: [{
                         pattern: /version = '\d+.\d+.\d+[-a-z0-9]*'/ig,
                         replacement: 'version = \'' + '<%= modx.version %>' + '\''
+                    }]
+                }
+            },
+            docs: {
+                files: [{
+                    src: 'mkdocs.yml',
+                    dest: 'mkdocs.yml'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /&copy; 2016(-\d{4})?/g,
+                        replacement: '&copy; ' + (new Date().getFullYear() > 2016 ? '2016-' : '') + new Date().getFullYear()
                     }]
                 }
             }
