@@ -9,7 +9,7 @@ repo_url: https://github.com/Jako/Glossary
 copyright: '&copy; 2016-2018 <a href="https://treehillstudio.com">Treehill Studio</a>'
 
 pages:
-- Home: 'index.md'
+- Description: 'index.md'
 - Installation: 'installation.md'
 - Usage: 'usage.md'
 - Contributors: 'contributors.md'
