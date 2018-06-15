@@ -3,7 +3,7 @@
         {
             "location": "/", 
             "text": "Glossary\n\n\nThis MODX Extra adds a custom manager page that allows you to create \n maintain \na list of explanations for key terms in your site. Entries into the glossary \ntake the form of \nterm =\n explanation\n where \nterm\n is the phrase being \ndescribed and \nexplanation\n is the description of said term.\n\n\nRequirements\n\n\n\n\nMODX Revolution 2.5+ (maybe works with 2.3+)\n\n\nPHP v5.4+\n\n\n\n\nFeatures\n\n\n\n\nCustom Manager Page for maintaining the glossary terms.\n\n\nPlugin for highlighting the glossary terms on a page. \n\n\nSnippet for dislaying the terms and explanations.", 
-            "title": "Home"
+            "title": "Description"
         }, 
         {
             "location": "/#glossary", 
