@@ -7,6 +7,9 @@
  */
 require_once dirname(dirname(__FILE__)) . '/model/glossary/glossarybase.class.php';
 
+/**
+ * Class GlossaryHomeManagerController
+ */
 class GlossaryHomeManagerController extends modExtraManagerController
 {
     /** @var GlossaryBase $glossary */
@@ -14,9 +17,9 @@ class GlossaryHomeManagerController extends modExtraManagerController
 
     public function initialize()
     {
-        $path = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path') . 'components/glossary/');
-        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $path . '/model/glossary/', array(
-            'core_path' => $path
+        $corePath = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path') . 'components/glossary/');
+        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $corePath . '/model/glossary/', array(
+            'core_path' => $corePath
         ));
     }
 
