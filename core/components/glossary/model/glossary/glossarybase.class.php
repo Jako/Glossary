@@ -121,11 +121,9 @@ class GlossaryBase
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
         $letters = array();
-        /** @var modResource $tmp Temporary resource to clean alias */
-        $tmp = $this->modx->newObject('modResource');
         foreach ($terms as $termObj) {
             $term = $termObj->toArray();
-            $cleanTerm = $tmp->cleanAlias($term['term']);
+            $cleanTerm = modResource::filterPathSegment($this->modx, $term['term']);
             $firstLetter = strtoupper(substr($cleanTerm, 0, 1));
             if (!isset($letters[$firstLetter])) {
                 $letters[$firstLetter] = array();
