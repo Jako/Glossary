@@ -51,7 +51,7 @@ sectionsEnd | Marker at the end of a section processed by Glossary. The restrict
 sectionsStart | Marker at the start of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.
 tpl | Template Chunk for the highlight replacement. | Glossary.highlighterTpl
 
-[^3]: The boundary detection works only with not entity encoded text. So please check, if the richtext editor of the site produces the right output.
+[^2]: The word boundary detection works only with not entity encoded text. So please check, if the richtext editor of the site produces the right output.
 
 ## Available placeholders
 
