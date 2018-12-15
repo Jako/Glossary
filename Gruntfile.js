@@ -3,14 +3,14 @@ module.exports = function (grunt) {
     grunt.initConfig({
         modx: grunt.file.readJSON('_build/config.json'),
         banner: '/*!\n' +
-        ' * <%= modx.name %> - <%= modx.description %>\n' +
-        ' * Version: <%= modx.version %>\n' +
-        ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        ' */\n',
+            ' * <%= modx.name %> - <%= modx.description %>\n' +
+            ' * Version: <%= modx.version %>\n' +
+            ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+            ' */\n',
         usebanner: {
             css: {
                 options: {
-                    position: 'top',
+                    position: 'bottom',
                     banner: '<%= banner %>'
                 },
                 files: {
@@ -37,6 +37,7 @@ module.exports = function (grunt) {
                     'source/js/mgr/glossary.js',
                     'source/js/mgr/widgets/home.panel.js',
                     'source/js/mgr/widgets/terms.grid.js',
+                    'source/js/mgr/widgets/settings.panel.js',
                     'source/js/mgr/sections/home.js'
                 ],
                 dest: 'assets/components/glossary/js/mgr/glossary.min.js'
@@ -48,7 +49,7 @@ module.exports = function (grunt) {
                 outputStyle: 'expanded',
                 sourcemap: false
             },
-            dist: {
+            mgr: {
                 files: {
                     'source/css/mgr/glossary.css': 'source/sass/mgr/glossary.scss'
                 }
@@ -63,22 +64,38 @@ module.exports = function (grunt) {
                     })
                 ]
             },
-            dist: {
+            mgr: {
                 src: [
                     'source/css/mgr/glossary.css'
                 ]
             }
         },
         cssmin: {
-            glossary: {
+            mgr: {
                 src: [
                     'source/css/mgr/glossary.css'
                 ],
                 dest: 'assets/components/glossary/css/mgr/glossary.min.css'
             }
         },
+        imagemin: {
+            png: {
+                options: {
+                    optimizationLevel: 7
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'source/img/',
+                        src: ['**/*.png'],
+                        dest: 'assets/components/glossary/img/',
+                        ext: '.png'
+                    }
+                ]
+            }
+        },
         watch: {
-            scripts: {
+            js: {
                 files: [
                     'source/**/*.js'
                 ],
@@ -122,6 +139,18 @@ module.exports = function (grunt) {
                     }]
                 }
             },
+            homepanel: {
+                files: [{
+                    src: 'source/js/mgr/widgets/home.panel.js',
+                    dest: 'source/js/mgr/widgets/home.panel.js'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /© 2018(-\d{4})? by/g,
+                        replacement: '© ' + (new Date().getFullYear() > 2018 ? '2018-' : '') + new Date().getFullYear() + ' by'
+                    }]
+                }
+            },
             docs: {
                 files: [{
                     src: 'mkdocs.yml',
@@ -140,6 +169,7 @@ module.exports = function (grunt) {
     //load the packages
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-postcss');

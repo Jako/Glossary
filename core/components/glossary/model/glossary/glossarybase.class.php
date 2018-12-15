@@ -30,38 +30,33 @@ class GlossaryBase
      * The version
      * @var string $version
      */
-    public $version = '2.2.1';
+    public $version = '2.3.0';
 
     /**
-     * The class config
-     * @var array $config
+     * The class options
+     * @var array $options
      */
-    public $config = array();
+    public $options = array();
 
     /**
      * GlossaryBase constructor
      *
      * @param modX $modx A reference to the modX instance.
-     * @param array $config An config array. Optional.
+     * @param array $options An array of options. Optional.
      */
-    function __construct(modX &$modx, $config = array())
+    function __construct(modX &$modx, $options = array())
     {
         $this->modx =& $modx;
+        $this->namespace = $this->getOption('namespace', $options, $this->namespace);
 
-        $corePath = $this->getOption('core_path', $config, $this->modx->getOption('core_path') . 'components/' . $this->namespace . '/');
-        $assetsPath = $this->getOption('assets_path', $config, $this->modx->getOption('assets_path') . 'components/' . $this->namespace . '/');
-        $assetsUrl = $this->getOption('assets_url', $config, $this->modx->getOption('assets_url') . 'components/' . $this->namespace . '/');
+        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path') . 'components/' . $this->namespace . '/');
+        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path') . 'components/' . $this->namespace . '/');
+        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url') . 'components/' . $this->namespace . '/');
 
         // Load some default paths for easier management
-        $this->config = array_merge(array(
+        $this->options = array_merge(array(
             'namespace' => $this->namespace,
             'version' => $this->version,
-            'assetsPath' => $assetsPath,
-            'assetsUrl' => $assetsUrl,
-            'cssUrl' => $assetsUrl . 'css/',
-            'jsUrl' => $assetsUrl . 'js/',
-            'imagesUrl' => $assetsUrl . 'images/',
-            'connectorUrl' => $assetsUrl . 'connector.php',
             'corePath' => $corePath,
             'modelPath' => $corePath . 'model/',
             'vendorPath' => $corePath . 'vendor/',
@@ -72,19 +67,24 @@ class GlossaryBase
             'controllersPath' => $corePath . 'controllers/',
             'processorsPath' => $corePath . 'processors/',
             'templatesPath' => $corePath . 'templates/',
-        ), $config);
+            'assetsPath' => $assetsPath,
+            'assetsUrl' => $assetsUrl,
+            'jsUrl' => $assetsUrl . 'js/',
+            'cssUrl' => $assetsUrl . 'css/',
+            'imagesUrl' => $assetsUrl . 'images/',
+            'connectorUrl' => $assetsUrl . 'connector.php'
+        ), $options);
 
-        // set default options
-        $this->config = array_merge($this->config, array(
-            'glossaryStart' => $this->getOption('glossaryStart', $config, '<!-- GlossaryStart -->'),
-            'glossaryEnd' => $this->getOption('glossaryEnd', $config, '<!-- GlossaryEnd -->'),
-            'html' => (bool)$this->getOption('html', $config, true),
+        // Add default options
+        $this->options = array_merge($this->options, array(
+            'is_admin' => ($this->modx->user) ? $this->modx->user->isMember('Administrator') || $this->modx->user->isMember('Agenda Administrator') : false,
+            'debug' => (bool)$this->getOption('debug', $options, false),
+            'html' => (bool)$this->getOption('html', $options, true)
         ));
 
-        $modx->getService('lexicon', 'modLexicon');
-        $this->modx->lexicon->load($this->namespace . ':default');
-
-        $this->modx->addPackage('glossary', $this->config['modelPath']);
+        $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
+        $lexicon = $this->modx->getService('lexicon', 'modLexicon');
+        $lexicon->load($this->namespace . ':default');
     }
 
     /**
@@ -102,8 +102,8 @@ class GlossaryBase
         if (!empty($key) && is_string($key)) {
             if ($options != null && array_key_exists($key, $options)) {
                 $option = $options[$key];
-            } elseif (array_key_exists($key, $this->config)) {
-                $option = $this->config[$key];
+            } elseif (array_key_exists($key, $this->options)) {
+                $option = $this->options[$key];
             } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config)) {
                 $option = $this->modx->getOption("{$this->namespace}.{$key}");
             }
@@ -123,7 +123,7 @@ class GlossaryBase
         $letters = array();
         foreach ($terms as $termObj) {
             $term = $termObj->toArray();
-            $cleanTerm = modResource::filterPathSegment($this->modx, $term['term']);
+            $cleanTerm = $this->cleanAlias($term['term']);
             $firstLetter = strtoupper(substr($cleanTerm, 0, 1));
             if (!isset($letters[$firstLetter])) {
                 $letters[$firstLetter] = array();
@@ -166,8 +166,8 @@ class GlossaryBase
         // Enable section markers
         $enableSections = $this->getOption('sections', null, false);
         if ($enableSections) {
-            $splitEx = '#((?:' . $this->getOption('glossaryStart') . ').*?(?:' . $this->getOption('glossaryEnd') . '))#isu';
-            $sections = preg_split($splitEx, $text, null, PREG_SPLIT_DELIM_CAPTURE);
+            $splitEx = '#((?:' . $this->getOption('sectionsStart') . ').*?(?:' . $this->getOption('sectionsEnd') . '))#isu';
+                $sections = preg_split($splitEx, $text, null, PREG_SPLIT_DELIM_CAPTURE);
         } else {
             $sections = array($text);
         }
@@ -177,21 +177,35 @@ class GlossaryBase
         $maskStart = '<_^_>';
         $maskEnd = '<_$_>';
         $fullwords = $this->getOption('fullwords', null, true);
+        $disabledAttributes = array_map('trim', explode(',', $this->getOption('disabledAttributes', null, 'title,alt')));
+        $splitEx = '#((?:' . implode('|', $disabledAttributes) . ')\s*=\s*".*?")#isu';
         foreach ($terms as $term) {
             if ($fullwords) {
                 foreach ($sections as &$section) {
-                    if (($enableSections && substr($section, 0, strlen($this->getOption('glossaryStart'))) == $this->getOption('glossaryStart') && preg_match('/\b' . preg_quote($term['term']) . '\b/u', $section)) ||
+                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && preg_match('/\b' . preg_quote($term['term']) . '\b/u', $section)) ||
                         (!$enableSections && preg_match('/\b' . preg_quote($term['term']) . '\b/u', $section))
                     ) {
-                        $section = preg_replace('/\b' . preg_quote($term['term']) . '\b/u', $maskStart . $term['term'] . $maskEnd, $section);
+                        $subSections = preg_split($splitEx, $section, null, PREG_SPLIT_DELIM_CAPTURE);
+                        foreach ($subSections as &$subSection) {
+                            if (!preg_match($splitEx, $subSection)) {
+                                $subSection = preg_replace('/\b' . preg_quote($term['term']) . '\b/u', $maskStart . $term['term'] . $maskEnd, $subSection);
+                            }
+                        }
+                        $section = implode('', $subSections);
                     }
                 }
             } else {
                 foreach ($sections as &$section) {
-                    if (($enableSections && substr($section, 0, strlen($this->getOption('glossaryStart'))) == $this->getOption('glossaryStart') && strpos($text, $term['term']) !== false) ||
-                        (!$enableSections && strpos($text, $term['term']) !== false)
+                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && strpos($section, $term['term']) !== false) ||
+                        (!$enableSections && strpos($section, $term['term']) !== false)
                     ) {
-                        $section = str_replace($term['term'], $maskStart . $term['term'] . $maskEnd, $section);
+                        $subSections = preg_split($splitEx, $section, null, PREG_SPLIT_DELIM_CAPTURE);
+                        foreach ($subSections as &$subSection) {
+                            if (!preg_match($splitEx, $subSection)) {
+                                $subSection = str_replace($term['term'], $maskStart . $term['term'] . $maskEnd, $subSection);
+                            }
+                        }
+                        $section = implode('', $subSections);
                     }
                 }
             }
@@ -203,8 +217,8 @@ class GlossaryBase
         foreach ($terms as $term) {
             $term['explanation'] = ($html) ? $term['explanation'] : strip_tags($term['explanation']);
             $chunk = $this->modx->getChunk($chunkName, array(
-                'link' => $target . '#' . strtolower(str_replace(' ', '-', $term['term'])),
                 'term' => $term['term'],
+                'link' => $target . '#' . strtolower(str_replace(' ', '-', $term['term'])),
                 'explanation' => htmlspecialchars($term['explanation'], ENT_QUOTES, $this->modx->getOption('modx_charset')),
                 'html' => ($html) ? '1' : ''
             ));
@@ -212,7 +226,24 @@ class GlossaryBase
         }
 
         // Remove remaining section markers
-        $text = ($enableSections) ? str_replace(array($this->getOption('glossaryStart'), $this->getOption('glossaryEnd')), '', $text) : $text;
+        $text = ($enableSections) ? str_replace(array(
+            $this->getOption('sectionsStart'), $this->getOption('sectionsEnd')
+        ), '', $text) : $text;
         return $text;
+    }
+
+    /**
+     * Translit a string with iconv or with a core MODX method
+     *
+     * @param $string
+     * @return string
+     */
+    private function cleanAlias($string)
+    {
+        if (function_exists('iconv')) {
+            return preg_replace('[^\W]', '', iconv($this->modx->getOption('modx_charset', null, 'UTF-8'), 'ASCII//TRANSLIT//IGNORE', $string));
+        } else {
+            return modResource::filterPathSegment($this->modx, $string);
+        }
     }
 }

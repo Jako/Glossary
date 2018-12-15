@@ -1,6 +1,6 @@
 ## Support Glossary
 
-*Glossary* is and always will be free and open-source, but it still requires many man-hours of development, 
+*Glossary* is and always will be free and open-source, but it still requires some man-hours of development, 
 bug-fixing, support in MODX forums and on GitHub between the releases.
 
 Please support the ongoing and past development of *Glossary* by making a donation below.
@@ -10,7 +10,7 @@ Please support the ongoing and past development of *Glossary* by making a donati
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="FBW94ATFUJDMG">
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
 <br/>
 </div>

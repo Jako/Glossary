@@ -1,5 +1,5 @@
 Glossary.grid.Terms = function (config) {
-    /* action button renderer */
+    config = config || {};
     this.buttonColumnTpl = new Ext.XTemplate('<tpl for=".">'
         + '<tpl if="action_buttons !== null">'
         + '<ul class="action-buttons">'
@@ -11,10 +11,9 @@ Glossary.grid.Terms = function (config) {
         + '</tpl>', {
         compiled: true
     });
-
-    config = config || {};
+    this.ident = 'glossary-terms' + Ext.id();
     Ext.applyIf(config, {
-        id: 'glossary-grid-terms',
+        id: this.ident + '-glossary-grid-terms',
         url: Glossary.config.connectorUrl,
         baseParams: {
             action: 'mgr/term/getlist'
@@ -27,7 +26,7 @@ Glossary.grid.Terms = function (config) {
         remoteSort: true,
         autoExpandColumn: 'explanation',
         columns: [{
-            header: _('glossary.term'),
+            header: _('glossary.term_term'),
             dataIndex: 'term',
             sortable: true,
             width: 30,
@@ -35,28 +34,25 @@ Glossary.grid.Terms = function (config) {
                 xtype: 'textfield'
             }
         }, {
-            header: _('glossary.explanation'),
+            header: _('glossary.term_explanation'),
             dataIndex: 'explanation',
             sortable: true,
             width: 100,
-            editor: {
-                xtype: 'textfield'
-            }
+            editor: (typeof MODx.loadRTE === 'undefined' || !Glossary.config.html) ? {xtype: 'textfield'} : false,
         }, {
             renderer: {
                 fn: this.buttonColumnRenderer,
                 scope: this
             },
-            width: 20
+            width: 30
         }],
         tbar: [{
             text: _('glossary.term_create'),
             cls: 'primary-button',
-            handler: this.createTerm,
-            scope: this
+            handler: this.createTerm
         }, '->', {
             xtype: 'textfield',
-            id: 'glossary-filter-search',
+            id: this.ident + '-glossary-filter-search',
             emptyText: _('search') + '…',
             submitValue: false,
             listeners: {
@@ -81,7 +77,7 @@ Glossary.grid.Terms = function (config) {
             }
         }, {
             xtype: 'button',
-            id: 'glossary-filter-clear',
+            id: this.ident + '-glossary-filter-clear',
             cls: 'x-form-filter-clear',
             text: _('filter_clear'),
             listeners: {
@@ -95,6 +91,7 @@ Glossary.grid.Terms = function (config) {
     Glossary.grid.Terms.superclass.constructor.call(this, config)
 };
 Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
+    windows: {},
     getMenu: function () {
         var m = [];
         m.push({
@@ -131,9 +128,7 @@ Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
             record: r,
             listeners: {
                 success: {
-                    fn: function () {
-                        this.refresh();
-                    },
+                    fn: this.refresh,
                     scope: this
                 },
                 afterRender: {
@@ -148,6 +143,9 @@ Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
         createUpdateTerm.show(e.target);
     },
     removeTerm: function () {
+        if (!this.menu.record) {
+            return false;
+        }
         MODx.msg.confirm({
             title: _('glossary.term_remove'),
             text: _('glossary.term_remove_confirm'),
@@ -167,6 +165,13 @@ Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
     search: function (tf) {
         var s = this.getStore();
         s.baseParams.query = tf.getValue();
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+    },
+    clearFilter: function () {
+        var s = this.getStore();
+        s.baseParams.query = '';
+        Ext.getCmp(this.ident + '-glossary-filter-search').reset();
         this.getBottomToolbar().changePage(1);
         this.refresh();
     },
@@ -205,13 +210,6 @@ Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
                     break;
             }
         }
-    },
-    clearFilter: function () {
-        var s = this.getStore();
-        s.baseParams.query = '';
-        Ext.getCmp('glossary-filter-search').reset();
-        this.getBottomToolbar().changePage(1);
-        this.refresh();
     }
 });
 Ext.reg('glossary-grid-terms', Glossary.grid.Terms);
@@ -220,26 +218,27 @@ Glossary.window.CreateUpdateTerm = function (config) {
     config = config || {};
     this.ident = config.ident || 'cuterm' + Ext.id();
     Ext.applyIf(config, {
+        id: this.ident,
         url: Glossary.config.connectorUrl,
         action: (config.isUpdate) ? 'mgr/term/update' : 'mgr/term/create',
-        autoHeight: true,
         width: 700,
+        autoHeight: true,
         closeAction: 'close',
+        cls: 'modx-window glossary-window',
         fields: [{
             xtype: 'textfield',
-            fieldLabel: _('glossary.term'),
+            fieldLabel: _('glossary.term_term'),
             name: 'term',
             anchor: '100%'
         }, {
             xtype: 'textarea',
             id: this.ident + '-glossary-explanation',
-            fieldLabel: _('glossary.explanation'),
+            fieldLabel: _('glossary.term_explanation'),
             name: 'explanation',
             anchor: '100%'
         }, {
-            xtype: 'textfield',
-            name: 'id',
-            hidden: true
+            xtype: 'hidden',
+            name: 'id'
         }]
     });
     Glossary.window.CreateUpdateTerm.superclass.constructor.call(this, config);

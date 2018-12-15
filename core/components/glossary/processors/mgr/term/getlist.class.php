@@ -1,11 +1,11 @@
 <?php
-
 /**
- * GetList processor for Glossary CMP
+ * Get list terms
  *
  * @package glossary
  * @subpackage processor
  */
+
 class GlossaryTermGetListProcessor extends modObjectGetListProcessor
 {
     public $classKey = 'Term';
@@ -28,5 +28,4 @@ class GlossaryTermGetListProcessor extends modObjectGetListProcessor
 
 }
 
-;
 return 'GlossaryTermGetListProcessor';

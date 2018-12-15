@@ -7,12 +7,18 @@ $xpdo_meta_map['Term']= array (
   'version' => '1.1',
   'table' => 'glossary',
   'extends' => 'xPDOSimpleObject',
+  'tableMeta' => 
+  array (
+    'engine' => 'InnoDB',
+  ),
   'fields' => 
   array (
     'term' => '',
     'explanation' => '',
-    'modified' => NULL,
-    'modified_by' => 0,
+    'createdon' => NULL,
+    'createdby' => 0,
+    'updatedon' => NULL,
+    'updatedby' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -31,15 +37,27 @@ $xpdo_meta_map['Term']= array (
       'null' => false,
       'default' => '',
     ),
-    'modified' => 
+    'createdon' => 
     array (
       'dbtype' => 'timestamp',
       'phptype' => 'timestamp',
       'null' => true,
-      'default' => NULL,
-      'attributes' => 'ON UPDATE CURRENT_TIMESTAMP',
     ),
-    'modified_by' => 
+    'createdby' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '11',
+      'phptype' => 'integer',
+      'null' => false,
+      'default' => 0,
+    ),
+    'updatedon' => 
+    array (
+      'dbtype' => 'timestamp',
+      'phptype' => 'timestamp',
+      'null' => true,
+    ),
+    'updatedby' => 
     array (
       'dbtype' => 'int',
       'precision' => '11',
@@ -50,10 +68,18 @@ $xpdo_meta_map['Term']= array (
   ),
   'aggregates' => 
   array (
+    'Creator' => 
+    array (
+      'class' => 'modUser',
+      'local' => 'createdby',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
     'Editor' => 
     array (
       'class' => 'modUser',
-      'local' => 'modified_by',
+      'local' => 'updatedby',
       'foreign' => 'id',
       'cardinality' => 'one',
       'owner' => 'foreign',

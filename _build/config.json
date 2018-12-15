@@ -3,15 +3,14 @@
   "lowCaseName": "glossary",
   "description": "Maintain a Glossary",
   "author": "Alan Pich, Thomas Jakobi",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "package": {
     "menus": [
       {
         "text": "glossary.menu",
         "description": "glossary.menu_desc",
         "action": "home",
-        "parent": "components",
-        "namespace": "glossary"
+        "parent": "components"
       }
     ],
     "elements": {
@@ -124,6 +123,21 @@
         "value": "1"
       },
       {
+        "key": "sectionsStart",
+        "area": "site",
+        "value": "<!-- GlossaryStart -->"
+      },
+      {
+        "key": "sectionsEnd",
+        "area": "site",
+        "value": "<!-- GlossaryEnd -->"
+      },
+      {
+        "key": "disabledAttributes",
+        "area": "site",
+        "value": "title,alt"
+      },
+      {
         "key": "sections",
         "type": "combo-boolean",
         "area": "site",
@@ -143,8 +157,20 @@
     ]
   },
   "build": {
-    "readme": "docs/readme.txt",
-    "license": "docs/license.txt",
-    "changelog": "docs/changelog.txt"
+    "readme": "docs/readme.md",
+    "license": "docs/license.md",
+    "changelog": "docs/changelog.md",
+    "options": {
+      "modx_version": "2.6"
+    },
+    "setupOptions": {
+      "source": "setup.options.php"
+    },
+    "resolver": {
+      "after": [
+        "resolve.synctables.php",
+        "resolve.treehillstudio.php"
+      ]
+    }
   }
 }

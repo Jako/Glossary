@@ -1,11 +1,11 @@
 <?php
-
 /**
- * UpdateFromGrid processor for Glossary CMP
+ * UpdateFromGrid term
  *
  * @package glossary
  * @subpackage processor
  */
+
 require_once(dirname(__FILE__) . '/update.class.php');
 
 class GlossaryTermUpdateFromGridProcessor extends GlossaryTermUpdateProcessor

@@ -1,11 +1,10 @@
 <?php
 /**
- * Home Manager Controller class for Glossary CMP.
+ * Home Manager Controller class for Glossary
  *
  * @package glossary
  * @subpackage controller
  */
-require_once dirname(dirname(__FILE__)) . '/model/glossary/glossarybase.class.php';
 
 /**
  * Class GlossaryHomeManagerController
@@ -32,18 +31,21 @@ class GlossaryHomeManagerController extends modExtraManagerController
         $cssSourceUrl = $assetsUrl . '../../../source/css/mgr/';
 
         if ($this->glossary->getOption('debug') && ($this->glossary->getOption('assetsUrl') != MODX_ASSETS_URL . 'components/glossary/')) {
-            $this->addCss($cssSourceUrl . 'glossary.css');
-            $this->addJavascript($jsSourceUrl . 'glossary.js');
-            $this->addJavascript($jsSourceUrl . 'widgets/home.panel.js');
-            $this->addJavascript($jsSourceUrl . 'widgets/terms.grid.js');
-            $this->addLastJavascript($jsSourceUrl . 'sections/home.js');
+            $this->addCss($cssSourceUrl . 'glossary.css?v=v' . $this->glossary->version);
+            $this->addJavascript($jsSourceUrl . 'glossary.js?v=v' . $this->glossary->version);
+            $this->addJavascript($jsSourceUrl . 'widgets/home.panel.js?v=v' . $this->glossary->version);
+            $this->addJavascript($jsSourceUrl . 'widgets/terms.grid.js?v=v' . $this->glossary->version);
+            $this->addJavascript(MODX_MANAGER_URL . 'assets/modext/widgets/core/modx.grid.settings.js');
+            $this->addJavascript($jsSourceUrl . 'widgets/settings.panel.js?v=v' . $this->glossary->version);
+            $this->addLastJavascript($jsSourceUrl . 'sections/home.js?v=v' . $this->glossary->version);
         } else {
             $this->addCss($cssUrl . 'glossary.min.css?v=v' . $this->glossary->version);
-            $this->addLastJavascript($jsUrl . 'glossary.min.js');
+            $this->addJavascript(MODX_MANAGER_URL . 'assets/modext/widgets/core/modx.grid.settings.js');
+            $this->addLastJavascript($jsUrl . 'glossary.min.js?v=v' . $this->glossary->version);
         }
         $this->addHtml('<script type="text/javascript">
         Ext.onReady(function() {
-            Glossary.config = ' . $this->modx->toJSON($this->glossary->config) . ';
+            Glossary.config = ' . json_encode($this->glossary->options, JSON_PRETTY_PRINT) . ';
             MODx.load({xtype: "glossary-page-home"});
         });
         </script>');
@@ -52,7 +54,7 @@ class GlossaryHomeManagerController extends modExtraManagerController
 
     public function getLanguageTopics()
     {
-        return array('glossary:default');
+        return array('core:setting','glossary:default');
     }
 
     public function process(array $scriptProperties = array())

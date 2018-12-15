@@ -1,7 +1,8 @@
 <?php
-$_lang['prop_glossary.outerTpl_desc'] = 'Template Chunk für das Glossar';
-$_lang['prop_glossary.groupTpl_desc'] = 'Template Chunk für eine Glossar-Begriffsgruppe ';
-$_lang['prop_glossary.termTpl_desc'] = 'Template Chunk für einen Glossar-Begriff';
-$_lang['prop_glossary.showNav_desc'] = 'Schnell-Navigationsleiste am oberen Rand des Glossars anzeigen';
-$_lang['prop_glossary.navOuterTpl_desc'] = 'Template Chunk für die Schnell-Navigationsleiste';
-$_lang['prop_glossary.navItemTpl_desc'] = 'Template Chunk für ein Element in der Schnell-Navigationsleiste';
+$_lang['glossary.glossary.groupTpl'] = 'Template Chunk für eine Glossar-Begriffsgruppe ';
+$_lang['glossary.glossary.navItemTpl'] = 'Template Chunk für ein Element in der Schnell-Navigationsleiste';
+$_lang['glossary.glossary.navOuterTpl'] = 'Template Chunk für die Schnell-Navigationsleiste';
+$_lang['glossary.glossary.outerTpl'] = 'Template Chunk für das Glossar';
+$_lang['glossary.glossary.showNav'] = 'Schnell-Navigationsleiste am oberen Rand des Glossars anzeigen';
+$_lang['glossary.glossary.termTpl'] = 'Template Chunk für einen Glossar-Begriff';
+$_lang['glossary.glossary.toPlaceholder'] = 'Wenn gesetzt, dann wird die Snippet Ausgabe diesem Platzhalter zugewiesen, anstatt sie direkt auszugeben.';

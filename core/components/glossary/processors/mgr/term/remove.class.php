@@ -1,11 +1,11 @@
 <?php
-
 /**
- * Remove processor for Glossary CMP
+ * Remove term
  *
  * @package glossary
  * @subpackage processor
  */
+
 class GlossaryTermRemoveProcessor extends modObjectRemoveProcessor
 {
     public $classKey = 'Term';
