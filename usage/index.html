@@ -410,9 +410,9 @@
                   <h1>Usage</h1>
                 
                 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
-<p>This MODX Extra adds a custom manager page that allows you to create &amp; maintain
-a list of explanations for key terms in your site. Entries into the glossary 
-take the form of <code>term =&gt; explanation</code> where <code>term</code> is the phrase being 
+<p>This MODX Extra adds a custom manager page that allows you to create and
+maintain a list of explanations for key terms in your site. Entries into the
+glossary take the form of <code>term =&gt; explanation</code> where <code>term</code> is the phrase being
 described and <code>explanation</code> is the description of said term.</p>
 <p>Included in the package is a snippet called Glossary which will output the 
 glossary terms to a resource page. The snippet is fully templatable using 
@@ -489,8 +489,18 @@ could be controlled by the following MODX System settings:</p>
 <td>No</td>
 </tr>
 <tr>
+<td>disabledAttributes</td>
+<td>(Comma separated list) Glossary does not replace text inside of this HTML tag attributes.</td>
+<td>title,alt</td>
+</tr>
+<tr>
 <td>fullwords</td>
-<td>Replace only full words of a glossary term in the resource content.</td>
+<td>Replace only full words of a glossary term in the resource content. [^2]</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>html</td>
+<td>Allow HTML in the explanation (enables a rich-text editor in the term form).</td>
 <td>Yes</td>
 </tr>
 <tr>
@@ -499,19 +509,24 @@ could be controlled by the following MODX System settings:</p>
 <td>0</td>
 </tr>
 <tr>
-<td>tpl</td>
-<td>Template Chunk for the highlight replacement.</td>
-<td>Glossary.highlighterTpl</td>
-</tr>
-<tr>
 <td>sections</td>
-<td>Replace glossary terms only in sections surrounded by <code>&lt;!— GlossaryStart --&gt;</code> and <code>&lt;!— GlossaryEnd --&gt;</code>.</td>
+<td>Replace Glossary links only in sections marked with <code>&amp;lt;!— GlossaryStart --&amp;gt;</code> and <code>&amp;lt;!— GlossaryEnd --&amp;gt;</code>. The section markers could be changed with the settings <code>glossary.sectionsStart</code> and <code>glossary.sectionsEnd</code>.</td>
 <td>No</td>
 </tr>
 <tr>
-<td>html</td>
-<td>Allow HTML in the explanation (enables a rich-text editor in the editing form).</td>
-<td>Yes</td>
+<td>sectionsEnd</td>
+<td>Marker at the end of a section processed by Glossary. The restriction to marked sections can be activated in the setting <code>glossary.sections</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td>sectionsStart</td>
+<td>Marker at the start of a section processed by Glossary. The restriction to marked sections can be activated in the setting <code>glossary.sections</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td>tpl</td>
+<td>Template Chunk for the highlight replacement.</td>
+<td>Glossary.highlighterTpl</td>
 </tr>
 </tbody>
 </table>
@@ -569,17 +584,17 @@ the plugin or in the resource output:</p>
 </tr>
 <tr>
 <td>placeholder</td>
-<td>Optional placeholder, that is created by the toPlaceholder property: The whole snippet output <sup id="fnref3:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></td>
+<td>Optional placeholder, that is created by the toPlaceholder property: The whole snippet output <sup id="fnref3:3"><a class="footnote-ref" href="#fn:3" rel="footnote">2</a></sup></td>
 <td>Resource output</td>
 </tr>
 <tr>
 <td>placeholder.nav</td>
-<td>Optional placeholder, that is created by the toPlaceholder property: Outputs the nav only <sup id="fnref2:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></td>
+<td>Optional placeholder, that is created by the toPlaceholder property: Outputs the nav only <sup id="fnref2:3"><a class="footnote-ref" href="#fn:3" rel="footnote">2</a></sup></td>
 <td>Resource output</td>
 </tr>
 <tr>
 <td>placeholder.items</td>
-<td>Optional placeholder, that is created by the toPlaceholder property: Outputs the items (terms &amp; explanations) <sup id="fnref:2"><a class="footnote-ref" href="#fn:2" rel="footnote">2</a></sup></td>
+<td>Optional placeholder, that is created by the toPlaceholder property: Outputs the items (terms &amp; explanations) <sup id="fnref:3"><a class="footnote-ref" href="#fn:3" rel="footnote">2</a></sup></td>
 <td>Resource output</td>
 </tr>
 </tbody>
@@ -597,8 +612,8 @@ Glossary extra.</p>
 of the snippet. This also creates two additional placeholders:
 <code>[[+glossaryResult.nav]]</code> and <code>[[+glossaryResult.items]]</code>.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn:2">
-<p>See the toPlaceholder snippet property.&#160;<a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:2" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<li id="fn:3">
+<p>See the toPlaceholder snippet property.&#160;<a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:3" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:3" rev="footnote" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
