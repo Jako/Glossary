@@ -1,6 +1,8 @@
 <?php
 $_lang['setting_glossary.debug'] = 'Debug';
 $_lang['setting_glossary.debug_desc'] = 'Adăugați informații de depanare la jurnalul de MODX de eroare.';
+$_lang['setting_glossary.disabledAttributes'] = 'Disabled Attributes';
+$_lang['setting_glossary.disabledAttributes_desc'] = '(Comma separated list) Glossary does not replace text inside of this HTML tag attributes.';
 $_lang['setting_glossary.fullwords'] = 'Caută cuvinte complete';
 $_lang['setting_glossary.fullwords_desc'] = 'Înlocuiește numai cuvinte complete ale unui termen glosar în conținutul de resurse.';
 $_lang['setting_glossary.html'] = 'Allow HTML';
