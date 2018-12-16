@@ -1,6 +1,8 @@
 <?php
 $_lang['setting_glossary.debug'] = 'Включить отладку';
 $_lang['setting_glossary.debug_desc'] = 'Добавить информацию отладки в журнал ошибок MODX.';
+$_lang['setting_glossary.disabledAttributes'] = 'Disabled Attributes';
+$_lang['setting_glossary.disabledAttributes_desc'] = '(Comma separated list) Glossary does not replace text inside of this HTML tag attributes.';
 $_lang['setting_glossary.fullwords'] = 'Поиск по всему Слова';
 $_lang['setting_glossary.fullwords_desc'] = 'Заменить только полные слова глоссарий термина в содержании ресурса.';
 $_lang['setting_glossary.html'] = 'Allow HTML';
