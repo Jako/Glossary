@@ -1,6 +1,8 @@
 <?php
 $_lang['setting_glossary.debug'] = 'Debug';
 $_lang['setting_glossary.debug_desc'] = 'Debug-Informationen im MODX Fehlerprotokoll ausgeben.';
+$_lang['setting_glossary.disabledAttributes'] = 'Deaktivierte Attribute';
+$_lang['setting_glossary.disabledAttributes_desc'] = '(Kommaseparierte Liste) Glossary ersetzt keinen Text innerhalb von diesen HTML Tag Attributen.';
 $_lang['setting_glossary.fullwords'] = 'Nur ganze Worte';
 $_lang['setting_glossary.fullwords_desc'] = 'Nur ganze Worte eines Glossarbegriffs im Ressourcen-Inhalt ersetzen.';
 $_lang['setting_glossary.html'] = 'HTML erlauben';
@@ -15,5 +17,3 @@ $_lang['setting_glossary.sectionsStart'] = 'Abschnitt Anfang Markierung';
 $_lang['setting_glossary.sectionsStart_desc'] = 'Markierung am Anfang eines von Glossary bearbeiteten Abschnitts. Das Beschränken auf markierte Abschnitte lässt sich in der Einstellung \'glossary.sections\' aktivieren.';
 $_lang['setting_glossary.tpl'] = 'Highlight Template';
 $_lang['setting_glossary.tpl_desc'] = 'Template Chunk für das Higlight Element.';
-$_lang['setting_glossary.disabledAttributes'] = 'Deaktivierte Attribute';
-$_lang['setting_glossary.disabledAttributes_desc'] = '(Kommaseparierte Liste) Glossary ersetzt keinen Text innerhalb von diesen HTML Tag Attributen.';
