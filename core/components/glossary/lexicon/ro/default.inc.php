@@ -3,7 +3,7 @@ $_lang['glossary'] = 'Glosar';
 
 $_lang['glossary.management'] = 'Glosar';
 
-$_lang['glossary.menu'] = 'Glosar';
+$_lang['glossary.menu'] = 'Glossary';
 $_lang['glossary.menu_desc'] = 'Glosar de termeni';
 
 $_lang['glossary.terms'] = 'Termeni';
