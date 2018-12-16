@@ -1,7 +1,8 @@
 <?php
-$_lang['prop_glossary.outerTpl_desc'] = 'Chunk-ul pentru lista de termeni';
-$_lang['prop_glossary.groupTpl_desc'] = 'Chunk-ul pentru grupurile de termeni';
-$_lang['prop_glossary.termTpl_desc'] = 'Chunk-ul pentru termeni';
-$_lang['prop_glossary.showNav_desc'] = 'Afișează indexul alfabetic';
-$_lang['prop_glossary.navOuterTpl_desc'] = 'Chunk-ul pentru indexul alfabetic';
-$_lang['prop_glossary.navItemTpl_desc'] = 'Chunk-ul pentru literele din index';
+$_lang['glossary.glossary.groupTpl'] = 'Template chunk for glossary item groups';
+$_lang['glossary.glossary.navItemTpl'] = 'Template chunk for each item in the nav-bar';
+$_lang['glossary.glossary.navOuterTpl'] = 'Template chunk for outer nav-bar wrapper';
+$_lang['glossary.glossary.outerTpl'] = 'Template chunk for glossary outer wrapper';
+$_lang['glossary.glossary.showNav'] = 'Shows a quick-nav bar at the top of the glossary';
+$_lang['glossary.glossary.termTpl'] = 'Template chunk for glossary term items';
+$_lang['glossary.glossary.toPlaceholder'] = 'If set, the snippet result will be assigned to this placeholder instead of outputting it directly.';
