@@ -1,3 +1,5 @@
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/modx-glossary/localized.svg)](https://crowdin.com/project/modx-glossary)
+
 # Glossary
 ## Introduction
 
