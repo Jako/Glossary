@@ -103,6 +103,7 @@ Glossary.panel.Overview = function (config) {
                 autoHeight: true,
                 hideMode: 'offsets'
             },
+            autoScroll: true,
             items: this.panelOverviewTabs,
             listeners: {
                 tabchange: function (o, t) {
