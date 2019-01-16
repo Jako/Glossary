@@ -14,7 +14,8 @@ class GlossaryOnLoadWebDocument extends GlossaryPlugin
         if ($this->modx->getCount('modResource', $targetResId)) {
             if ($this->modx->resource->get('id') != $targetResId) {
                 $content = $this->modx->resource->get('content');
-                $newContent = $this->glossary->highlightTerms($content, $targetResId, $chunkName);
+                $terms = $this->glossary->getTerms($chunkName);
+                $newContent = $this->glossary->highlightTerms($content, $terms);
                 $this->modx->resource->set('content', $newContent);
             }
         } else {

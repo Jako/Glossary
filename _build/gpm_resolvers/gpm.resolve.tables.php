@@ -22,11 +22,9 @@ if ($object->xpdo) {
             $modx->addPackage('glossary', $modelPath, null);
 
 
-
             $manager = $modx->getManager();
 
             $manager->createObjectContainer('Term');
-
 
             break;
     }

@@ -19,3 +19,8 @@ If you can't access the MODX Extras Repository in your MODX installation, you ca
 To build and install the package from source you could use [Git Package Management](https://github.com/TheBoxer/Git-Package-Management). 
 The GitHub repository of Glossary contains a [config.json](https://github.com/Jako/Glossary/blob/master/_build/config.json) 
 to build that package locally. Use this option, if you want to debug Glossary and/or contribute bugfixes and enhancements.
+
+Use this option, if you want to debug Crosslinks and/or contribute bugfixes and
+enhancements. If you want to run the unit tests, you have to rename the file
+`test/properties.sample.inc.php` to `test/properties.inc.php` and change the
+values in that file (if needed).

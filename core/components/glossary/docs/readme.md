@@ -1,12 +1,15 @@
-Glossary
-========
+# Glossary
+
+Manage glossary terms and add them to your site
 
 - Authors: Alan Pich <alan.pich@gmail.com>, Thomas Jakobi <thomas.jakobi@partout.info>
 - License: GNU GPLv2
 
 ## Features
 
-- Display and manage a glossary of terms on your site.
+- Custom Manager Page for managing a list of explanations for key terms in your site
+- Plugin for replacing each glossary term on a MODX resource with the glossary term and the description
+- Snippet to display the full glossary on a MODX resource
 
 ## Installation
 
