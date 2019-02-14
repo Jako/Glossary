@@ -196,13 +196,13 @@ class GlossaryBase
         foreach ($terms as $termText => $termValue) {
             if ($fullwords) {
                 foreach ($sections as &$section) {
-                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && preg_match('/\b' . preg_quote($termText) . '\b/u', $section)) ||
-                        (!$enableSections && preg_match('/\b' . preg_quote($termText) . '\b/u', $section))
+                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && preg_match('/\b' . preg_quote($termText, '/') . '\b/u', $section)) ||
+                        (!$enableSections && preg_match('/\b' . preg_quote($termText, '/') . '\b/u', $section))
                     ) {
                         $subSections = preg_split($splitExDisabled, $section, null, PREG_SPLIT_DELIM_CAPTURE);
                         foreach ($subSections as &$subSection) {
                             if (!preg_match($splitExDisabled, $subSection)) {
-                                $subSection = preg_replace('/\b' . preg_quote($termText) . '\b/u', $maskStart . $termText . $maskEnd, $subSection);
+                                $subSection = preg_replace('/\b' . preg_quote($termText, '/') . '\b/u', $maskStart . $termText . $maskEnd, $subSection);
                             }
                         }
                         $section = implode('', $subSections);
