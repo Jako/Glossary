@@ -1,4 +1,10 @@
 <?php
+/**
+ * Properties Lexicon Entries for Glossary
+ *
+ * @package glossary
+ * @subpackage lexicon
+ */
 $_lang['glossary.glossary.groupTpl'] = 'Чанк для групп терминов';
 $_lang['glossary.glossary.navItemTpl'] = 'Чанк для букв в алфавитном указателе';
 $_lang['glossary.glossary.navOuterTpl'] = 'Чанк для алфавитного указателя';
