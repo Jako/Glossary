@@ -233,9 +233,9 @@ class GlossaryBase
         }
 
         // Remove remaining section markers
-        $text = ($enableSections) ? str_replace(array(
+        $text = str_replace(array(
             $this->getOption('sectionsStart'), $this->getOption('sectionsEnd')
-        ), '', $text) : $text;
+        ), '', $text);
         return $text;
     }
 
