@@ -77,15 +77,15 @@ class GlossaryBase
 
         // Add default options
         $this->options = array_merge($this->options, array(
-            'is_admin' => ($this->modx->user) ? $this->modx->user->isMember('Administrator') || $this->modx->user->isMember('Agenda Administrator') : false,
             'debug' => (bool)$this->getOption('debug', $options, false),
-            'tpl' => $this->getOption('tpl', $options, 'Glossary.highlighterTpl'),
-            'fullwords' => (bool)$this->getOption('fullwords', $options, true),
-            'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),
-            'sectionsEnd' => $this->getOption('sectionsEnd', $options, '<!-- GlossaryEnd -->'),
             'disabledTags' => $this->getOption('disabledTags', $options, 'a,form,select'),
-            'sections' => (bool)$this->getOption('sections', $options, false),
+            'fullwords' => (bool)$this->getOption('fullwords', $options, true),
             'html' => (bool)$this->getOption('html', $options, true),
+            'is_admin' => ($this->modx->user) ? $this->modx->user->isMember('Administrator') || $this->modx->user->isMember('Agenda Administrator') : false,
+            'sections' => (bool)$this->getOption('sections', $options, false),
+            'sectionsEnd' => $this->getOption('sectionsEnd', $options, '<!-- GlossaryEnd -->'),
+            'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),
+            'tpl' => $this->getOption('tpl', $options, 'Glossary.highlighterTpl'),
         ));
 
         $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
@@ -192,6 +192,7 @@ class GlossaryBase
         foreach ($disabledTags as $disabledTag) {
             $splitExTags[] = '<' . $disabledTag . '.*?</' . $disabledTag . '>';
         }
+        // No replacements in html tag attributes and disabled tags
         $splitExDisabled = '~([a-z0-9-]+\s*=\s*".*?"|' . implode('|', $splitExTags) . ')~isu';
         foreach ($terms as $termText => $termValue) {
             if ($fullwords) {
@@ -226,7 +227,7 @@ class GlossaryBase
         }
         $text = implode('', $sections);
 
-        // And replace the terms after to avoid nested replacement
+        // Replace the terms after to avoid nested replacement
         foreach ($terms as $termText => $termValue) {
             $text = str_replace($maskStart . $termText . $maskEnd, $termValue, $text);
         }

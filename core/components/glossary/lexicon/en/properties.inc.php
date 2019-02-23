@@ -1,4 +1,10 @@
 <?php
+/**
+ * Properties Lexicon Entries for Glossary
+ *
+ * @package glossary
+ * @subpackage lexicon
+ */
 $_lang['glossary.glossary.groupTpl'] = 'Template chunk for glossary item groups';
 $_lang['glossary.glossary.navItemTpl'] = 'Template chunk for each item in the nav-bar';
 $_lang['glossary.glossary.navOuterTpl'] = 'Template chunk for outer nav-bar wrapper';
