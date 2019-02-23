@@ -46,7 +46,7 @@ disabledAttributes | (Comma separated list) Glossary does not replace text insid
 fullwords | Replace only full words of a glossary term in the resource content. [^2] | Yes
 html | Allow HTML in the explanation (enables a rich-text editor in the term form). | Yes
 resid | ID of a resource containing a Glossary snippet call. | 0
-sections | Replace Glossary links only in sections marked with `&lt;!— GlossaryStart --&gt;` and `&lt;!— GlossaryEnd --&gt;`. The section markers could be changed with the settings `glossary.sectionsStart` and `glossary.sectionsEnd`. | No
+sections | Replace Glossary links only in sections marked with `<!— GlossaryStart -->` and `<!— GlossaryEnd -->`. The section markers could be changed with the settings `glossary.sectionsStart` and `glossary.sectionsEnd`. | No
 sectionsEnd | Marker at the end of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.
 sectionsStart | Marker at the start of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.
 tpl | Template Chunk for the highlight replacement. | Glossary.highlighterTpl
