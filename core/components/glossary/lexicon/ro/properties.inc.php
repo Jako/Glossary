@@ -1,4 +1,10 @@
 <?php
+/**
+ * Properties Lexicon Entries for Glossary
+ *
+ * @package glossary
+ * @subpackage lexicon
+ */
 $_lang['glossary.glossary.groupTpl'] = 'Chunk-ul pentru grupurile de termeni';
 $_lang['glossary.glossary.navItemTpl'] = 'Chunk-ul pentru literele din index';
 $_lang['glossary.glossary.navOuterTpl'] = 'Chunk-ul pentru indexul alfabetic';

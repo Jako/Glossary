@@ -1,4 +1,10 @@
 <?php
+/**
+ * Default Lexicon Entries for Glossary
+ *
+ * @package glossary
+ * @subpackage lexicon
+ */
 $_lang['glossary'] = 'Glossar';
 
 $_lang['glossary.management'] = 'Glossar-Manager';
