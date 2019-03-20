@@ -4,9 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.4.1] - TBA
+## [2.4.1] - 2019-03-20
 ### Changed
 - Quote the the regular expression delimiter in the Glossary term
+- Check permission instead of usergroup for displaying the Glossary system setting tab
 
 ## [2.4.0] - 2018-01-16
 ### Added

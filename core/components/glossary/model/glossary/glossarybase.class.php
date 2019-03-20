@@ -30,7 +30,7 @@ class GlossaryBase
      * The version
      * @var string $version
      */
-    public $version = '2.4.0';
+    public $version = '2.4.1';
 
     /**
      * The class options
