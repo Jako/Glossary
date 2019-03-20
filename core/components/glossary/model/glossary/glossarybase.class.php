@@ -81,7 +81,7 @@ class GlossaryBase
             'disabledTags' => $this->getOption('disabledTags', $options, 'a,form,select'),
             'fullwords' => (bool)$this->getOption('fullwords', $options, true),
             'html' => (bool)$this->getOption('html', $options, true),
-            'is_admin' => ($this->modx->user) ? $this->modx->user->isMember('Administrator') || $this->modx->user->isMember('Agenda Administrator') : false,
+            'is_admin' => ($this->modx->user) ? $modx->hasPermission('settings') || $modx->hasPermission('glossary_settings') : false,
             'sections' => (bool)$this->getOption('sections', $options, false),
             'sectionsEnd' => $this->getOption('sectionsEnd', $options, '<!-- GlossaryEnd -->'),
             'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),

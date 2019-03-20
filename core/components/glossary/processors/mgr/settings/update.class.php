@@ -48,7 +48,7 @@ class GlossarySystemSettingsUpdateProcessor extends modSystemSettingsUpdateProce
         if (strpos($key, 'glossary.') !== 0) {
             $this->addFieldError('key', $this->modx->lexicon('glossary.systemsetting_key_err_nv'));
         }
-        if (!($this->modx->user->isMember('Administrator') || $this->modx->user->isMember('Glossary Administrator'))) {
+        if (!$this->modx->hasPermission('settings') && !$this->modx->hasPermission('glossary_settings')) {
             $this->addFieldError('usergroup', $this->modx->lexicon('glossary.systemsetting_usergroup_err_nv'));
         }
     }

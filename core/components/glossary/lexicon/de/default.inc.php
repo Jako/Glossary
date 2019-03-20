@@ -35,4 +35,4 @@ $_lang['glossary.settings_desc'] = 'Bearbeiten Sie die Einstellungen von Glossar
 $_lang['glossary.debug_mode'] = 'Debug Modus';
 
 $_lang['glossary.systemsetting_key_err_nv'] = 'Sie dürfen nur Einstellungen mit dem Prefix glossary bearbeiten.';
-$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Nur Mitglieder der Benutzergruppe Administrator oder Glossary Administrator dürfen die Einstellungen ändern.';
+$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Nur Benutzer mit einer settings Berechtigung oder einer settings_glossary Berechtigung können die Einstellungen ändern.';
