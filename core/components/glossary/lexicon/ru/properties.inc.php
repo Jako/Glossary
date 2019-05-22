@@ -11,4 +11,4 @@ $_lang['glossary.glossary.navOuterTpl'] = 'Чанк для алфавитног�
 $_lang['glossary.glossary.outerTpl'] = 'Чанк для списка терминов';
 $_lang['glossary.glossary.showNav'] = 'Показать алфавитный указатель';
 $_lang['glossary.glossary.termTpl'] = 'Чанк для терминов';
-$_lang['glossary.glossary.toPlaceholder'] = 'If set, the snippet result will be assigned to this placeholder instead of outputting it directly.';
+$_lang['glossary.glossary.toPlaceholder'] = 'Если установлено, результат сниппета будет назначен этому плейсхолду вместо его прямого вывода.';
