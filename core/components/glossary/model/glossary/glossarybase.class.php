@@ -3,7 +3,7 @@
  * Glossary Base Classfile
  *
  * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
- * Copyright 2016-2018 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2016-2019 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package glossary
  * @subpackage classfile
@@ -30,7 +30,7 @@ class GlossaryBase
      * The version
      * @var string $version
      */
-    public $version = '2.3.0';
+    public $version = '2.4.1';
 
     /**
      * The class options
@@ -77,9 +77,15 @@ class GlossaryBase
 
         // Add default options
         $this->options = array_merge($this->options, array(
-            'is_admin' => ($this->modx->user) ? $this->modx->user->isMember('Administrator') || $this->modx->user->isMember('Agenda Administrator') : false,
             'debug' => (bool)$this->getOption('debug', $options, false),
-            'html' => (bool)$this->getOption('html', $options, true)
+            'disabledTags' => $this->getOption('disabledTags', $options, 'a,form,select'),
+            'fullwords' => (bool)$this->getOption('fullwords', $options, true),
+            'html' => (bool)$this->getOption('html', $options, true),
+            'is_admin' => ($this->modx->user) ? $modx->hasPermission('settings') || $modx->hasPermission('glossary_settings') : false,
+            'sections' => (bool)$this->getOption('sections', $options, false),
+            'sectionsEnd' => $this->getOption('sectionsEnd', $options, '<!-- GlossaryEnd -->'),
+            'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),
+            'tpl' => $this->getOption('tpl', $options, 'Glossary.highlighterTpl'),
         ));
 
         $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
@@ -139,56 +145,65 @@ class GlossaryBase
      *
      * @return array
      */
-    public function getTerms()
+    public function getTerms($chunkName)
     {
+        $html = $this->getOption('html');
+        // Generate URL to target page
+        $target = $this->modx->makeUrl($this->getOption('resid'));
+
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
-        $retArray = array();
+        $result = array();
         foreach ($terms as $term) {
-            $retArray[] = $term->toArray();
+            $result[$term->get('term')] = $this->modx->getChunk($chunkName, array(
+                'term' => $term->get('term'),
+                'link' => $target . '#' . $this->cleanAlias($term->get('term')),
+                'explanation' => htmlspecialchars($term->get('explanation'), ENT_QUOTES, $this->modx->getOption('modx_charset')),
+                'html' => ($html) ? '1' : ''
+            ));
         };
-        return $retArray;
+        return $result;
     }
 
     /**
      * Highlight terms in the text
      *
      * @param string $text
-     * @param int $targetId
-     * @param string $chunkName
+     * @param array $terms
      * @return string
      */
-    public function highlightTerms($text, $targetId, $chunkName)
+    public function highlightTerms($text, $terms)
     {
-        // Generate URL to target page
-        $target = $this->modx->makeUrl($targetId);
-
         // Enable section markers
         $enableSections = $this->getOption('sections', null, false);
         if ($enableSections) {
-            $splitEx = '#((?:' . $this->getOption('sectionsStart') . ').*?(?:' . $this->getOption('sectionsEnd') . '))#isu';
-                $sections = preg_split($splitEx, $text, null, PREG_SPLIT_DELIM_CAPTURE);
+            $splitEx = '~((?:' . $this->getOption('sectionsStart') . ').*?(?:' . $this->getOption('sectionsEnd') . '))~isu';
+            $sections = preg_split($splitEx, $text, null, PREG_SPLIT_DELIM_CAPTURE);
         } else {
             $sections = array($text);
         }
 
         // Mask all terms first
-        $terms = $this->getTerms();
         $maskStart = '<_^_>';
         $maskEnd = '<_$_>';
         $fullwords = $this->getOption('fullwords', null, true);
-        $disabledAttributes = array_map('trim', explode(',', $this->getOption('disabledAttributes', null, 'title,alt')));
-        $splitEx = '#((?:' . implode('|', $disabledAttributes) . ')\s*=\s*".*?")#isu';
-        foreach ($terms as $term) {
+        $disabledTags = array_map('trim', explode(',', $this->getOption('disabledTags')));
+        $splitExTags = array();
+        foreach ($disabledTags as $disabledTag) {
+            $splitExTags[] = '<' . $disabledTag . '.*?</' . $disabledTag . '>';
+        }
+        // No replacements in html tag attributes and disabled tags
+        $splitExDisabled = '~([a-z0-9-]+\s*=\s*".*?"|' . implode('|', $splitExTags) . ')~isu';
+        foreach ($terms as $termText => $termValue) {
             if ($fullwords) {
                 foreach ($sections as &$section) {
-                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && preg_match('/\b' . preg_quote($term['term']) . '\b/u', $section)) ||
-                        (!$enableSections && preg_match('/\b' . preg_quote($term['term']) . '\b/u', $section))
+                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && preg_match('/\b' . preg_quote($termText, '/') . '\b/u', $section)) ||
+                        (!$enableSections && preg_match('/\b' . preg_quote($termText, '/') . '\b/u', $section))
                     ) {
-                        $subSections = preg_split($splitEx, $section, null, PREG_SPLIT_DELIM_CAPTURE);
+                        $subSections = preg_split($splitExDisabled, $section, null, PREG_SPLIT_DELIM_CAPTURE);
                         foreach ($subSections as &$subSection) {
-                            if (!preg_match($splitEx, $subSection)) {
-                                $subSection = preg_replace('/\b' . preg_quote($term['term']) . '\b/u', $maskStart . $term['term'] . $maskEnd, $subSection);
+                            if (!preg_match($splitExDisabled, $subSection)) {
+                                $subSection = preg_replace('/\b' . preg_quote($termText, '/') . '\b/u', $maskStart . $termText . $maskEnd, $subSection);
                             }
                         }
                         $section = implode('', $subSections);
@@ -196,13 +211,13 @@ class GlossaryBase
                 }
             } else {
                 foreach ($sections as &$section) {
-                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && strpos($section, $term['term']) !== false) ||
-                        (!$enableSections && strpos($section, $term['term']) !== false)
+                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && strpos($section, $termText) !== false) ||
+                        (!$enableSections && strpos($section, $termText) !== false)
                     ) {
-                        $subSections = preg_split($splitEx, $section, null, PREG_SPLIT_DELIM_CAPTURE);
+                        $subSections = preg_split($splitExDisabled, $section, null, PREG_SPLIT_DELIM_CAPTURE);
                         foreach ($subSections as &$subSection) {
-                            if (!preg_match($splitEx, $subSection)) {
-                                $subSection = str_replace($term['term'], $maskStart . $term['term'] . $maskEnd, $subSection);
+                            if (!preg_match($splitExDisabled, $subSection)) {
+                                $subSection = str_replace($termText, $maskStart . $termText . $maskEnd, $subSection);
                             }
                         }
                         $section = implode('', $subSections);
@@ -212,23 +227,15 @@ class GlossaryBase
         }
         $text = implode('', $sections);
 
-        // And replace the terms after to avoid nested replacement
-        $html = $this->getOption('html');
-        foreach ($terms as $term) {
-            $term['explanation'] = ($html) ? $term['explanation'] : strip_tags($term['explanation']);
-            $chunk = $this->modx->getChunk($chunkName, array(
-                'term' => $term['term'],
-                'link' => $target . '#' . strtolower(str_replace(' ', '-', $term['term'])),
-                'explanation' => htmlspecialchars($term['explanation'], ENT_QUOTES, $this->modx->getOption('modx_charset')),
-                'html' => ($html) ? '1' : ''
-            ));
-            $text = str_replace($maskStart . $term['term'] . $maskEnd, $chunk, $text);
+        // Replace the terms after to avoid nested replacement
+        foreach ($terms as $termText => $termValue) {
+            $text = str_replace($maskStart . $termText . $maskEnd, $termValue, $text);
         }
 
         // Remove remaining section markers
-        $text = ($enableSections) ? str_replace(array(
+        $text = str_replace(array(
             $this->getOption('sectionsStart'), $this->getOption('sectionsEnd')
-        ), '', $text) : $text;
+        ), '', $text);
         return $text;
     }
 
@@ -241,7 +248,7 @@ class GlossaryBase
     private function cleanAlias($string)
     {
         if (function_exists('iconv')) {
-            return preg_replace('[^\W]', '', iconv($this->modx->getOption('modx_charset', null, 'UTF-8'), 'ASCII//TRANSLIT//IGNORE', $string));
+            return preg_replace('[^\W]', '', str_replace(' ', '-', iconv($this->modx->getOption('modx_charset', null, 'UTF-8'), 'ASCII//TRANSLIT//IGNORE', $string)));
         } else {
             return modResource::filterPathSegment($this->modx, $string);
         }

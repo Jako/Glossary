@@ -3,7 +3,7 @@
   "lowCaseName": "glossary",
   "description": "Maintain a Glossary",
   "author": "Alan Pich, Thomas Jakobi",
-  "version": "2.3.0",
+  "version": "2.4.1",
   "package": {
     "menus": [
       {
@@ -133,9 +133,9 @@
         "value": "<!-- GlossaryEnd -->"
       },
       {
-        "key": "disabledAttributes",
+        "key": "disabledTags",
         "area": "site",
-        "value": "title,alt"
+        "value": "a,form,select"
       },
       {
         "key": "sections",
@@ -156,6 +156,16 @@
       "Term"
     ]
   },
+  "dependencies": [
+    {
+      "name": "php",
+      "version": ">=5.4"
+    },
+    {
+      "name": "modx",
+      "version": ">=2.6"
+    }
+  ],
   "build": {
     "readme": "docs/readme.md",
     "license": "docs/license.md",

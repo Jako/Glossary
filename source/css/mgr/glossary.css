@@ -106,9 +106,10 @@
 .ribbon {
   height: 180px;
   overflow: hidden;
+  pointer-events: none;
   position: absolute;
   width: 180px;
-  z-index: 9;
+  z-index: 10;
 }
 
 .ribbon:before, .ribbon:after {

@@ -1,9 +1,11 @@
 ## Support Glossary
 
-*Glossary* is and always will be free and open-source, but it still requires some man-hours of development, 
-bug-fixing, support in MODX forums and on GitHub between the releases.
+*Glossary* is and always will be free and open-source, but it still requires
+some man-hours of development, bug-fixing, support in MODX forums and on GitHub
+between the releases.
 
-Please support the ongoing and past development of *Glossary* by making a donation below.
+Please support the ongoing and past development of *Glossary* by making a
+donation below.
 
 <div style="margin-bottom: 2em">
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">

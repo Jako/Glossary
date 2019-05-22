@@ -1,4 +1,10 @@
 <?php
+/**
+ * Setting Lexicon Entries for Glossary
+ *
+ * @package glossary
+ * @subpackage lexicon
+ */
 $_lang['setting_glossary.debug'] = 'Debug';
 $_lang['setting_glossary.debug_desc'] = 'Log debug informations in MODX error log.';
 $_lang['setting_glossary.disabledAttributes'] = 'Disabled Attributes';

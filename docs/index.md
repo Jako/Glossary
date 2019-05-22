@@ -3,16 +3,16 @@
 This MODX Extra adds a custom manager page that allows you to create and
 maintain a list of explanations for key terms in your site. Entries into the
 glossary take the form of `term => explanation` where `term` is the phrase being
-described and `explanation` is the description of said term. A plugin highlighting
+described and `explanation` is the description of said term. A plugin highlights
 each glossary term on a modx resource with the explanation.
 
 ### Requirements
 
-* MODX Revolution 2.5+ (maybe works with 2.3+)
-* PHP v5.4+
+- MODX Revolution 2.6+
+- PHP v5.4+
 
 ### Features
 
-* Custom Manager Page for maintaining the glossary terms.
-* Plugin for highlighting the glossary terms on a page. 
-* Snippet for dislaying the terms and explanations.
+- Custom Manager Page for managing the glossary terms
+- Plugin for highlight the glossary terms on a MODX resource
+- Snippet for dislaying the terms and explanations

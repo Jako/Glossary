@@ -25,7 +25,7 @@ Glossary.panel.Home = function (config) {
                 afterrender: function (component) {
                     component.getEl().select('img').on('click', function () {
                         var msg = '<span style="display: inline-block; text-align: center"><img src="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio.png" srcset="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio@2x.png 2x" alt"Treehill Studio"><br>' +
-                            '© 2018 by <a href="https://treehillstudio.com" target="_blank">treehillstudio.com</a></span>';
+                            '© 2018-2019 by <a href="https://treehillstudio.com" target="_blank">treehillstudio.com</a></span>';
                         Ext.Msg.show({
                             title: _('glossary') + ' ' + Glossary.config.version,
                             msg: msg,
@@ -103,6 +103,7 @@ Glossary.panel.Overview = function (config) {
                 autoHeight: true,
                 hideMode: 'offsets'
             },
+            autoScroll: true,
             items: this.panelOverviewTabs,
             listeners: {
                 tabchange: function (o, t) {
