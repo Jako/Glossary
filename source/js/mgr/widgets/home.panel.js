@@ -96,6 +96,7 @@ Glossary.panel.Overview = function (config) {
                     activeTab: this.items.indexOf(this.getActiveTab())
                 };
             },
+            autoScroll: true,
             deferredRender: false,
             forceLayout: true,
             defaults: {
@@ -103,7 +104,6 @@ Glossary.panel.Overview = function (config) {
                 autoHeight: true,
                 hideMode: 'offsets'
             },
-            autoScroll: true,
             items: this.panelOverviewTabs,
             listeners: {
                 tabchange: function (o, t) {
