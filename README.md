@@ -22,4 +22,4 @@ Install via package manager and create the glossary terms in the custom manager 
 
 ## Documentation
 
-For more information please read the [documentation](http://jako.github.io/Glossary/).
+For more information please read the [documentation](https://jako.github.io/Glossary/).
