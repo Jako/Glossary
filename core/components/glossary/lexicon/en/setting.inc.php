@@ -7,8 +7,8 @@
  */
 $_lang['setting_glossary.debug'] = 'Debug';
 $_lang['setting_glossary.debug_desc'] = 'Log debug informations in MODX error log.';
-$_lang['setting_glossary.disabledAttributes'] = 'Disabled Attributes';
-$_lang['setting_glossary.disabledAttributes_desc'] = '(Comma separated list) Glossary does not replace text inside of this HTML tag attributes.';
+$_lang['setting_glossary.disabledTags'] = 'Disabled Tags';
+$_lang['setting_glossary.disabledTags_desc'] = '(Comma separated list) Glossary does not replace text inside of this HTML tags.';
 $_lang['setting_glossary.fullwords'] = 'Search Full Words';
 $_lang['setting_glossary.fullwords_desc'] = 'Replace only full words of a glossary term in the resource content.';
 $_lang['setting_glossary.html'] = 'Allow HTML';
