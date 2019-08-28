@@ -1,8 +1,8 @@
 var glossary = function (config) {
     config = config || {};
-    Glossary.superclass.constructor.call(this, config);
+    glossary.superclass.constructor.call(this, config);
 };
-Ext.extend(Glossary, Ext.Component, {
+Ext.extend(glossary, Ext.Component, {
     page: {}, window: {}, grid: {}, tree: {}, panel: {}, combo: {}, config: {}
 });
 Ext.reg('glossary', glossary);
