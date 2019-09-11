@@ -8,6 +8,21 @@ class GlossaryOnLoadWebDocument extends GlossaryPlugin
 {
     public function run()
     {
+        $contexts = $this->glossary->getOption('enabledContexts');
+        if ($contexts) {
+            $contexts = explode(',', $contexts);
+            if (!in_array($this->modx->context->key, $contexts)) {
+                return;
+            }
+        }
+        $templates = $this->glossary->getOption('enabledTemplates');
+        if ($templates) {
+            $templates = explode(',', $templates);
+            if (!in_array($this->modx->resource->get('template'), $templates)) {
+                return;
+            }
+        }
+
         $targetResId = $this->glossary->getOption('resid');
         $chunkName = $this->glossary->getOption('tpl');
 
