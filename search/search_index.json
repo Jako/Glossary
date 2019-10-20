@@ -22,22 +22,22 @@
         }, 
         {
             "location": "/installation/", 
-            "text": "Install from MODX Extras\n\n\nSearch for Glossary in the Package Manager of a MODX installation and install it in there.\n\n\nManual installation\n\n\nIf you can't access the MODX Extras Repository in your MODX installation, you can manually install Glossary.\n\n\n\n\nDownload the transport package from \nMODX Extras\n\n  (or one of the pre built transport packages in \n_packages\n)\n\n\nUpload the zip file to your MODX installation's \ncore/packages\n folder or upload it on the Package Manager page.\n\n\nIn the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown \n  button.\n\n\nGlossary should now show up in the list of available packages. Click the corresponding 'Install' button and follow \n  instructions to complete the installation.\n\n\n\n\nBuild it from source\n\n\nTo build and install the package from source you could use \nGit Package Management\n. \nThe GitHub repository of Glossary contains a \nconfig.json\n \nto build that package locally. Use this option, if you want to debug Glossary and/or contribute bugfixes and enhancements.\n\n\nUse this option, if you want to debug Crosslinks and/or contribute bugfixes and\nenhancements. If you want to run the unit tests, you have to rename the file\n\ntest/properties.sample.inc.php\n to \ntest/properties.inc.php\n and change the\nvalues in that file (if needed).", 
+            "text": "Install from MODX Extras\n\n\nSearch for Glossary in the Package Manager of a MODX installation and install it\nin there.\n\n\nManual installation\n\n\nIf you can't access the MODX Extras Repository in your MODX installation, you\ncan manually install Glossary.\n\n\n\n\nDownload the transport package from \nMODX Extras\n (or one of the pre built transport packages in \n_packages\n)\n\n\nUpload the zip file to your MODX installation's \ncore/packages\n folder or upload it manually in the MODX Package Manager.\n\n\nIn the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown button.\n\n\nGlossary should now show up in the list of available packages. Click the corresponding 'Install' button and follow instructions to complete the installation.\n\n\n\n\nBuild it from source\n\n\nTo build and install the package from source you could use \nGit Package\nManagement\n. The GitHub\nrepository of Glossary contains a\n\nconfig.json\n\nto build that package locally. Use this option, if you want to debug Glossary\nand/or contribute bugfixes and enhancements.\n\n\nIf you want to run the unit tests, you have to rename the file\n\ntest/properties.sample.inc.php\n to \ntest/properties.inc.php\n and change the\nvalues in that file (if needed).", 
             "title": "Installation"
         }, 
         {
             "location": "/installation/#install-from-modx-extras", 
-            "text": "Search for Glossary in the Package Manager of a MODX installation and install it in there.", 
+            "text": "Search for Glossary in the Package Manager of a MODX installation and install it\nin there.", 
             "title": "Install from MODX Extras"
         }, 
         {
             "location": "/installation/#manual-installation", 
-            "text": "If you can't access the MODX Extras Repository in your MODX installation, you can manually install Glossary.   Download the transport package from  MODX Extras \n  (or one of the pre built transport packages in  _packages )  Upload the zip file to your MODX installation's  core/packages  folder or upload it on the Package Manager page.  In the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown \n  button.  Glossary should now show up in the list of available packages. Click the corresponding 'Install' button and follow \n  instructions to complete the installation.", 
+            "text": "If you can't access the MODX Extras Repository in your MODX installation, you\ncan manually install Glossary.   Download the transport package from  MODX Extras  (or one of the pre built transport packages in  _packages )  Upload the zip file to your MODX installation's  core/packages  folder or upload it manually in the MODX Package Manager.  In the MODX Manager, navigate to the Package Manager page, and select 'Search locally for packages' from the dropdown button.  Glossary should now show up in the list of available packages. Click the corresponding 'Install' button and follow instructions to complete the installation.", 
             "title": "Manual installation"
         }, 
         {
             "location": "/installation/#build-it-from-source", 
-            "text": "To build and install the package from source you could use  Git Package Management . \nThe GitHub repository of Glossary contains a  config.json  \nto build that package locally. Use this option, if you want to debug Glossary and/or contribute bugfixes and enhancements.  Use this option, if you want to debug Crosslinks and/or contribute bugfixes and\nenhancements. If you want to run the unit tests, you have to rename the file test/properties.sample.inc.php  to  test/properties.inc.php  and change the\nvalues in that file (if needed).", 
+            "text": "To build and install the package from source you could use  Git Package\nManagement . The GitHub\nrepository of Glossary contains a config.json \nto build that package locally. Use this option, if you want to debug Glossary\nand/or contribute bugfixes and enhancements.  If you want to run the unit tests, you have to rename the file test/properties.sample.inc.php  to  test/properties.inc.php  and change the\nvalues in that file (if needed).", 
             "title": "Build it from source"
         }, 
         {
@@ -77,12 +77,12 @@
         }, 
         {
             "location": "/donate/", 
-            "text": "Support Glossary\n\n\nGlossary\n is and always will be free and open-source, but it still requires\nsome man-hours of development, bug-fixing, support in MODX forums and on GitHub\nbetween the releases.\n\n\nPlease support the ongoing and past development of \nGlossary\n by making a\ndonation below.", 
+            "text": "Support Glossary\n\n\nGlossary\n is and always will be free and open-source, but it still requires\nsome man-hours of development, bug-fixing, support in MODX forums and on GitHub\nbetween the releases.\n\n\nPlease support the ongoing and past development of \nGlossary\n by making a\ndonation below.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGlossary\n development is sponsored by Treehillstudio \u2013 MODX Development in M\u00fcnsterland.", 
             "title": "Donate"
         }, 
         {
             "location": "/donate/#support-glossary", 
-            "text": "Glossary  is and always will be free and open-source, but it still requires\nsome man-hours of development, bug-fixing, support in MODX forums and on GitHub\nbetween the releases.  Please support the ongoing and past development of  Glossary  by making a\ndonation below.", 
+            "text": "Glossary  is and always will be free and open-source, but it still requires\nsome man-hours of development, bug-fixing, support in MODX forums and on GitHub\nbetween the releases.  Please support the ongoing and past development of  Glossary  by making a\ndonation below.            Glossary  development is sponsored by Treehillstudio \u2013 MODX Development in M\u00fcnsterland.", 
             "title": "Support Glossary"
         }
     ]
