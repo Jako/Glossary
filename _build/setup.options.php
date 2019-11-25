@@ -4,7 +4,15 @@
  *
  * @package glossary
  * @subpackage build
+ *
+ * @var array $options
+ * @var xPDOObject $object
  */
+
+// Defaults
+$defaults = array(
+    'resid' => $modx->getOption('0'),
+);
 
 $output = '<style type="text/css">
     #modx-setupoptions-panel { display: none; }
@@ -12,6 +20,7 @@ $output = '<style type="text/css">
     #modx-setupoptions-form h2 { margin-bottom: 15px; }
 </style>';
 
+$output = '';
 $values = array();
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
@@ -27,10 +36,21 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         parties.</p>
         
         <p>If you install this package, you are giving us your permission to
-        collect, process and use that data for statistical purposes.</p>';
+        collect, process and use that data for statistical purposes.</p>
+        
+        <p>Please review the install options carefully.</p>';
+
+        $output .= '<div>
+                        <label for="resid">Glossary Resource ID:</label>
+                        <input type="text" name="resid" id="resid" width="450" value="' . $defaults['resid'] . '" />
+                    </div>';
 
         break;
     case xPDOTransport::ACTION_UPGRADE:
+        $setting = $modx->getObject('modSystemSetting', array('key' => 'glossary.resid'));
+        $values['resid'] = ($setting) ? $setting->get('resid') : $defaults['resid'];
+        unset($setting);
+
         $output .= '<h2>Upgrade Glossary</h2>
 
         <p>Glossary will be upgraded. This open source extra was developped by
@@ -44,6 +64,12 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
         <p>If you upgrade this package, you are giving us your permission to
         collect, process and use that data for statistical purposes.</p>';
+
+        $output .= '<div>
+                        <label for="resid">Glossary Resource ID:</label>
+                        <input type="text" name="resid" id="resid" width="450" value="' . $values['resid'] . '" />
+                    </div>
+                    <br><br>';
 
         break;
     case xPDOTransport::ACTION_UNINSTALL:
