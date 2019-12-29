@@ -10,6 +10,7 @@
  */
 
 $corePath = $modx->getOption('glossary.core_path', null, $modx->getOption('core_path') . 'components/glossary/');
+/** @var GlossaryBase $glossary */
 $glossary = $modx->getService('glossary', 'GlossaryBase', $corePath . 'model/glossary/', array(
     'core_path' => $corePath
 ));
