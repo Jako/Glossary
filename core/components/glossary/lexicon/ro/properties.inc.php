@@ -10,5 +10,6 @@ $_lang['glossary.glossary.navItemTpl'] = 'Chunk-ul pentru literele din index';
 $_lang['glossary.glossary.navOuterTpl'] = 'Chunk-ul pentru indexul alfabetic';
 $_lang['glossary.glossary.outerTpl'] = 'Chunk-ul pentru lista de termeni';
 $_lang['glossary.glossary.showNav'] = 'Afișează indexul alfabetic';
+$_lang['glossary.glossary.showEmptySections'] = 'Show empty sections in the quick-nav bar at the top of the glossary';
 $_lang['glossary.glossary.termTpl'] = 'Chunk-ul pentru termeni';
 $_lang['glossary.glossary.toPlaceholder'] = 'If set, the snippet result will be assigned to this placeholder instead of outputting it directly.';
