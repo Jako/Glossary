@@ -3,7 +3,7 @@
  * Glossary Base Classfile
  *
  * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
- * Copyright 2016-2019 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2016-2020 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package glossary
  * @subpackage classfile
@@ -30,7 +30,7 @@ class GlossaryBase
      * The version
      * @var string $version
      */
-    public $version = '2.4.2';
+    public $version = '2.4.3';
 
     /**
      * The class options
@@ -122,11 +122,16 @@ class GlossaryBase
      *
      * @return array
      */
-    public function getGroupedTerms()
+    public function getGroupedTerms($showEmptySections)
     {
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
         $letters = array();
+        if ($showEmptySections) {
+            foreach (range('A', 'Z') as $value) {
+                $letters[$value] = array();
+            }
+        }
         foreach ($terms as $termObj) {
             $term = $termObj->toArray();
             $cleanTerm = $this->cleanAlias($term['term']);

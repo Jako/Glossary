@@ -20,6 +20,7 @@ The following properties could be set in the snippet call:
 Property | Description | Default
 ---------|-------------|--------
 showNav | Show the letter nav at the top of the list. | 1 (Yes)
+showEmptySections | Show empty sections in the quick-nav bar at the top of the glossary. | 0 (No)
 outerTpl | Template chunk for glossary outer wrapper. | Glossary.listOuterTpl
 groupTpl | Template chunk for glossary item group. | Glossary.listGroupTpl
 termTpl | Template chunk for glossary term items. | Glossary.listItemTpl
