@@ -26,6 +26,7 @@ Glossary.grid.SystemSettings = function (config) {
         namespace: 'glossary',
         area: MODx.request['area']
     };
+    config.tbar = [];
     Glossary.grid.SystemSettings.superclass.constructor.call(this, config);
 };
 Ext.extend(Glossary.grid.SystemSettings, MODx.grid.SettingsGrid, {
@@ -111,8 +112,7 @@ Ext.extend(Glossary.grid.SystemSettings, MODx.grid.SettingsGrid, {
     },
     listeners: {
         afterrender: function () {
-            this.topToolbar.items.items[0].hide();
-            this.topToolbar.items.items[2].hide();
+            Ext.getCmp('modx-filter-namespace').hide();
         }
     }
 });

@@ -17,7 +17,7 @@ class GlossaryHomeManagerController extends modExtraManagerController
     public function initialize()
     {
         $corePath = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path') . 'components/glossary/');
-        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $corePath . '/model/glossary/', array(
+        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $corePath . 'model/glossary/', array(
             'core_path' => $corePath
         ));
     }
