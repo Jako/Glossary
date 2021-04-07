@@ -26,7 +26,7 @@ For more information please read the [documentation](https://jako.github.io/Glos
 
 ## License
 
-The project is licensed under the GPLv2 license.
+The project is licensed under the [GPLv2 license](https://github.com/Jako/Glossary/blob/master/core/components/glossary/docs/license.md).
 
 ## Translations
 
