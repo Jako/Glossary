@@ -1,4 +1,4 @@
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/modx-glossary/localized.svg)](https://crowdin.com/project/modx-glossary)
+[![Weblate](https://hosted.weblate.org/widgets/modx-glossary/-/svg-badge.svg)](https://hosted.weblate.org/engage/modx-glossary/)
 
 # Glossary
 
@@ -23,3 +23,11 @@ Install via package manager and create the glossary terms in the custom manager 
 ## Documentation
 
 For more information please read the [documentation](https://jako.github.io/Glossary/).
+
+## License
+
+The project is licensed under the GPLv2 license.
+
+## Translations
+
+The project can be translated on [Weblate]((https://hosted.weblate.org/engage/modx-glossary/)).
