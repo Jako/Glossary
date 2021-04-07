@@ -30,4 +30,4 @@ The project is licensed under the GPLv2 license.
 
 ## Translations
 
-The project can be translated on [Weblate]((https://hosted.weblate.org/engage/modx-glossary/)).
+The project can be translated on [Weblate](https://hosted.weblate.org/engage/modx-glossary/).
