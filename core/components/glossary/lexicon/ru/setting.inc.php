@@ -7,8 +7,8 @@
  */
 $_lang['setting_glossary.debug'] = 'Включить отладку';
 $_lang['setting_glossary.debug_desc'] = 'Добавить информацию отладки в журнал ошибок MODX.';
-$_lang['setting_glossary.disabledTags'] = 'Disabled Tags';
-$_lang['setting_glossary.disabledTags_desc'] = '(Comma separated list) Glossary does not replace text inside of this HTML tags.';
+$_lang['setting_glossary.disabledTags'] = 'Инвалидные метки';
+$_lang['setting_glossary.disabledTags_desc'] = '(Список с разделителями-запятыми) Глоссарий не заменяет текст внутри этих HTML-тегов.';
 $_lang['setting_glossary.fullwords'] = 'Поиск по всему Слова';
 $_lang['setting_glossary.fullwords_desc'] = 'Заменить только полные слова глоссарий термина в содержании ресурса.';
 $_lang['setting_glossary.html'] = 'Разрешить HTML';
