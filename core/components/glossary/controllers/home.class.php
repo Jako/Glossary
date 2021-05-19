@@ -45,7 +45,7 @@ class GlossaryHomeManagerController extends modExtraManagerController
         }
         $this->addHtml('<script type="text/javascript">
         Ext.onReady(function() {
-            Glossary.config = ' . json_encode($this->glossary->options, JSON_PRETTY_PRINT) . ';
+            Glossary.config = ' . json_encode($this->glossary->options, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . ';
             MODx.load({xtype: "glossary-page-home"});
         });
         </script>');
