@@ -1,4 +1,4 @@
-[![Weblate](https://hosted.weblate.org/widgets/modx-glossary/-/svg-badge.svg)](https://hosted.weblate.org/engage/modx-glossary/)
+[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/-/modx-glossary-standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/modx-glossary-standard/)
 
 # Glossary
 
@@ -30,4 +30,4 @@ The project is licensed under the [GPLv2 license](https://github.com/Jako/Glossa
 
 ## Translations
 
-The project can be translated on [Weblate](https://hosted.weblate.org/engage/modx-glossary/).
+Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-glossary-standard/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-glossary-system-settings/)
