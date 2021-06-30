@@ -1,5 +1,6 @@
 Glossary.panel.Settings = function (config) {
     config = config || {};
+    MODx.request.ns = 'glossary';
     Ext.applyIf(config, {
         id: 'glossary-panel-settings',
         title: _('glossary.settings'),
