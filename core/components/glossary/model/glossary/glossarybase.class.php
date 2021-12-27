@@ -141,6 +141,9 @@ class GlossaryBase
             }
             $letters[$firstLetter][] = $term;
         };
+        foreach ($letters as &$letter) {
+            ksort($letter, SORT_NATURAL);
+        }
         ksort($letters, SORT_NATURAL);
         return $letters;
     }
