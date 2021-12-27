@@ -142,10 +142,19 @@ class GlossaryBase
             $letters[$firstLetter][] = $term;
         };
         foreach ($letters as &$letter) {
-            ksort($letter, SORT_NATURAL);
+            usort($letter, array($this, 'sortTerms'));
         }
         ksort($letters, SORT_NATURAL);
         return $letters;
+    }
+
+    /**
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
+    private function sortTerms($a, $b) {
+        return strcoll($a['term'], $b['term']);
     }
 
     /**
