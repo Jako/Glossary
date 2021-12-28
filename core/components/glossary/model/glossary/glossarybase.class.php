@@ -3,7 +3,7 @@
  * Glossary Base Classfile
  *
  * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
- * Copyright 2016-2020 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2016-2021 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package glossary
  * @subpackage classfile
@@ -30,7 +30,7 @@ class GlossaryBase
      * The version
      * @var string $version
      */
-    public $version = '2.4.3';
+    public $version = '2.4.4';
 
     /**
      * The class options
