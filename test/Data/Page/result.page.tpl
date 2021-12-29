@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<a href="http://www.modx.com/" title="Modx" class="logo" target="_blank">MODX</a>
+<a href="https://www.modx.com/" title="Modx" class="logo" target="_blank">MODX</a>
 
 <div class="container">
     <h1>Congratulations!</h1>

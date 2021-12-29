@@ -15,4 +15,4 @@ $properties = array(
 
 /* PHPUnit test config */
 $properties['testPath'] = dirname(__FILE__) . '/';
-$properties['logLevel'] = modX::LOG_LEVEL_INFO;
+$properties['logLevel'] = xPDO::LOG_LEVEL_INFO;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Glossary Term Highlighter Plugin
+ * Glossary Plugin
  *
  * @package glossary
  * @subpackage plugin
@@ -9,20 +9,25 @@
  * @var array $scriptProperties
  */
 
-$className = 'Glossary' . $modx->event->name;
+$className = 'TreehillStudio\Glossary\Plugins\Events\\' . $modx->event->name;
 
 $corePath = $modx->getOption('glossary.core_path', null, $modx->getOption('core_path') . 'components/glossary/');
-/** @var GlossaryBase $glossary */
-$glossary = $modx->getService('glossary', 'GlossaryBase', $corePath . 'model/glossary/', array(
+/** @var Glossary $glossary */
+$glossary = $modx->getService('glossary', 'Glossary', $corePath . 'model/glossary/', [
     'core_path' => $corePath
-));
+]);
 
-$modx->loadClass('GlossaryPlugin', $glossary->getOption('modelPath') . 'glossary/events/', true, true);
-$modx->loadClass($className, $glossary->getOption('modelPath') . 'glossary/events/', true, true);
-if (class_exists($className)) {
-    /** @var GlossaryPlugin $handler */
-    $handler = new $className($modx, $scriptProperties);
-    $handler->run();
+if ($glossary) {
+    if (class_exists($className)) {
+        $handler = new $className($modx, $scriptProperties);
+        if (get_class($handler) == $className) {
+            $handler->run();
+        } else {
+            $modx->log(xPDO::LOG_LEVEL_ERROR, $className. ' could not be initialized!', '', 'Glossary Plugin');
+        }
+    } else {
+        $modx->log(xPDO::LOG_LEVEL_ERROR, $className. ' was not found!', '', 'Glossary Plugin');
+    }
 }
 
 return;

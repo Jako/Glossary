@@ -46,6 +46,7 @@ gulp.task('sass-mgr', function () {
             autoprefixer()
         ]))
         .pipe(gulp.dest('source/css/mgr/'))
+        .pipe(concat('glossary.css'))
         .pipe(postcss([
             cssnano({
                 preset: ['default', {
@@ -81,18 +82,24 @@ gulp.task('images-mgr', function () {
 
 gulp.task('bump-copyright', function () {
     return gulp.src([
-        'core/components/glossary/model/glossary/glossarybase.class.php',
-        'source/js/mgr/widgets/home.panel.js',
+        'core/components/glossary/model/glossary/glossary.class.php',
+        'core/components/glossary/src/Glossary.php',
     ], {base: './'})
         .pipe(replace(/Copyright 2016(-\d{4})? by/g, 'Copyright ' + (new Date().getFullYear() > 2016 ? '2016-' : '') + new Date().getFullYear() + ' by'))
-        .pipe(replace(/© 2018(-\d{4})? by/g, '© ' + (new Date().getFullYear() > 2016 ? '2016-' : '') + new Date().getFullYear()))
         .pipe(gulp.dest('.'));
 });
 gulp.task('bump-version', function () {
     return gulp.src([
-        'core/components/glossary/model/glossary/glossarybase.class.php',
+        'core/components/glossary/src/Glossary.php',
     ], {base: './'})
         .pipe(replace(/version = '\d+.\d+.\d+[-a-z0-9]*'/ig, 'version = \'' + pkg.version + '\''))
+        .pipe(gulp.dest('.'));
+});
+gulp.task('bump-homepanel', function () {
+    return gulp.src([
+        'source/js/mgr/widgets/home.panel.js',
+    ], {base: './'})
+        .pipe(replace(/&copy; 2016(-\d{4})?/g, '&copy; ' + (new Date().getFullYear() > 2016 ? '2016-' : '') + new Date().getFullYear()))
         .pipe(gulp.dest('.'));
 });
 gulp.task('bump-docs', function () {
@@ -102,7 +109,7 @@ gulp.task('bump-docs', function () {
         .pipe(replace(/&copy; 2016(-\d{4})?/g, '&copy; ' + (new Date().getFullYear() > 2016 ? '2016-' : '') + new Date().getFullYear()))
         .pipe(gulp.dest('.'));
 });
-gulp.task('bump', gulp.series('bump-copyright', 'bump-version', 'bump-docs'));
+gulp.task('bump', gulp.series('bump-copyright', 'bump-version', 'bump-homepanel', 'bump-docs'));
 
 
 gulp.task('watch', function () {

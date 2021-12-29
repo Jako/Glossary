@@ -23,10 +23,9 @@ class GlossaryTestHarness
      *
      * @return GlossaryTestHarness
      */
-    public static function suite()
+    public static function suite(): GlossaryTestHarness
     {
-        $suite = new GlossaryTestHarness();
-        return $suite;
+        return new GlossaryTestHarness();
     }
 
     /**
@@ -36,7 +35,7 @@ class GlossaryTestHarness
      * @param array $options An array of configuration parameters.
      * @return xPDO An xPDO object instance.
      */
-    public static function _getConnection($options = array())
+    public static function _getConnection(array $options = array())
     {
         $modx = GlossaryTestHarness::$modx;
         if (is_object($modx)) {
@@ -53,7 +52,7 @@ class GlossaryTestHarness
 
         /* include config.core.php */
         $properties = array();
-        include_once dirname(dirname(__FILE__)) . '/config.core.php';
+        include_once dirname(__FILE__, 2) . '/config.core.php';
         require_once MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
         require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
         include_once strtr(realpath(dirname(__FILE__)) . '/properties.inc.php', '\\', '/');

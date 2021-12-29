@@ -3,7 +3,12 @@ var glossary = function (config) {
     glossary.superclass.constructor.call(this, config);
 };
 Ext.extend(glossary, Ext.Component, {
-    page: {}, window: {}, grid: {}, tree: {}, panel: {}, combo: {}, config: {}
+    initComponent: function () {
+        this.stores = {};
+        this.ajax = new Ext.data.Connection({
+            disableCaching: true,
+        });
+    }, page: {}, window: {}, grid: {}, tree: {}, panel: {}, combo: {}, config: {}, util: {}, form: {}
 });
 Ext.reg('glossary', glossary);
 

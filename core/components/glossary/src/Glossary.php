@@ -1,6 +1,6 @@
 <?php
 /**
- * Glossary Base Classfile
+ * Glossary
  *
  * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
  * Copyright 2016-2021 by Thomas Jakobi <thomas.jakobi@partout.info>
@@ -9,10 +9,16 @@
  * @subpackage classfile
  */
 
+namespace TreehillStudio\Glossary;
+
+use modResource;
+use modX;
+use Term;
+
 /**
- * class GlossaryBase
+ * Class Glossary
  */
-class GlossaryBase
+class Glossary
 {
     /**
      * A reference to the modX instance
@@ -27,34 +33,41 @@ class GlossaryBase
     public $namespace = 'glossary';
 
     /**
+     * The package name
+     * @var string $packageName
+     */
+    public $packageName = 'Glossary';
+
+    /**
      * The version
      * @var string $version
      */
-    public $version = '2.4.4';
+    public $version = '2.5.0';
 
     /**
      * The class options
      * @var array $options
      */
-    public $options = array();
+    public $options = [];
 
     /**
-     * GlossaryBase constructor
+     * Glossary constructor
      *
      * @param modX $modx A reference to the modX instance.
      * @param array $options An array of options. Optional.
      */
-    function __construct(modX &$modx, $options = array())
+    public function __construct(modX &$modx, $options = [])
     {
-        $this->modx =& $modx;
+        $this->modx = &$modx;
         $this->namespace = $this->getOption('namespace', $options, $this->namespace);
 
-        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path') . 'components/' . $this->namespace . '/');
-        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path') . 'components/' . $this->namespace . '/');
-        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url') . 'components/' . $this->namespace . '/');
+        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/' . $this->namespace . '/');
+        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . 'components/' . $this->namespace . '/');
+        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/' . $this->namespace . '/');
+        $modxversion = $this->modx->getVersionData();
 
         // Load some default paths for easier management
-        $this->options = array_merge(array(
+        $this->options = array_merge([
             'namespace' => $this->namespace,
             'version' => $this->version,
             'corePath' => $corePath,
@@ -73,22 +86,24 @@ class GlossaryBase
             'cssUrl' => $assetsUrl . 'css/',
             'imagesUrl' => $assetsUrl . 'images/',
             'connectorUrl' => $assetsUrl . 'connector.php'
-        ), $options);
+        ], $options);
 
         // Add default options
-        $this->options = array_merge($this->options, array(
+        $this->options = array_merge($this->options, [
             'debug' => (bool)$this->getOption('debug', $options, false),
+            'modxversion' => $modxversion['version'],
             'disabledTags' => $this->getOption('disabledTags', $options, 'a,form,select'),
             'fullwords' => (bool)$this->getOption('fullwords', $options, true),
             'html' => (bool)$this->getOption('html', $options, true),
-            'is_admin' => ($this->modx->user) ? $modx->hasPermission('settings') || $modx->hasPermission('glossary_settings') : false,
+            'is_admin' => $this->modx->user && ($modx->hasPermission('settings') || $modx->hasPermission('glossary_settings')),
             'sections' => (bool)$this->getOption('sections', $options, false),
             'sectionsEnd' => $this->getOption('sectionsEnd', $options, '<!-- GlossaryEnd -->'),
             'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),
             'tpl' => $this->getOption('tpl', $options, 'Glossary.highlighterTpl'),
-        ));
+        ]);
 
         $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
+
         $lexicon = $this->modx->getService('lexicon', 'modLexicon');
         $lexicon->load($this->namespace . ':default');
     }
@@ -102,7 +117,7 @@ class GlossaryBase
      * namespaced system setting; by default this value is null.
      * @return mixed The option value or the default value specified.
      */
-    public function getOption($key, $options = array(), $default = null)
+    public function getOption($key, $options = [], $default = null)
     {
         $option = $default;
         if (!empty($key) && is_string($key)) {
@@ -110,8 +125,8 @@ class GlossaryBase
                 $option = $options[$key];
             } elseif (array_key_exists($key, $this->options)) {
                 $option = $this->options[$key];
-            } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config)) {
-                $option = $this->modx->getOption("{$this->namespace}.{$key}");
+            } elseif (array_key_exists("$this->namespace.$key", $this->modx->config)) {
+                $option = $this->modx->getOption("$this->namespace.$key");
             }
         }
         return $option;
@@ -140,7 +155,7 @@ class GlossaryBase
                 $letters[$firstLetter] = array();
             }
             $letters[$firstLetter][] = $term;
-        };
+        }
         foreach ($letters as &$letter) {
             usort($letter, array($this, 'sortTerms'));
         }
@@ -178,7 +193,7 @@ class GlossaryBase
                 'explanation' => htmlspecialchars($term->get('explanation'), ENT_QUOTES, $this->modx->getOption('modx_charset')),
                 'html' => ($html) ? '1' : ''
             ));
-        };
+        }
         return $result;
     }
 

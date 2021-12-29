@@ -11,17 +11,23 @@
  */
 class GlossaryHomeManagerController extends modExtraManagerController
 {
-    /** @var GlossaryBase $glossary */
+    /** @var Glossary $glossary */
     public $glossary;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
         $corePath = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path') . 'components/glossary/');
-        $this->glossary = $this->modx->getService('glossary', 'GlossaryBase', $corePath . 'model/glossary/', array(
+        $this->glossary = $this->modx->getService('glossary', 'Glossary', $corePath . 'model/glossary/', [
             'core_path' => $corePath
-        ));
+        ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function loadCustomCssJs()
     {
         $assetsUrl = $this->glossary->getOption('assetsUrl');
@@ -52,33 +58,52 @@ class GlossaryHomeManagerController extends modExtraManagerController
         $this->loadRichTextEditor();
     }
 
+    /**
+     * {@inheritDoc}
+     * @return string[]
+     */
     public function getLanguageTopics()
     {
-        return array('core:setting','glossary:default');
+        return ['core:setting', 'glossary:default'];
     }
 
-    public function process(array $scriptProperties = array())
+    /**
+     * {@inheritDoc}
+     * @param array $scriptProperties
+     */
+    public function process(array $scriptProperties = [])
     {
     }
 
+    /**
+     * {@inheritDoc}
+     * @return string|null
+     */
     public function getPageTitle()
     {
         return $this->modx->lexicon('glossary');
     }
 
+    /**
+     * {@inheritDoc}
+     * @return string
+     */
     public function getTemplateFile()
     {
         return $this->glossary->getOption('templatesPath') . 'home.tpl';
     }
 
+    /**
+     * Load rich text editor.
+     */
     public function loadRichTextEditor()
     {
         $useEditor = $this->modx->getOption('use_editor');
         $whichEditor = $this->modx->getOption('which_editor');
         if ($useEditor && !empty($whichEditor)) {
-            $onRichTextEditorInit = $this->modx->invokeEvent('OnRichTextEditorInit', array(
+            $onRichTextEditorInit = $this->modx->invokeEvent('OnRichTextEditorInit', [
                 'editor' => $whichEditor
-            ));
+            ]);
             if (is_array($onRichTextEditorInit)) {
                 $onRichTextEditorInit = implode('', $onRichTextEditorInit);
             }

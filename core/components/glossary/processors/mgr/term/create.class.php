@@ -1,17 +1,22 @@
 <?php
 /**
- * Create term
+ * Create a Term
  *
  * @package glossary
- * @subpackage processor
+ * @subpackage processors
  */
 
-class GlossaryTermCreateProcessor extends modObjectCreateProcessor
+use TreehillStudio\Glossary\Processors\ObjectCreateProcessor;
+
+class GlossaryTermCreateProcessor extends ObjectCreateProcessor
 {
     public $classKey = 'Term';
-    public $languageTopics = array('glossary:default');
     public $objectType = 'glossary.term';
 
+    /**
+     * {@inheritDoc}
+     * @return bool
+     */
     public function beforeSave()
     {
         $term = $this->getProperty('term');
@@ -26,7 +31,7 @@ class GlossaryTermCreateProcessor extends modObjectCreateProcessor
         $explanation = $this->getProperty('explanation');
         if (empty($explanation)) {
             $this->addFieldError('explanation', $this->modx->lexicon('glossary.term_err_ns_explanation'));
-        };
+        }
 
         $this->object->set('createdon', time());
         $this->object->set('createdby', $this->modx->user->get('id'));

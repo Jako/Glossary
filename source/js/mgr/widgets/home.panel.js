@@ -1,7 +1,7 @@
 Glossary.panel.Home = function (config) {
     config = config || {};
     Ext.applyIf(config, {
-        cls: 'container home-panel' + ((Glossary.config.debug) ? ' debug' : ''),
+        cls: 'container home-panel' + ((Glossary.config.debug) ? ' debug' : '') + ' modx' + Glossary.config.modxversion,
         defaults: {
             collapsible: false,
             autoHeight: true
@@ -24,8 +24,9 @@ Glossary.panel.Home = function (config) {
             listeners: {
                 afterrender: function (component) {
                     component.getEl().select('img').on('click', function () {
-                        var msg = '<span style="display: inline-block; text-align: center"><img src="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio.png" srcset="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio@2x.png 2x" alt="Treehill Studio"><br>' +
-                            '© 2016-2021 <a href="https://treehillstudio.com" target="_blank">treehillstudio.com</a></span>';
+                        var msg = '<span style="display: inline-block; text-align: center;">&copy; 2012-2016 by Alan Pich <a href="https://github.com/alanpich" target="_blank">github.com/alanpich</a><br>' +
+                            '<img src="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio.png" srcset="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio@2x.png 2x" alt="Treehill Studio" style="margin-top: 10px"><br>' +
+                            '&copy; 2016-2021 by <a href="https://treehillstudio.com" target="_blank">treehillstudio.com</a></span>';
                         Ext.Msg.show({
                             title: _('glossary') + ' ' + Glossary.config.version,
                             msg: msg,
@@ -47,9 +48,9 @@ Glossary.panel.HomeTab = function (config) {
     config = config || {};
     Ext.applyIf(config, {
         id: 'glossary-panel-' + config.tabtype,
-        title: _('glossary.' + config.tabtype),
+        title: config.title,
         items: [{
-            html: '<p>' + _('glossary.' + config.tabtype + '_desc') + '</p>',
+            html: '<p>' + config.description + '</p>',
             border: false,
             cls: 'panel-desc'
         }, {
@@ -76,18 +77,20 @@ Glossary.panel.Overview = function (config) {
     this.ident = 'glossary-panel-overview' + Ext.id();
     this.panelOverviewTabs = [{
         xtype: 'glossary-panel-hometab',
+        title: _('glossary.terms'),
+        description: _('glossary.terms_desc'),
         tabtype: 'terms'
     }];
     if (Glossary.config.is_admin) {
         this.panelOverviewTabs.push({
-            xtype: 'glossary-panel-settings',
-            tabtype: 'settings'
+            xtype: 'glossary-panel-settings'
         })
     }
     Ext.applyIf(config, {
         id: this.ident,
         items: [{
             xtype: 'modx-tabs',
+            border: true,
             stateful: true,
             stateId: 'glossary-panel-overview',
             stateEvents: ['tabchange'],
@@ -107,7 +110,7 @@ Glossary.panel.Overview = function (config) {
             items: this.panelOverviewTabs,
             listeners: {
                 tabchange: function (o, t) {
-                    if (t.tabtype === 'settings') {
+                    if (t.xtype === 'glossary-panel-settings') {
                         Ext.getCmp('glossary-grid-system-settings').getStore().reload();
                     } else if (t.xtype === 'glossary-panel-hometab') {
                         if (Ext.getCmp('glossary-panel-' + t.tabtype + '-grid')) {

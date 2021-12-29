@@ -4,9 +4,14 @@
  * @subpackage plugin
  */
 
-class GlossaryOnLoadWebDocument extends GlossaryPlugin
+namespace TreehillStudio\Glossary\Plugins\Events;
+
+use TreehillStudio\Glossary\Plugins\Plugin;
+use xPDO;
+
+class OnLoadWebDocument extends Plugin
 {
-    public function run()
+    public function process()
     {
         $contexts = $this->glossary->getOption('enabledContexts');
         if ($contexts) {

@@ -25,6 +25,7 @@ Glossary.grid.Terms = function (config) {
         paging: true,
         remoteSort: true,
         autoExpandColumn: 'explanation',
+        showActionsColumn: false,
         columns: [{
             header: _('glossary.term_term'),
             dataIndex: 'term',
@@ -39,6 +40,9 @@ Glossary.grid.Terms = function (config) {
             sortable: true,
             width: 100,
             editor: (typeof MODx.loadRTE === 'undefined' || !Glossary.config.html) ? {xtype: 'textfield'} : false,
+            renderer: function(val, meta, record) {
+                return (typeof MODx.loadRTE === 'undefined' || !Glossary.config.html) ? Ext.util.Format.htmlEncode(record.data.explanation) : MODx.util.safeHtml(record.data.explanation,'<a><br><i><em><b><strong><p>');
+            }
         }, {
             renderer: {
                 fn: this.buttonColumnRenderer,
@@ -236,6 +240,7 @@ Glossary.window.CreateUpdateTerm = function (config) {
             id: this.ident + '-glossary-explanation',
             fieldLabel: _('glossary.term_explanation'),
             name: 'explanation',
+            height: 300,
             anchor: '100%'
         }, {
             xtype: 'hidden',

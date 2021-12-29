@@ -1,19 +1,24 @@
 <?php
 /**
- * Get list terms
+ * Get list Terms
  *
  * @package glossary
- * @subpackage processor
+ * @subpackage processors
  */
 
-class GlossaryTermGetListProcessor extends modObjectGetListProcessor
+use TreehillStudio\Glossary\Processors\ObjectGetListProcessor;
+
+class GlossaryTermGetListProcessor extends ObjectGetListProcessor
 {
     public $classKey = 'Term';
-    public $languageTopics = array('glossary:default');
     public $defaultSortField = 'term';
-    public $defaultSortDirection = 'ASC';
     public $objectType = 'glossary.term';
 
+    /**
+     * {@inheritDoc}
+     * @param xPDOQuery $c
+     * @return xPDOQuery
+     */
     public function prepareQueryBeforeCount(xPDOQuery $c)
     {
         $query = $this->getProperty('query');
@@ -25,7 +30,6 @@ class GlossaryTermGetListProcessor extends modObjectGetListProcessor
         }
         return $c;
     }
-
 }
 
 return 'GlossaryTermGetListProcessor';

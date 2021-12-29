@@ -1,4 +1,7 @@
 <?php
+
+use PHPUnit\Framework\TestCase;
+
 /**
  * Glossary Test Case
  *
@@ -6,28 +9,28 @@
  * @subpackage test
  */
 
-class GlossaryTestCase extends \PHPUnit\Framework\TestCase
+class GlossaryTestCase extends TestCase
 {
     /**
      * @var modX $modx
      */
     protected $modx = null;
     /**
-     * @var GlossaryBase $glossary
+     * @var Glossary $glossary
      */
     protected $glossary = null;
 
     /**
      * Ensure all tests have a reference to the MODX and Quip objects
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->modx = GlossaryTestHarness::_getConnection();
 
         $corePath = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/glossary/');
-        require_once $corePath . 'model/glossary/glossarybase.class.php';
+        require_once $corePath . 'model/glossary/glossary.class.php';
 
-        $this->glossary = new GlossaryBase($this->modx);
+        $this->glossary = new Glossary($this->modx);
         $this->glossary->options['debug'] = true;
 
         $this->modx->placeholders = array();
@@ -39,7 +42,7 @@ class GlossaryTestCase extends \PHPUnit\Framework\TestCase
     /**
      * Remove reference at end of test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->modx = null;
         $this->glossary = null;

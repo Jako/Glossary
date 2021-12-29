@@ -1,15 +1,16 @@
 <?php
 /**
- * Update term
+ * Update a Term
  *
  * @package glossary
- * @subpackage processor
+ * @subpackage processors
  */
 
-class GlossaryTermUpdateProcessor extends modObjectUpdateProcessor
+use TreehillStudio\Glossary\Processors\ObjectUpdateProcessor;
+
+class GlossaryTermUpdateProcessor extends ObjectUpdateProcessor
 {
     public $classKey = 'Term';
-    public $languageTopics = array('glossary:default');
     public $objectType = 'glossary.term';
 
     public function beforeSave()
@@ -24,7 +25,7 @@ class GlossaryTermUpdateProcessor extends modObjectUpdateProcessor
         $explanation = $this->getProperty('explanation');
         if (empty($explanation)) {
             $this->addFieldError('explanation', $this->modx->lexicon('glossary.term_err_ns_explanation'));
-        };
+        }
 
         $this->object->set('updatedon', time());
         $this->object->set('updatedby', $this->modx->user->get('id'));

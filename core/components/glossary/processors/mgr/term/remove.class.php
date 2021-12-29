@@ -1,15 +1,16 @@
 <?php
 /**
- * Remove term
+ * Remove a Term
  *
  * @package glossary
- * @subpackage processor
+ * @subpackage processors
  */
 
-class GlossaryTermRemoveProcessor extends modObjectRemoveProcessor
+use TreehillStudio\Glossary\Processors\ObjectRemoveProcessor;
+
+class GlossaryTermRemoveProcessor extends ObjectRemoveProcessor
 {
     public $classKey = 'Term';
-    public $languageTopics = array('glossary:default');
     public $objectType = 'glossary.term';
 }
 

@@ -1,0 +1,30 @@
+{
+  "name": "treehillstudio/glossary",
+  "description": "Maintain a Glossary",
+  "authors": [
+    {
+      "name": "Alan Pich",
+      "email": "alan.pich@gmail.com",
+      "homepage": "https://github.com/alanpich"
+    },
+    {
+      "name": "Thomas Jakobi",
+      "email": "office@treehillstudio.com",
+      "homepage": "https://treehillstudio.com"
+    }
+  ],
+  "license": "proprietary",
+  "config": {
+    "platform": {
+      "php": "7.2"
+    }
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "TreehillStudio\\Glossary\\": "src/"
+    }
+  }
+}

@@ -3,7 +3,7 @@ Glossary.page.Home = function (config) {
     Ext.applyIf(config, {
         formpanel: 'glossary-panel-home',
         components: [{
-            xtype: 'glossary-panel-home',
+            xtype: 'glossary-panel-home'
         }]
     });
     Glossary.page.Home.superclass.constructor.call(this, config);
