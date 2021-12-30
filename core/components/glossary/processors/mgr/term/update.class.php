@@ -13,6 +13,9 @@ class GlossaryTermUpdateProcessor extends ObjectUpdateProcessor
     public $classKey = 'Term';
     public $objectType = 'glossary.term';
 
+    /**
+     * @return bool
+     */
     public function beforeSave()
     {
         $term = $this->getProperty('term');

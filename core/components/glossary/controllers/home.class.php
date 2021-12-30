@@ -3,7 +3,7 @@
  * Home Manager Controller class for Glossary
  *
  * @package glossary
- * @subpackage controller
+ * @subpackage controllers
  */
 
 /**
