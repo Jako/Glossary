@@ -2,7 +2,7 @@
 
 Manage glossary terms and add them to your site
 
-- Authors: Alan Pich <alan.pich@gmail.com>, Thomas Jakobi <thomas.jakobi@partout.info>
+- Authors: Alan Pich <alan.pich@gmail.com>, Thomas Jakobi <office@treehillstudio.com>
 - License: GNU GPLv2
 
 ## Features

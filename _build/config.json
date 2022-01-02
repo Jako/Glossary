@@ -170,8 +170,8 @@
     },
     "resolver": {
       "after": [
-        "resolve.setupoptions.php",
         "resolve.synctables.php",
+        "resolve.setupoptions.php",
         "resolve.cleanup.php",
         "resolve.treehillstudio.php"
       ]

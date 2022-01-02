@@ -64,7 +64,7 @@ if ($object->xpdo) {
                 $cleanup = array(
                     'core' => array(
                         'components/glossary/model/glossary/glossarybase.class.php',
-                        'core/components/glossary/model/glossary/events'
+                        'components/glossary/model/glossary/events'
                     )
                 );
 

@@ -11,7 +11,7 @@
 
 // Defaults
 $defaults = array(
-    'resid' => $modx->getOption('0'),
+    'resid' => '0',
 );
 
 $output = '<style type="text/css">
