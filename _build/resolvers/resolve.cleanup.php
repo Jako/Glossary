@@ -98,7 +98,7 @@ if ($object->xpdo) {
                 }
 
                 if ($countFolders || $countFiles) {
-                    $modx->log(xPDO::LOG_LEVEL_INFO, 'Removed ' . $countFiles . ' legacy files and ' . $countFolders . ' legacy folders of Glossary before version 2.5.');
+                    $modx->log(xPDO::LOG_LEVEL_INFO, 'Removed ' . $countFiles . ' legacy files and ' . $countFolders . ' legacy folders of Glossary before version 2.5.x.');
                 }
             }
 

@@ -3,7 +3,7 @@
  * Abstract processor
  *
  * @package glossary
- * @subpackage processor
+ * @subpackage processors
  */
 
 namespace TreehillStudio\Glossary\Processors;
