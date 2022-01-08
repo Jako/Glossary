@@ -8,8 +8,8 @@ each glossary term on a modx resource with the explanation.
 
 ### Requirements
 
-- MODX Revolution 2.6+
-- PHP v5.4+
+* MODX Revolution 2.8+
+* PHP 7.2+
 
 ### Features
 
