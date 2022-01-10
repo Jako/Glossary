@@ -23,7 +23,7 @@ class GlossarySystemSettingsGetlistProcessor extends modSystemSettingsGetListPro
      * {@inheritDoc}
      * @return array
      */
-    public function prepareCriteria(): array
+    public function prepareCriteria()
     {
         return ['namespace' => 'glossary'];
     }

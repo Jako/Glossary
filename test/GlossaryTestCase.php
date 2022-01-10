@@ -23,7 +23,7 @@ class GlossaryTestCase extends TestCase
     /**
      * Ensure all tests have a reference to the MODX and Quip objects
      */
-    public function setUp(): void
+    public function setUp()
     {
         $this->modx = GlossaryTestHarness::_getConnection();
 
@@ -42,7 +42,7 @@ class GlossaryTestCase extends TestCase
     /**
      * Remove reference at end of test case
      */
-    public function tearDown(): void
+    public function tearDown()
     {
         $this->modx = null;
         $this->glossary = null;

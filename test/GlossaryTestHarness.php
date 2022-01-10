@@ -23,7 +23,7 @@ class GlossaryTestHarness
      *
      * @return GlossaryTestHarness
      */
-    public static function suite(): GlossaryTestHarness
+    public static function suite()
     {
         return new GlossaryTestHarness();
     }

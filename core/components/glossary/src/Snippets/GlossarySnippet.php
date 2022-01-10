@@ -15,7 +15,7 @@ class GlossarySnippet extends Snippet
      *
      * @return array
      */
-    public function getDefaultProperties(): array
+    public function getDefaultProperties()
     {
         return [
             'outerTpl' => 'Glossary.listOuterTpl',
@@ -35,7 +35,7 @@ class GlossarySnippet extends Snippet
      * @return string
      * @throws /Exception
      */
-    public function execute(): string
+    public function execute()
     {
         $output = '';
 
