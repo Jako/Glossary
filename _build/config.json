@@ -43,8 +43,8 @@
       "plugins": [
         {
           "name": "GlossaryHighlighter",
+          "description": "Glossary Term Highlighter",
           "file": "glossaryhighlighter.plugin.php",
-          "description": "Glossary Term Highlighter.",
           "events": [
             "OnLoadWebDocument"
           ]
