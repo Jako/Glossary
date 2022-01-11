@@ -13,3 +13,5 @@ Ext.extend(glossary, Ext.Component, {
 Ext.reg('glossary', glossary);
 
 Glossary = new glossary();
+
+MODx.config.help_url = 'https://jako.github.io/Glossary/usage/';
