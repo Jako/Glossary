@@ -32,7 +32,7 @@ abstract class Plugin
     public function __construct($modx, &$scriptProperties)
     {
         $this->scriptProperties = &$scriptProperties;
-        $this->modx = &$modx;
+        $this->modx =& $modx;
         $corePath = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path') . 'components/glossary/');
         $this->glossary = $this->modx->getService('glossary', 'Glossary', $corePath . 'model/glossary/', [
             'core_path' => $corePath

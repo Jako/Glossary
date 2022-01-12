@@ -5,8 +5,8 @@
  * @package glossary
  * @subpackage build
  *
- * @var array $options
  * @var xPDOObject $object
+ * @var array $options
  */
 
 if (!function_exists('updateTableColumns')) {

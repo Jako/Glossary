@@ -20,7 +20,6 @@ $output = '<style type="text/css">
     #modx-setupoptions-form h2 { margin-bottom: 15px; }
 </style>';
 
-$output = '';
 $values = array();
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:

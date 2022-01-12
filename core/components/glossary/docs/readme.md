@@ -17,7 +17,7 @@ MODX Package Management
 
 ## Documentation
 
-For more information please read the documentation on https://jako.github.io/Glossary/
+For more information please read the [documentation](https://jako.github.io/Glossary/).
 
 ## GitHub Repository
 
