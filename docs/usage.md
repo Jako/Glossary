@@ -42,7 +42,7 @@ could be controlled by the following MODX System settings:
 
 Setting | Description | Default
 ------------|---------|--------
-debug | Log debug informations in the MODX error log. | No
+debug | Log debug information in the MODX error log. | No
 disabledAttributes | (Comma separated list) Glossary does not replace text inside of this HTML tag attributes. | title,alt
 fullwords | Replace only full words of a glossary term in the resource content. [^2] | Yes
 html | Allow HTML in the explanation (enables a rich-text editor in the term form). | Yes
