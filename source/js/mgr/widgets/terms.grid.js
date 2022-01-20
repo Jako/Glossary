@@ -40,8 +40,8 @@ Glossary.grid.Terms = function (config) {
             sortable: true,
             width: 100,
             editor: (typeof MODx.loadRTE === 'undefined' || !Glossary.config.html) ? {xtype: 'textfield'} : false,
-            renderer: function(val, meta, record) {
-                return (typeof MODx.loadRTE === 'undefined' || !Glossary.config.html) ? Ext.util.Format.htmlEncode(record.data.explanation) : MODx.util.safeHtml(record.data.explanation,'<a><br><i><em><b><strong><p>');
+            renderer: function (val, meta, record) {
+                return (typeof MODx.loadRTE === 'undefined' || !Glossary.config.html) ? Ext.util.Format.htmlEncode(record.data.explanation) : MODx.util.safeHtml(record.data.explanation, '<a><br><i><em><b><strong><p>');
             }
         }, {
             renderer: {
@@ -137,10 +137,10 @@ Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
                     scope: this
                 },
                 afterRender: {
-                    fn: function (c) {
-                        this.initTinyMCE(c);
+                    fn: function (cmp) {
+                        cmp.initRTE(cmp.ident + '-glossary-explanation');
                     },
-                    scope: createUpdateTerm
+                    scope: this
                 }
             }
         });
@@ -222,6 +222,7 @@ Ext.reg('glossary-grid-terms', Glossary.grid.Terms);
 Glossary.window.CreateUpdateTerm = function (config) {
     config = config || {};
     this.ident = config.ident || 'cuterm' + Ext.id();
+    this.loadedRTEs = [];
     Ext.applyIf(config, {
         id: this.ident,
         url: Glossary.config.connectorUrl,
@@ -230,6 +231,22 @@ Glossary.window.CreateUpdateTerm = function (config) {
         autoHeight: true,
         closeAction: 'close',
         cls: 'modx-window glossary-window',
+        keys: [{
+            key: Ext.EventObject.ENTER,
+            fn: function (keyCode, event) {
+                var elem = event.getTarget();
+                var component = Ext.getCmp(elem.id);
+                if (component instanceof Ext.form.TextArea) {
+                    component.append('\n');
+                } else if (elem.classList.contains('redactor-editor')) {
+                    var source = elem.parentElement.querySelector('.redactor-source');
+                    $R('#' + source.id, 'insertion.insertText', '\n');
+                } else {
+                    this.submit();
+                }
+            },
+            scope: this
+        }],
         fields: [{
             xtype: 'textfield',
             fieldLabel: _('glossary.term_term'),
@@ -248,11 +265,27 @@ Glossary.window.CreateUpdateTerm = function (config) {
         }]
     });
     Glossary.window.CreateUpdateTerm.superclass.constructor.call(this, config);
+    this.on('deactivate', function () {
+        if (Glossary.config.html && MODx.config.use_editor && MODx.loadRTE && this.loadedRTEs) {
+            if (typeof tinyMCE !== 'undefined') {
+                for (var i = 0; i < this.loadedRTEs.length; ++i) {
+                    tinyMCE.execCommand('mceRemoveControl', false, this.loadedRTEs[i]);
+                }
+            }
+        }
+    }, this);
 };
 Ext.extend(Glossary.window.CreateUpdateTerm, MODx.Window, {
-    initTinyMCE: function (c) {
-        if (typeof MODx.loadRTE !== 'undefined' && Glossary.config.html) {
-            MODx.loadRTE(c.ident + '-glossary-explanation');
+    initRTE: function (id) {
+        var loadedRTEs = this.loadedRTEs;
+        if (loadedRTEs.indexOf(id) === -1) {
+            // Avoid "Cannot read property 'getRng' of undefined" in TinyMCE
+            setTimeout(function () {
+                if (typeof MODx.loadRTE !== 'undefined') {
+                    MODx.loadRTE(id);
+                    loadedRTEs.push(id);
+                }
+            }, 200);
         }
     }
 });
