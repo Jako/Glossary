@@ -14,6 +14,7 @@ class GlossaryTermUpdateProcessor extends ObjectUpdateProcessor
     public $objectType = 'glossary.term';
 
     /**
+     * {@inheritDoc}
      * @return bool
      */
     public function beforeSave()
