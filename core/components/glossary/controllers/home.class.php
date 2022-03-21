@@ -36,7 +36,7 @@ class GlossaryHomeManagerController extends modExtraManagerController
         $cssUrl = $this->glossary->getOption('cssUrl') . 'mgr/';
         $cssSourceUrl = $assetsUrl . '../../../source/css/mgr/';
 
-        if ($this->glossary->getOption('debug') && ($this->glossary->getOption('assetsUrl') != MODX_ASSETS_URL . 'components/glossary/')) {
+        if ($this->glossary->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/glossary/')) {
             $this->addCss($cssSourceUrl . 'glossary.css?v=v' . $this->glossary->version);
             $this->addJavascript($jsSourceUrl . 'glossary.js?v=v' . $this->glossary->version);
             $this->addJavascript($jsSourceUrl . 'widgets/home.panel.js?v=v' . $this->glossary->version);
