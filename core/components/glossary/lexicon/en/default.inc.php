@@ -11,7 +11,7 @@ $_lang['glossary.management'] = 'Glossary Manager';
 $_lang['glossary.menu'] = 'Glossary';
 $_lang['glossary.menu_desc'] = 'Manage Glossary Terms';
 $_lang['glossary.settings'] = '<i class="icon icon-cog"></i>';
-$_lang['glossary.settings_desc'] = 'Edit the settings of Glossary. You can edit the value of a system setting by double-clicking on the \'Value\' table cell or by right-clicking in the table cell.';
+$_lang['glossary.settings_desc'] = 'Edit the settings of Glossary. You can edit the value of a system setting by double-clicking on the `Value` table cell or by right-clicking in the table cell.';
 $_lang['glossary.systemsetting_key_err_nv'] = 'You could only edit settings with the prefix glossary.';
 $_lang['glossary.systemsetting_usergroup_err_nv'] = 'Only users with a settings permission or a settings_glossary permission are allowed to change settings.';
 $_lang['glossary.term_create'] = 'Add Term';
