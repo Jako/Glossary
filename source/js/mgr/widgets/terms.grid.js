@@ -11,7 +11,7 @@ Glossary.grid.Terms = function (config) {
         + '</tpl>', {
         compiled: true
     });
-    this.ident = 'glossary-terms' + Ext.id();
+    this.ident = 'glossary-terms-' + Ext.id();
     Ext.applyIf(config, {
         id: this.ident + '-glossary-grid-terms',
         url: Glossary.config.connectorUrl,
@@ -221,7 +221,7 @@ Ext.reg('glossary-grid-terms', Glossary.grid.Terms);
 
 Glossary.window.CreateUpdateTerm = function (config) {
     config = config || {};
-    this.ident = config.ident || 'cuterm' + Ext.id();
+    this.ident = 'glossary-term-create-update-' + Ext.id();
     this.loadedRTEs = [];
     Ext.applyIf(config, {
         id: this.ident,

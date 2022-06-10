@@ -74,7 +74,7 @@ Ext.reg('glossary-panel-hometab', Glossary.panel.HomeTab);
 
 Glossary.panel.Overview = function (config) {
     config = config || {};
-    this.ident = 'glossary-panel-overview' + Ext.id();
+    this.ident = 'glossary-overview-' + Ext.id();
     this.panelOverviewTabs = [{
         xtype: 'glossary-panel-hometab',
         title: _('glossary.terms'),
