@@ -26,7 +26,7 @@ Glossary.panel.Home = function (config) {
                     this.getEl().select('img').on('click', function () {
                         var msg = '<span style="display: inline-block; text-align: center;">&copy; 2012-2016 by Alan Pich <a href="https://github.com/alanpich" target="_blank">github.com/alanpich</a><br>' +
                             '<img src="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio.png" srcset="' + Glossary.config.assetsUrl + 'img/mgr/treehill-studio@2x.png 2x" alt="Treehill Studio" style="margin-top: 10px"><br>' +
-                            '&copy; 2016-2021 by <a href="https://treehillstudio.com" target="_blank">treehillstudio.com</a></span>';
+                            '&copy; 2016-2022 by <a href="https://treehillstudio.com" target="_blank">treehillstudio.com</a></span>';
                         Ext.Msg.show({
                             title: _('glossary') + ' ' + Glossary.config.version,
                             msg: msg,
