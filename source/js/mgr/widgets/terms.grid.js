@@ -93,7 +93,7 @@ Glossary.grid.Terms = function (config) {
             }
         }]
     });
-    Glossary.grid.Terms.superclass.constructor.call(this, config)
+    Glossary.grid.Terms.superclass.constructor.call(this, config);
 };
 Ext.extend(Glossary.grid.Terms, MODx.grid.Grid, {
     windows: {},
