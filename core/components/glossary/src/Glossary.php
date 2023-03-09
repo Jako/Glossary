@@ -68,6 +68,7 @@ class Glossary
 
         // Load some default paths for easier management
         $this->options = array_merge([
+
             'namespace' => $this->namespace,
             'version' => $this->version,
             'corePath' => $corePath,
@@ -88,6 +89,13 @@ class Glossary
             'connectorUrl' => $assetsUrl . 'connector.php'
         ], $options);
 
+        $lexicon = $this->modx->getService('lexicon', 'modLexicon');
+        $lexicon->load($this->namespace . ':default');
+
+        $this->packageName = $this->modx->lexicon('glossary');
+
+        $this->modx->addPackage('formitreply', $this->getOption('modelPath'));
+
         // Add default options
         $this->options = array_merge($this->options, [
             'debug' => (bool)$this->getOption('debug', $options, false),
@@ -101,11 +109,6 @@ class Glossary
             'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),
             'tpl' => $this->getOption('tpl', $options, 'Glossary.highlighterTpl'),
         ]);
-
-        $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
-
-        $lexicon = $this->modx->getService('lexicon', 'modLexicon');
-        $lexicon->load($this->namespace . ':default');
     }
 
     /**
