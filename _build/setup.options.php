@@ -5,14 +5,14 @@
  * @package glossary
  * @subpackage build
  *
- * @var array $options
  * @var modX $modx
+ * @var array $options
  */
 
 // Defaults
-$defaults = array(
+$defaults = [
     'resid' => '0',
-);
+];
 
 $output = '<style type="text/css">
     #modx-setupoptions-panel { display: none; }
@@ -20,11 +20,10 @@ $output = '<style type="text/css">
     #modx-setupoptions-form h2 { margin-bottom: 15px; }
 </style>';
 
-$values = array();
+$values = [];
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
         $output .= '<h2>Install Glossary</h2>
-
         <p>Thanks for installing Glossary. This open source extra was
         developed by Treehill Studio - MODX development in Münsterland.</p>
 
@@ -37,13 +36,12 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         <p>If you install this package, you are giving us your permission to
         collect, process and use that data for statistical purposes.</p>
         
-        <p>Please review the install options carefully.</p>';
+        <p>Please review the installation options carefully.</p>';
 
-        $output .= '<div>
+        $output .= '<div style="position: relative">
                         <label for="resid">Glossary Resource ID:</label>
-                        <input type="text" name="resid" id="resid" width="450" value="' . $defaults['resid'] . '" />
+                        <input type="text" name="resid" id="resid" width="450" value="' . $defaults['resid'] . '" style="font-size: 13px; padding: 5px; width: calc(100% - 10px); height: 32px; margin-bottom: 10px" />
                     </div>';
-
         break;
     case xPDOTransport::ACTION_UPGRADE:
         $setting = $modx->getObject('modSystemSetting', array('key' => 'glossary.resid'));
@@ -51,7 +49,6 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         unset($setting);
 
         $output .= '<h2>Upgrade Glossary</h2>
-
         <p>Glossary will be upgraded. This open source extra was developed by
         Treehill Studio - MODX development in Münsterland.</p>
 
@@ -64,12 +61,10 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         <p>If you upgrade this package, you are giving us your permission to
         collect, process and use that data for statistical purposes.</p>';
 
-        $output .= '<div>
+        $output .= '<div style="position: relative">
                         <label for="resid">Glossary Resource ID:</label>
-                        <input type="text" name="resid" id="resid" width="450" value="' . $values['resid'] . '" />
-                    </div>
-                    <br><br>';
-
+                        <input type="text" name="resid" id="resid" width="450" value="' . $values['resid'] . '" style="font-size: 13px; padding: 5px; width: calc(100% - 10px); height: 32px; margin-bottom: 10px" />
+                    </div>';
         break;
     case xPDOTransport::ACTION_UNINSTALL:
         break;
