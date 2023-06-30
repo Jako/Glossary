@@ -18,13 +18,13 @@ Glossary.grid.Terms = function (config) {
         baseParams: {
             action: 'mgr/term/getlist'
         },
-        autosave: true,
-        save_action: 'mgr/term/updateFromGrid',
         fields: ['id', 'term', 'explanation'],
         autoHeight: true,
         paging: true,
         remoteSort: true,
         autoExpandColumn: 'explanation',
+        autosave: true,
+        save_action: 'mgr/term/updateFromGrid',
         showActionsColumn: false,
         columns: [{
             header: _('glossary.term_term'),
