@@ -7,7 +7,7 @@
  */
 $_lang['glossary'] = 'Glosar';
 $_lang['glossary.debug_mode'] = 'Debug Mode';
-$_lang['glossary.management'] = 'Glosar';
+$_lang['glossary.management'] = 'Manager De Glosar';
 $_lang['glossary.menu'] = 'Glossary';
 $_lang['glossary.menu_desc'] = 'Glosar de termeni';
 $_lang['glossary.settings'] = '<i class="icon icon-cog"></i>';
