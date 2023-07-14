@@ -238,6 +238,10 @@ Glossary.window.CreateUpdateTerm = function (config) {
                 var component = Ext.getCmp(elem.id);
                 if (component instanceof Ext.form.TextArea) {
                     component.append('\n');
+                } else if (elem.classList.contains('ace_text-input')) {
+                    var source = elem.closest('.ace_editor');
+                    var editor = ace.edit(source.id);
+                    editor.insert('\n');
                 } else if (elem.classList.contains('redactor-in')) {
                     var source = elem.parentElement.querySelector('.redactor-source');
                     $R('#' + source.id, 'insertion.insertText', '\n');
