@@ -103,7 +103,7 @@ class Glossary
             'disabledTags' => $this->getOption('disabledTags', $options, 'a,form,select'),
             'fullwords' => (bool)$this->getOption('fullwords', $options, true),
             'html' => (bool)$this->getOption('html', $options, true),
-            'is_admin' => $this->modx->user && ($modx->hasPermission('settings') || $modx->hasPermission($this->namespace . '_settings')),
+            'is_admin' => $this->modx->user && $this->modx->context && ($modx->hasPermission('settings') || $modx->hasPermission($this->namespace . '_settings')),
             'sections' => (bool)$this->getOption('sections', $options, false),
             'sectionsEnd' => $this->getOption('sectionsEnd', $options, '<!-- GlossaryEnd -->'),
             'sectionsStart' => $this->getOption('sectionsStart', $options, '<!-- GlossaryStart -->'),
