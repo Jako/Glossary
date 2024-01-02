@@ -1,4 +1,4 @@
-[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/glossary/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/glossary/standard/)
+[![Default Lexicon](https://hosted.weblate.org/widget/modx-extras/glossary/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/glossary/standard/)
 
 # Glossary
 
