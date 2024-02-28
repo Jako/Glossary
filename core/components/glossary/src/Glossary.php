@@ -94,7 +94,7 @@ class Glossary
 
         $this->packageName = $this->modx->lexicon('glossary');
 
-        $this->modx->addPackage('formitreply', $this->getOption('modelPath'));
+        $this->modx->addPackage($this->namespace, $this->getOption('modelPath'));
 
         // Add default options
         $this->options = array_merge($this->options, [
