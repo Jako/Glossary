@@ -8,9 +8,9 @@
 
 namespace TreehillStudio\Glossary\Processors;
 
-use TreehillStudio\Glossary\Glossary;
 use modObjectGetListProcessor;
 use modX;
+use TreehillStudio\Glossary\Glossary;
 use xPDOQuery;
 
 /**
@@ -48,6 +48,18 @@ class ObjectGetListProcessor extends modObjectGetListProcessor
     public function getBooleanProperty($k, $default = null)
     {
         return ($this->getProperty($k, $default) === 'true' || $this->getProperty($k, $default) === true || $this->getProperty($k, $default) === '1' || $this->getProperty($k, $default) === 1);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return string[]
+     */
+    public function getLanguageTopics()
+    {
+        if (file_exists($this->glossary->getOption('corePath') . 'lexicon/' . $this->modx->getOption('manager_language', [], 'en') . '/custom.inc.php')) {
+            $this->languageTopics[] = 'glossary:custom';
+        }
+        return $this->languageTopics;
     }
 
     /**
