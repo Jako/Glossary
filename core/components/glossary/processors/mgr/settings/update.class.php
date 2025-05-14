@@ -25,6 +25,15 @@ class GlossarySystemSettingsUpdateProcessor extends modSystemSettingsUpdateProce
      * {@inheritDoc}
      * @return bool
      */
+    public function checkPermissions()
+    {
+        return !empty($this->permission) ? $this->modx->hasPermission($this->permission) || $this->modx->hasPermission('glossary_' . $this->permission) : true;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return bool
+     */
     public function beforeSave()
     {
         $this->setProperty('namespace', 'glossary');
@@ -53,7 +62,7 @@ class GlossarySystemSettingsUpdateProcessor extends modSystemSettingsUpdateProce
         if (strpos($key, 'glossary.') !== 0) {
             $this->addFieldError('key', $this->modx->lexicon('glossary.systemsetting_key_err_nv'));
         }
-        if (!$this->modx->hasPermission('settings') && !$this->modx->hasPermission('glossary_settings')) {
+        if (!$this->modx->hasPermission($this->permission) && !$this->modx->hasPermission('glossary_' . $this->permission)) {
             $this->addFieldError('usergroup', $this->modx->lexicon('glossary.systemsetting_usergroup_err_nv'));
         }
     }
