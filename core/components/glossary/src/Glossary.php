@@ -144,10 +144,10 @@ class Glossary
     {
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
-        $letters = array();
+        $letters = [];
         if ($showEmptySections) {
             foreach (range('A', 'Z') as $value) {
-                $letters[$value] = array();
+                $letters[$value] = [];
             }
         }
         foreach ($terms as $termObj) {
@@ -155,12 +155,12 @@ class Glossary
             $cleanTerm = $this->cleanAlias($term['term']);
             $firstLetter = strtoupper(substr($cleanTerm, 0, 1));
             if (!isset($letters[$firstLetter])) {
-                $letters[$firstLetter] = array();
+                $letters[$firstLetter] = [];
             }
             $letters[$firstLetter][] = $term;
         }
         foreach ($letters as &$letter) {
-            usort($letter, array($this, 'sortTerms'));
+            usort($letter, [$this, 'sortTerms']);
         }
         ksort($letters, SORT_NATURAL);
         return $letters;
@@ -188,14 +188,14 @@ class Glossary
 
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
-        $result = array();
+        $result = [];
         foreach ($terms as $term) {
-            $result[$term->get('term')] = $this->modx->getChunk($chunkName, array(
+            $result[$term->get('term')] = $this->modx->getChunk($chunkName, [
                 'term' => $term->get('term'),
                 'link' => $target . '#' . $this->cleanAlias($term->get('term')),
                 'explanation' => htmlspecialchars($term->get('explanation'), ENT_QUOTES, $this->modx->getOption('modx_charset')),
                 'html' => ($html) ? '1' : ''
-            ));
+            ]);
         }
         return $result;
     }
@@ -215,7 +215,7 @@ class Glossary
             $splitEx = '~((?:' . $this->getOption('sectionsStart') . ').*?(?:' . $this->getOption('sectionsEnd') . '))~isu';
             $sections = preg_split($splitEx, $text, null, PREG_SPLIT_DELIM_CAPTURE);
         } else {
-            $sections = array($text);
+            $sections = [$text];
         }
 
         // Mask all terms first
@@ -223,7 +223,7 @@ class Glossary
         $maskEnd = '<_$_>';
         $fullwords = $this->getOption('fullwords', null, true);
         $disabledTags = array_map('trim', explode(',', $this->getOption('disabledTags')));
-        $splitExTags = array();
+        $splitExTags = [];
         foreach ($disabledTags as $disabledTag) {
             $splitExTags[] = '<' . $disabledTag . '.*?</' . $disabledTag . '>';
         }
@@ -268,9 +268,9 @@ class Glossary
         }
 
         // Remove remaining section markers
-        $text = str_replace(array(
+        $text = str_replace([
             $this->getOption('sectionsStart'), $this->getOption('sectionsEnd')
-        ), '', $text);
+        ], '', $text);
         return $text;
     }
 

@@ -44,7 +44,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                     </div>';
         break;
     case xPDOTransport::ACTION_UPGRADE:
-        $setting = $modx->getObject('modSystemSetting', array('key' => 'glossary.resid'));
+        $setting = $modx->getObject('modSystemSetting', ['key' => 'glossary.resid']);
         $values['resid'] = ($setting) ? $setting->get('resid') : $defaults['resid'];
         unset($setting);
 

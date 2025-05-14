@@ -109,9 +109,9 @@ if ($object->xpdo) {
             /** @var modX $modx */
             $modx = &$object->xpdo;
 
-            $tables = array(
+            $tables = [
                 "Term"
-            );
+            ];
 
             $modelPath = $modx->getOption('glossary.core_path', null, $modx->getOption('core_path') . 'components/glossary/') . 'model/';
             $modx->addPackage('glossary', $modelPath);

@@ -11,9 +11,9 @@ class GlossaryCoreTest extends GlossaryTestCase
     public function testAddGlossary()
     {
         $source = file_get_contents($this->modx->config['testPath'] . 'Data/Page/source.page.tpl');
-        $terms = array(
+        $terms = [
             'Template' => '<span class="glossary-term" data-toggle="tooltip" data-html="true" title="" data-original-title="<p>Template <strong>Test</strong> Template</p>">Template</span>'
-        );
+        ];
         $this->glossary->options['sections'] = true;
         $this->glossary->options['fullwords'] = false;
         $source = $this->glossary->highlightTerms($source, $terms);
@@ -25,9 +25,9 @@ class GlossaryCoreTest extends GlossaryTestCase
     public function testAddGlossaryFullwords()
     {
         $source = file_get_contents($this->modx->config['testPath'] . 'Data/Page/source.page.tpl');
-        $terms = array(
+        $terms = [
             'Template' => '<span class="glossary-term" data-toggle="tooltip" data-html="true" title="" data-original-title="<p>Template <strong>Test</strong> Template</p>">Template</span>'
-        );
+        ];
         $this->glossary->options['sections'] = true;
         $this->glossary->options['fullwords'] = true;
         $source = $this->glossary->highlightTerms($source, $terms);

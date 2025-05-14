@@ -49,22 +49,22 @@ class GlossarySnippet extends Snippet
             $tplLetters = '';
             foreach ($letters as $letter => $terms) {
                 if (count($terms) > 0) {
-                    $tplLetters .= $this->modx->getChunk($this->getProperty('navItemTpl'), array(
+                    $tplLetters .= $this->modx->getChunk($this->getProperty('navItemTpl'), [
                         'letter' => $letter,
                         'class' => ''
-                    ));
+                    ]);
                 } elseif ($this->getProperty('showEmptySections')) {
-                    $tplLetters .= $this->modx->getChunk($this->getProperty('navItemTpl'), array(
+                    $tplLetters .= $this->modx->getChunk($this->getProperty('navItemTpl'), [
                         'letter' => $letter,
                         'class' => 'disabled'
-                    ));
+                    ]);
                 }
             }
 
             // Wrap letters in outer tpl
-            $navHTML = $this->modx->getChunk($this->getProperty('navOuterTpl'), array(
+            $navHTML = $this->modx->getChunk($this->getProperty('navOuterTpl'), [
                 'letters' => $tplLetters
-            ));
+            ]);
             $output .= $navHTML;
         }
 
@@ -76,31 +76,31 @@ class GlossarySnippet extends Snippet
             if (count($terms)) {
                 // Prepare Terms HTML
                 foreach ($terms as $term) {
-                    $params = array_merge($term, array(
+                    $params = array_merge($term, [
                         'anchor' => mb_strtolower(str_replace(' ', '-', $term['term'])),
                         'letter' => $letter
-                    ));
+                    ]);
                     $termsHTML .= $this->modx->getChunk($this->getProperty('termTpl'), $params);
                 }
                 // Prepare letter wrapper HTML
-                $groupsHTML .= $this->modx->getChunk($this->getProperty('groupTpl'), array(
+                $groupsHTML .= $this->modx->getChunk($this->getProperty('groupTpl'), [
                     'items' => $termsHTML,
                     'letter' => $letter
-                ));
+                ]);
             }
         }
 
         // Add groups to outer wrapper
-        $output .= $this->modx->getChunk($this->getProperty('outerTpl'), array(
+        $output .= $this->modx->getChunk($this->getProperty('outerTpl'), [
             'groups' => $groupsHTML
-        ));
+        ]);
 
         if ($this->getProperty('toPlaceholder') != '') {
-            $this->modx->setPlaceholders(array(
+            $this->modx->setPlaceholders([
                 '.nav' => $navHTML,
                 '.items' => $termsHTML,
                 '' => $output,
-            ), $this->getProperty('toPlaceholder'));
+            ], $this->getProperty('toPlaceholder'));
             $output = '';
         }
         return $output;

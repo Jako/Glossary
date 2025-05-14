@@ -18,9 +18,9 @@ if ($object->xpdo) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
             /** @var modSystemSetting $setting */
-            $setting = $modx->getObject('modSystemSetting', array(
+            $setting = $modx->getObject('modSystemSetting', [
                 'key' => 'glossary.resid'
-            ));
+            ]);
             if ($setting != null) {
                 $setting->set('value', $modx->getOption('resid', $options, '0'));
                 $setting->save();

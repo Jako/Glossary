@@ -33,7 +33,7 @@ class GlossaryTestCase extends TestCase
         $this->glossary = new Glossary($this->modx);
         $this->glossary->options['debug'] = true;
 
-        $this->modx->placeholders = array();
+        $this->modx->placeholders = [];
         $this->modx->glossary = &$this->glossary;
 
         error_reporting(E_ALL);

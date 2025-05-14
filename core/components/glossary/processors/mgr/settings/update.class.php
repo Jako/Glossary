@@ -13,10 +13,13 @@ if (file_exists(MODX_PROCESSORS_PATH . 'system/settings/update.class.php')) {
     class_alias(\MODX\Revolution\Processors\System\Settings\Update::class, \modSystemSettingsUpdateProcessor::class);
 }
 
+/**
+ * Class GlossarySystemSettingsUpdateProcessor
+ */
 class GlossarySystemSettingsUpdateProcessor extends modSystemSettingsUpdateProcessor
 {
     public $checkSavePermission = false;
-    public $languageTopics = array('setting', 'namespace', 'glossary:setting');
+    public $languageTopics = ['setting', 'namespace', 'glossary:setting'];
 
     /**
      * {@inheritDoc}

@@ -23,10 +23,10 @@ class GlossaryTermGetListProcessor extends ObjectGetListProcessor
     {
         $query = $this->getProperty('query');
         if (!empty($query)) {
-            $c->where(array(
+            $c->where([
                 'term:LIKE' => '%' . $query . '%',
                 'OR:explanation:LIKE' => '%' . $query . '%',
-            ));
+            ]);
         }
         return $c;
     }
