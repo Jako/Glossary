@@ -6,7 +6,7 @@
  * @subpackage lexicon
  */
 $_lang['setting_glossary.debug'] = 'Включить отладку';
-$_lang['setting_glossary.debug_desc'] = 'Добавить информацию отладки в журнал ошибок MODX.';
+$_lang['setting_glossary.debug_desc'] = 'Записывать отладочную информацию в лог ошибок MODX.';
 $_lang['setting_glossary.disabledTags'] = 'Инвалидные метки';
 $_lang['setting_glossary.disabledTags_desc'] = '(Список с разделителями-запятыми) Глоссарий не заменяет текст внутри этих HTML-тегов.';
 $_lang['setting_glossary.fullwords'] = 'Поиск по всему Слова';
