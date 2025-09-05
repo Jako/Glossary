@@ -246,7 +246,9 @@ Glossary.window.CreateUpdateTerm = function (config) {
                 } else if (elem.classList.contains('redactor-in')) {
                     var redactorSource = elem.parentElement.querySelector('.redactor-source');
                     var redactorEditor = $R('#' + redactorSource.id);
-                    redactorEditor.insertion.insertText('\n');
+                    if (event.shiftKey === false) {
+                        redactorEditor.insertion.insertText('\n');
+                    }
                 } else {
                     this.submit();
                 }
