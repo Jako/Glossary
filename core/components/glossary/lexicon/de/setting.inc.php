@@ -8,7 +8,7 @@
 $_lang['setting_glossary.debug'] = 'Debug';
 $_lang['setting_glossary.debug_desc'] = 'Debug-Informationen im MODX Fehlerprotokoll ausgeben.';
 $_lang['setting_glossary.disabledTags'] = 'Deaktivierte Tags';
-$_lang['setting_glossary.disabledTags_desc'] = '(Kommaseparierte Liste) Glossary ersetzt keinen Text innerhalb von diesen HTML Tags.';
+$_lang['setting_glossary.disabledTags_desc'] = 'Kommagetrennte Liste von HTML-Tags in denen Glossary den darin enthaltenen Text nicht ersetzt.';
 $_lang['setting_glossary.fullwords'] = 'Vollständige Wörter suchen';
 $_lang['setting_glossary.fullwords_desc'] = 'Nur ganze Worte eines Glossarbegriffs im Ressourcen-Inhalt ersetzen.';
 $_lang['setting_glossary.html'] = 'HTML erlauben';

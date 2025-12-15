@@ -8,7 +8,7 @@
 $_lang['setting_glossary.debug'] = 'Debug';
 $_lang['setting_glossary.debug_desc'] = 'Adăugați informații de depanare la jurnalul de MODX de eroare.';
 $_lang['setting_glossary.disabledTags'] = 'Etichete dezactivate';
-$_lang['setting_glossary.disabledTags_desc'] = '(listă separată prin virgulă) Glosarul nu înlocuiește textul din interiorul acestei etichete HTML.';
+$_lang['setting_glossary.disabledTags_desc'] = 'Lista de etichete HTML separate prin virgulă Glosarul nu înlocuiește textul din interior.';
 $_lang['setting_glossary.fullwords'] = 'Caută cuvinte complete';
 $_lang['setting_glossary.fullwords_desc'] = 'Înlocuiește numai cuvinte complete ale unui termen glosar în conținutul de resurse.';
 $_lang['setting_glossary.html'] = 'Permiteți HTML';
