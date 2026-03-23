@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:meta";
 
 $treehillstudio-color: #cbd842;
 $red: #be0000;
@@ -200,4 +201,4 @@ $primary: #00948e;
   }
 }
 
-@import 'modx3';
+@include meta.load-css('modx3');
