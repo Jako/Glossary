@@ -1,6 +1,7 @@
 {
   "name": "treehillstudio/glossary",
   "description": "Maintain a Glossary",
+  "version": "2.5.1",
   "authors": [
     {
       "name": "Alan Pich",
