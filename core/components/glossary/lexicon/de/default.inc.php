@@ -13,7 +13,7 @@ $_lang['glossary.menu_desc'] = 'Glossar Begriffe Verwalten';
 $_lang['glossary.settings'] = '<i class="icon icon-cog"></i>';
 $_lang['glossary.settings_desc'] = 'Bearbeiten Sie die Einstellungen von Glossary. Sie können den Wert einer Systemeinstellung mit einem Doppelklick auf die ‚Wert‘-Tabellenzelle oder die Systemeinstellung mit einem Rechtsklick in der Tabellenzelle bearbeiten.';
 $_lang['glossary.systemsetting_key_err_nv'] = 'Sie dürfen nur Einstellungen mit dem Prefix glossary bearbeiten.';
-$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Nur Benutzer mit einer settings Berechtigung oder einer settings_glossary Berechtigung können die Einstellungen ändern.';
+$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Nur Benutzer mit einer settings Berechtigung oder einer glossary_settings Berechtigung können die Einstellungen ändern.';
 $_lang['glossary.term_create'] = 'Begriff hinzufügen';
 $_lang['glossary.term_create_long'] = 'Neuen Begriff im Glossar hinzufügen';
 $_lang['glossary.term_err_ae_term'] = 'Dieser Begriff existiert bereits';

@@ -13,7 +13,7 @@ $_lang['glossary.menu_desc'] = 'Glosar de termeni';
 $_lang['glossary.settings'] = '<i class="icon icon-cog"></i>';
 $_lang['glossary.settings_desc'] = 'Modificați setările din Glossary. Puteți edita valoarea unei setări de sistem făcând dublu clic pe celula de tabel "Value" (Valoare) sau făcând clic dreapta în celula de tabel.';
 $_lang['glossary.systemsetting_key_err_nv'] = 'Puteți edita doar setările cu prefixul glossary.';
-$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Numai utilizatorii care au permisiunea settings sau settings_glossary pot modifica setările.';
+$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Numai utilizatorii care au permisiunea settings sau glossary_settings pot modifica setările.';
 $_lang['glossary.term_create'] = 'Adugă termen';
 $_lang['glossary.term_create_long'] = 'Adaugă un termen nou în glosar';
 $_lang['glossary.term_err_ae_term'] = 'Acest termen deja există';

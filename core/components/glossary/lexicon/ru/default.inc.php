@@ -13,7 +13,7 @@ $_lang['glossary.menu_desc'] = 'Словарь терминов';
 $_lang['glossary.settings'] = '<i class="icon icon-cog"></i>';
 $_lang['glossary.settings_desc'] = 'Измените параметры глоссарий. Значение системного параметра можно изменить, дважды щелкнув ячейку таблицы «Value» или щелкнув правой кнопкой мыши в ячейке таблицы.';
 $_lang['glossary.systemsetting_key_err_nv'] = 'Можно изменять только параметры с префиксом глоссарий.';
-$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Разрешается изменять настройки только пользователям с разрешением настроек или разрешением settings_glossary.';
+$_lang['glossary.systemsetting_usergroup_err_nv'] = 'Разрешается изменять настройки только пользователям с разрешением настроек или разрешением glossary_settings.';
 $_lang['glossary.term_create'] = 'Добавить термин';
 $_lang['glossary.term_create_long'] = 'Добавить новый термин в глоссарий';
 $_lang['glossary.term_err_ae_term'] = 'Этот термин уже существует';
