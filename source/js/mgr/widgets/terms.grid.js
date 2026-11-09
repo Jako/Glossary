@@ -234,25 +234,7 @@ Glossary.window.CreateUpdateTerm = function (config) {
         cls: 'modx-window glossary-window',
         keys: [{
             key: Ext.EventObject.ENTER,
-            fn: function (keyCode, event) {
-                var elem = event.getTarget();
-                var component = Ext.getCmp(elem.id);
-                if (component instanceof Ext.form.TextArea) {
-                    component.append('\n');
-                } else if (elem.classList.contains('ace_text-input')) {
-                    var aceSource = elem.closest('.ace_editor');
-                    var aceEditor = ace.edit(aceSource.id);
-                    aceEditor.insert('\n');
-                } else if (elem.classList.contains('redactor-in')) {
-                    var redactorSource = elem.parentElement.querySelector('.redactor-source');
-                    var redactorEditor = $R('#' + redactorSource.id);
-                    if (event.shiftKey === false) {
-                        redactorEditor.insertion.insertText('\n');
-                    }
-                } else {
-                    this.submit();
-                }
-            },
+            fn: Glossary.util.richtextKey,
             scope: this
         }],
         fields: [{
@@ -273,6 +255,7 @@ Glossary.window.CreateUpdateTerm = function (config) {
         }]
     });
     Glossary.window.CreateUpdateTerm.superclass.constructor.call(this, config);
+    Glossary.util.initRichtextKey(this);
     this.on('deactivate', function () {
         if (Glossary.config.html && MODx.config.use_editor && MODx.loadRTE && this.loadedRTEs) {
             if (typeof tinyMCE !== 'undefined') {
