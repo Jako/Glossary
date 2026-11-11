@@ -614,7 +614,7 @@ chunks specified as optional parameters to the snippet call, and various
 features can be turned on or off in the same manner.</p>
 <h2 id="snippet">Snippet</h2>
 <p>This snippet outputs a list of terms and explanations, ordered alphabetically 
-and grouped by first letter. It also ouputs a navigation list of links at the 
+and grouped by first letter. It also outputs a navigation list of links at the 
 top of the glossary list to allow a user to jump to a specific letter.
 The following properties could be set in the snippet call:</p>
 <table>
@@ -669,10 +669,24 @@ The following properties could be set in the snippet call:</p>
 </tbody>
 </table>
 <h2 id="plugin">Plugin</h2>
-<p>The Highlighter plugin parses page content field on render and replaces all
-occurrences of terms with markup defined in the plugin's tpl chunk. This can be
-used to provide a link directly to the glossary entry for that term. The Plugin 
-could be controlled by the following MODX System settings:</p>
+<p>The GlossaryHighlighter plugin parses the content field of a resource on
+render and replaces all occurrences of the terms with the markup defined in the
+plugin's tpl chunk. This can be used to provide a link directly to the glossary
+entry for that term.</p>
+<p>The plugin does not replace terms:</p>
+<ul>
+<li>in the resource referenced by the <code>glossary.resid</code> system setting,</li>
+<li>in static resources, weblinks, symlinks and resources with a content type
+  other than <code>text/html</code> or <code>application/xhtml+xml</code>,</li>
+<li>in HTML tags and their attributes, HTML comments, HTML entities and MODX tags,</li>
+<li>inside <code>script</code>, <code>style</code> and <code>textarea</code> elements and inside the elements
+  listed in the <code>glossary.disabledTags</code> system setting,</li>
+<li>inside a longer term that contains the shorter term (longer terms are
+  replaced first).</li>
+</ul>
+<p>The resource cache is cleared each time a term is created, updated or removed,
+so that cached resources show the changed terms.</p>
+<p>The plugin could be controlled by the following MODX system settings:</p>
 <table>
 <thead>
 <tr>
@@ -688,9 +702,9 @@ could be controlled by the following MODX System settings:</p>
 <td>No</td>
 </tr>
 <tr>
-<td>disabledAttributes</td>
-<td>Comma-separated list of HTML tags Glossary does not replace text inside.</td>
-<td>title,alt</td>
+<td>disabledTags</td>
+<td>Comma-separated list of HTML tags Glossary does not replace text inside. The content of <code>script</code>, <code>style</code> and <code>textarea</code> tags is never replaced.</td>
+<td>a,form,select</td>
 </tr>
 <tr>
 <td>fullwords</td>
@@ -709,23 +723,44 @@ could be controlled by the following MODX System settings:</p>
 </tr>
 <tr>
 <td>sections</td>
-<td>Replace Glossary links only in sections marked with <code>&lt;!— GlossaryStart --&gt;</code> and <code>&lt;!— GlossaryEnd --&gt;</code>. The section markers could be changed with the settings <code>glossary.sectionsStart</code> and <code>glossary.sectionsEnd</code>.</td>
+<td>Replace Glossary links only in sections marked with <code>&lt;!-- GlossaryStart --&gt;</code> and <code>&lt;!-- GlossaryEnd --&gt;</code>. The section markers could be changed with the settings <code>glossary.sectionsStart</code> and <code>glossary.sectionsEnd</code>.</td>
 <td>No</td>
 </tr>
 <tr>
 <td>sectionsEnd</td>
 <td>Marker at the end of a section processed by Glossary. The restriction to marked sections can be activated in the setting <code>glossary.sections</code>.</td>
-<td></td>
+<td><code>&lt;!-- GlossaryEnd --&gt;</code></td>
 </tr>
 <tr>
 <td>sectionsStart</td>
 <td>Marker at the start of a section processed by Glossary. The restriction to marked sections can be activated in the setting <code>glossary.sections</code>.</td>
-<td></td>
+<td><code>&lt;!-- GlossaryStart --&gt;</code></td>
 </tr>
 <tr>
 <td>tpl</td>
 <td>Template Chunk for the highlight replacement.</td>
 <td>Glossary.highlighterTpl</td>
+</tr>
+</tbody>
+</table>
+<p>The following optional system settings are not created during the installation.
+You can create them in the <code>glossary</code> namespace, if you want to restrict the
+plugin to some contexts or templates:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enabledContexts</td>
+<td>Comma-separated list of context keys, in which the terms are highlighted.</td>
+</tr>
+<tr>
+<td>enabledTemplates</td>
+<td>Comma-separated list of template IDs, in which the terms are highlighted.</td>
 </tr>
 </tbody>
 </table>
@@ -744,6 +779,11 @@ the plugin or in the resource output:</p>
 <tr>
 <td>link</td>
 <td>Link url including hash anchor.</td>
+<td>highlighterTpl</td>
+</tr>
+<tr>
+<td>html</td>
+<td><code>1</code> if the system setting <code>glossary.html</code> is enabled, otherwise empty.</td>
 <td>highlighterTpl</td>
 </tr>
 <tr>
@@ -768,7 +808,7 @@ the plugin or in the resource output:</p>
 </tr>
 <tr>
 <td>explanation</td>
-<td>The explanation for this term.</td>
+<td>The explanation for this term. In the highlighterTpl chunk it is HTML-escaped, so it can be used in an attribute.</td>
 <td>listItemTpl, highlighterTpl</td>
 </tr>
 <tr>
@@ -778,8 +818,13 @@ the plugin or in the resource output:</p>
 </tr>
 <tr>
 <td>letter</td>
-<td>One letter in the letter nav.</td>
-<td>groupTpl, navItemTpl</td>
+<td>One letter in the letter nav or the letter of the current group.</td>
+<td>groupTpl, listItemTpl, navItemTpl</td>
+</tr>
+<tr>
+<td>class</td>
+<td><code>disabled</code> for an empty section (if <code>showEmptySections</code> is enabled), otherwise empty.</td>
+<td>navItemTpl</td>
 </tr>
 <tr>
 <td>placeholder</td>
@@ -812,7 +857,9 @@ of the snippet. This also creates two additional placeholders:
 <code>[[+glossaryResult.nav]]</code> and <code>[[+glossaryResult.items]]</code>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
-<p>The word boundary detection works only with not entity encoded text. So please check, if the richtext editor of the site produces the right output.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>A term is treated as a full word, if it is not preceded or followed by a
+letter, a number or an underscore. This also works with terms containing
+special characters and with terms next to HTML entities.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 <li id="fn:3">
 <p>See the toPlaceholder snippet property.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:3" title="Jump back to footnote 3 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
