@@ -13,7 +13,7 @@ features can be turned on or off in the same manner.
 ## Snippet
 
 This snippet outputs a list of terms and explanations, ordered alphabetically 
-and grouped by first letter. It also ouputs a navigation list of links at the 
+and grouped by first letter. It also outputs a navigation list of links at the 
 top of the glossary list to allow a user to jump to a specific letter.
 The following properties could be set in the snippet call:
 
@@ -35,24 +35,51 @@ of the snippet. This also creates two additional placeholders:
 
 ## Plugin
 
-The Highlighter plugin parses page content field on render and replaces all
-occurrences of terms with markup defined in the plugin's tpl chunk. This can be
-used to provide a link directly to the glossary entry for that term. The Plugin 
-could be controlled by the following MODX System settings:
+The GlossaryHighlighter plugin parses the content field of a resource on
+render and replaces all occurrences of the terms with the markup defined in the
+plugin's tpl chunk. This can be used to provide a link directly to the glossary
+entry for that term.
 
-| Setting            | Description                                                                                                                                                                                                        | Default                 |
-|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
-| debug              | Log debug information in the MODX error log.                                                                                                                                                                       | No                      |
-| disabledAttributes | Comma-separated list of HTML tags Glossary does not replace text inside.                                                                                                                                           | title,alt               |
-| fullwords          | Replace only full words of a glossary term in the resource content. [^2]                                                                                                                                           | Yes                     |
-| html               | Allow HTML in the explanation (enables a rich-text editor in the term form).                                                                                                                                       | Yes                     |
-| resid              | ID of a resource containing a Glossary snippet call.                                                                                                                                                               | 0                       |
-| sections           | Replace Glossary links only in sections marked with `<!— GlossaryStart -->` and `<!— GlossaryEnd -->`. The section markers could be changed with the settings `glossary.sectionsStart` and `glossary.sectionsEnd`. | No                      |
-| sectionsEnd        | Marker at the end of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.                                                                      |                         |
-| sectionsStart      | Marker at the start of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.                                                                    |                         |
-| tpl                | Template Chunk for the highlight replacement.                                                                                                                                                                      | Glossary.highlighterTpl |
+The plugin does not replace terms:
 
-[^2]: The word boundary detection works only with not entity encoded text. So please check, if the richtext editor of the site produces the right output.
+- in the resource referenced by the `glossary.resid` system setting,
+- in static resources, weblinks, symlinks and resources with a content type
+  other than `text/html` or `application/xhtml+xml`,
+- in HTML tags and their attributes, HTML comments, HTML entities and MODX tags,
+- inside `script`, `style` and `textarea` elements and inside the elements
+  listed in the `glossary.disabledTags` system setting,
+- inside a longer term that contains the shorter term (longer terms are
+  replaced first).
+
+The resource cache is cleared each time a term is created, updated or removed,
+so that cached resources show the changed terms.
+
+The plugin could be controlled by the following MODX system settings:
+
+| Setting       | Description                                                                                                                                                                                                         | Default                 |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
+| debug         | Log debug information in the MODX error log.                                                                                                                                                                        | No                      |
+| disabledTags  | Comma-separated list of HTML tags Glossary does not replace text inside. The content of `script`, `style` and `textarea` tags is never replaced.                                                                     | a,form,select           |
+| fullwords     | Replace only full words of a glossary term in the resource content. [^2]                                                                                                                                            | Yes                     |
+| html          | Allow HTML in the explanation (enables a rich-text editor in the term form).                                                                                                                                        | Yes                     |
+| resid         | ID of a resource containing a Glossary snippet call.                                                                                                                                                                | 0                       |
+| sections      | Replace Glossary links only in sections marked with `<!-- GlossaryStart -->` and `<!-- GlossaryEnd -->`. The section markers could be changed with the settings `glossary.sectionsStart` and `glossary.sectionsEnd`. | No                      |
+| sectionsEnd   | Marker at the end of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.                                                                       | `<!-- GlossaryEnd -->`  |
+| sectionsStart | Marker at the start of a section processed by Glossary. The restriction to marked sections can be activated in the setting `glossary.sections`.                                                                     | `<!-- GlossaryStart -->`|
+| tpl           | Template Chunk for the highlight replacement.                                                                                                                                                                       | Glossary.highlighterTpl |
+
+[^2]: A term is treated as a full word, if it is not preceded or followed by a
+letter, a number or an underscore. This also works with terms containing
+special characters and with terms next to HTML entities.
+
+The following optional system settings are not created during the installation.
+You can create them in the `glossary` namespace, if you want to restrict the
+plugin to some contexts or templates:
+
+| Setting          | Description                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| enabledContexts  | Comma-separated list of context keys, in which the terms are highlighted.   |
+| enabledTemplates | Comma-separated list of template IDs, in which the terms are highlighted.   |
 
 ## Available placeholders
 
@@ -62,13 +89,15 @@ the plugin or in the resource output:
 | Placeholder       | Description                                                                                                        | Chunk                       |
 |-------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | link              | Link url including hash anchor.                                                                                    | highlighterTpl              |
+| html              | `1` if the system setting `glossary.html` is enabled, otherwise empty.                                             | highlighterTpl              |
 | groups            | The list of term groups.                                                                                           | outerTpl                    |
 | items             | The list of terms.                                                                                                 | groupTpl                    |
 | anchor            | The anchor for the term being referenced.                                                                          | listItemTpl                 |
 | term              | The term being referenced.                                                                                         | listItemTpl, highlighterTpl |
-| explanation       | The explanation for this term.                                                                                     | listItemTpl, highlighterTpl |
+| explanation       | The explanation for this term. In the highlighterTpl chunk it is HTML-escaped, so it can be used in an attribute.  | listItemTpl, highlighterTpl |
 | letters           | The list of letters in the letter nav.                                                                             | navOuterTpl                 |
-| letter            | One letter in the letter nav.                                                                                      | groupTpl, navItemTpl        |
+| letter            | One letter in the letter nav or the letter of the current group.                                                   | groupTpl, listItemTpl, navItemTpl |
+| class             | `disabled` for an empty section (if `showEmptySections` is enabled), otherwise empty.                              | navItemTpl                  |
 | placeholder       | Optional placeholder, that is created by the toPlaceholder property: The whole snippet output [^3]                 | Resource output             |
 | placeholder.nav   | Optional placeholder, that is created by the toPlaceholder property: Outputs the nav only [^3]                     | Resource output             |
 | placeholder.items | Optional placeholder, that is created by the toPlaceholder property: Outputs the items (terms & explanations) [^3] | Resource output             |

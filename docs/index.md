@@ -14,12 +14,12 @@ each glossary term on a modx resource with the explanation.
 ### Features
 
 - Custom Manager Page for managing the glossary terms
-- Plugin for highlight the glossary terms on a MODX resource
-- Snippet for dislaying the terms and explanations
+- Plugin for highlighting the glossary terms on a MODX resource
+- Snippet for displaying the terms and explanations
 
 ### License
 
-The project is licensed under the [GPLv2 license](https://github.com/Jako/Glossary/LICENSE.md).
+The project is licensed under the [GPLv2 license](https://github.com/Jako/Glossary/blob/master/core/components/glossary/docs/license.md).
 
 ### Translations [![Default Lexicon](https://hosted.weblate.org/widget/modx-extras/glossary/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/glossary/)
 
