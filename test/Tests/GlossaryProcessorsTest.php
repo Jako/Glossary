@@ -173,6 +173,60 @@ class GlossaryProcessorsTest extends GlossaryTestCase
     }
 
     /**
+     * @dataProvider cacheProvider
+     */
+    public function testTermChangesClearTheResourceCache(string $action)
+    {
+        $term = $this->createTerm(self::TEST_PREFIX . uniqid());
+        $properties = [
+            'create' => ['term' => $term->get('term') . ' New', 'explanation' => 'Explanation'],
+            'update' => ['id' => $term->get('id'), 'term' => $term->get('term'), 'explanation' => 'Updated'],
+            'updatefromgrid' => ['data' => json_encode(['id' => $term->get('id'), 'term' => $term->get('term'), 'explanation' => 'Updated'])],
+            'remove' => ['id' => $term->get('id')],
+        ][$action];
+        $cacheKey = 'web/resources/' . strtolower(self::TEST_PREFIX) . uniqid();
+        $cacheOptions = [xPDO::OPT_CACHE_KEY => $this->modx->getOption('cache_resource_key', null, 'resource')];
+        $cached = ['resource' => ['_content' => 'cached']];
+        $this->modx->getCacheManager()->set($cacheKey, $cached, 0, $cacheOptions);
+        $this->assertNotEmpty($this->modx->cacheManager->get($cacheKey, $cacheOptions));
+
+        $response = $this->runProcessor($action, $properties);
+
+        if ($action === 'create') {
+            $created = $this->modx->getObject('Term', ['term' => $term->get('term') . ' New']);
+            if ($created) {
+                $this->trackObject($created);
+            }
+        }
+        $this->assertFalse($response->isError(), $response->getMessage());
+        $this->assertEmpty($this->modx->cacheManager->get($cacheKey, $cacheOptions));
+    }
+
+    public function testFailedSaveKeepsTheResourceCache()
+    {
+        $cacheKey = 'web/resources/' . strtolower(self::TEST_PREFIX) . uniqid();
+        $cacheOptions = [xPDO::OPT_CACHE_KEY => $this->modx->getOption('cache_resource_key', null, 'resource')];
+        $cached = ['resource' => ['_content' => 'cached']];
+        $this->modx->getCacheManager()->set($cacheKey, $cached, 0, $cacheOptions);
+
+        $response = $this->runProcessor('create', ['term' => '<b>', 'explanation' => 'Explanation']);
+
+        $this->assertTrue($response->isError());
+        $this->assertNotEmpty($this->modx->cacheManager->get($cacheKey, $cacheOptions));
+        $this->modx->cacheManager->delete($cacheKey, $cacheOptions);
+    }
+
+    public static function cacheProvider(): array
+    {
+        return [
+            'create' => ['create'],
+            'update' => ['update'],
+            'update from grid' => ['updatefromgrid'],
+            'remove' => ['remove'],
+        ];
+    }
+
+    /**
      * Run a Glossary term processor.
      *
      * @param string $action

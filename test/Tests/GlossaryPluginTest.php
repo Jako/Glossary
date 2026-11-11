@@ -91,6 +91,36 @@ class GlossaryPluginTest extends GlossaryTestCase
         ];
     }
 
+    public function testSkipCachedResource()
+    {
+        $resource = $this->newResource('modDocument', 'text/html');
+        $resource->set('cacheable', true);
+        $resource->_content = '<html>' . $this->content() . '</html>';
+        $resource->setProcessed(true);
+
+        $this->assertSame($this->content(), $this->runPlugin($resource));
+    }
+
+    public function testHighlightCachedResourceWithUncachedContentTag()
+    {
+        $resource = $this->newResource('modDocument', 'text/html');
+        $resource->set('cacheable', true);
+        $resource->_content = '<html>[[!*content]]</html>';
+        $resource->setProcessed(true);
+
+        $this->assertSame('<p><span>' . $this->term . '</span></p>', $this->runPlugin($resource));
+    }
+
+    public function testHighlightUncacheableResource()
+    {
+        $resource = $this->newResource('modDocument', 'text/html');
+        $resource->set('cacheable', false);
+        $resource->_content = '<html>' . $this->content() . '</html>';
+        $resource->setProcessed(true);
+
+        $this->assertSame('<p><span>' . $this->term . '</span></p>', $this->runPlugin($resource));
+    }
+
     public function testSkipMissingTargetResource()
     {
         $this->glossary->options['resid'] = 0;

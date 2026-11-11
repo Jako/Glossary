@@ -147,6 +147,8 @@ class GlossaryCoreTest extends GlossaryTestCase
             'modx tag with html' => ['[[+x:then=`<b>Foo</b>`]] Foo', '[[+x:then=`<b>Foo</b>`]] [F]'],
             'modx tag in attribute' => ['<a href="[[~[[*Foo]]]]">x</a><p data-x="[[+Foo]]">Foo</p>', '<a href="[[~[[*Foo]]]]">x</a><p data-x="[[+Foo]]">[F]</p>'],
             'unbalanced brackets' => ['<p>[[ Foo ] Foo]</p>', '<p>[[ [F] ] [F]]</p>'],
+            'named entities' => ['<p>Brand&trade; &copy; &AElig; Foo</p>', '<p>Brand&trade; &copy; &AElig; [F]</p>'],
+            'numeric entities' => ['<p>&#8364; &#x20AC; &#X20ac; Foo</p>', '<p>&#8364; &#x20AC; &#X20ac; [F]</p>'],
             'single brackets' => ['<p>[Foo] [[+a]] Foo</p>', '<p>[[F]] [[+a]] [F]</p>'],
         ];
     }
@@ -207,6 +209,25 @@ class GlossaryCoreTest extends GlossaryTestCase
         $this->assertSame('Foo', $this->highlight('Foo', ['Foo' => '[F]'], [
             'sections' => true,
         ]));
+    }
+
+    /**
+     * @dataProvider entityProvider
+     */
+    public function testEntitiesAreNotReplaced(string $term, string $source, string $expected, bool $fullwords)
+    {
+        $this->assertSame($expected, $this->highlight($source, [$term => '[T]'], ['fullwords' => $fullwords]));
+    }
+
+    public static function entityProvider(): array
+    {
+        return [
+            'named entity, full words' => ['trade', '<p>Brand&trade; trade</p>', '<p>Brand&trade; [T]</p>', true],
+            'named entity, partial words' => ['copy', '<p>&copy; copyright</p>', '<p>&copy; [T]right</p>', false],
+            'decimal entity' => ['8364', '<p>&#8364; 8364</p>', '<p>&#8364; [T]</p>', true],
+            'hexadecimal entity' => ['20AC', '<p>&#x20AC; 20AC</p>', '<p>&#x20AC; [T]</p>', true],
+            'ampersand without entity' => ['amp', '<p>& amp; &amp amp</p>', '<p>& [T]; &[T] [T]</p>', true],
+        ];
     }
 
     public function testNoTerms()
