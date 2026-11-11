@@ -20,6 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fill the .items placeholder of the toPlaceholder snippet property with all terms
 - Use the right default chunk names in the Glossary snippet
 - Fix PHP 8.1+ deprecation notices
+- Don't replace Glossary terms in script, style and textarea elements and in MODX tags
+- Don't replace Glossary terms in static resources, weblinks, symlinks and resources with a non html content type
+- Keep the glossary.resid system setting value during a package upgrade
+- Add the missing lexicon entries for the term processor errors
+- Escape the term in the manager grid
+- Generate unique anchors for terms with the same transliterated anchor
 
 ## [2.5.1] - 2022-11-30
 

@@ -33,7 +33,8 @@ Glossary.grid.Terms = function (config) {
             width: 30,
             editor: {
                 xtype: 'textfield'
-            }
+            },
+            renderer: Ext.util.Format.htmlEncode
         }, {
             header: _('glossary.term_explanation'),
             dataIndex: 'explanation',

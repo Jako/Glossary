@@ -40,12 +40,12 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
         $output .= '<div style="position: relative">
                         <label for="resid">Glossary Resource ID:</label>
-                        <input type="text" name="resid" id="resid" width="450" value="' . $defaults['resid'] . '" style="font-size: 13px; padding: 5px; width: calc(100% - 10px); height: 32px; margin-bottom: 10px" />
+                        <input type="text" name="resid" id="resid" width="450" value="' . htmlspecialchars($defaults['resid'], ENT_QUOTES, 'UTF-8') . '" style="font-size: 13px; padding: 5px; width: calc(100% - 10px); height: 32px; margin-bottom: 10px" />
                     </div>';
         break;
     case xPDOTransport::ACTION_UPGRADE:
         $setting = $modx->getObject('modSystemSetting', ['key' => 'glossary.resid']);
-        $values['resid'] = ($setting) ? $setting->get('resid') : $defaults['resid'];
+        $values['resid'] = ($setting) ? $setting->get('value') : $defaults['resid'];
         unset($setting);
 
         $output .= '<h2>Upgrade Glossary</h2>
@@ -63,7 +63,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
         $output .= '<div style="position: relative">
                         <label for="resid">Glossary Resource ID:</label>
-                        <input type="text" name="resid" id="resid" width="450" value="' . $values['resid'] . '" style="font-size: 13px; padding: 5px; width: calc(100% - 10px); height: 32px; margin-bottom: 10px" />
+                        <input type="text" name="resid" id="resid" width="450" value="' . htmlspecialchars($values['resid'], ENT_QUOTES, 'UTF-8') . '" style="font-size: 13px; padding: 5px; width: calc(100% - 10px); height: 32px; margin-bottom: 10px" />
                     </div>';
         break;
     case xPDOTransport::ACTION_UNINSTALL:

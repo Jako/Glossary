@@ -135,6 +135,35 @@ class Glossary
     }
 
     /**
+     * Get unique anchors for all Glossary terms
+     *
+     * Terms with the same transliterated anchor (i.e. 'Foo Bar' and 'Foo-Bar')
+     * get a numeric suffix in the order of their creation.
+     *
+     * @return array The anchors keyed by the term
+     */
+    public function getTermAnchors()
+    {
+        $c = $this->modx->newQuery('Term');
+        $c->select($this->modx->getSelectColumns('Term', 'Term', '', ['id', 'term']));
+        $c->sortby('id', 'ASC');
+        $anchors = [];
+        $used = [];
+        if ($c->prepare() && $c->stmt->execute()) {
+            while ($row = $c->stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $anchor = $this->getAnchor($row['term']);
+                $unique = $anchor;
+                for ($i = 2; isset($used[$unique]); $i++) {
+                    $unique = $anchor . '-' . $i;
+                }
+                $used[$unique] = true;
+                $anchors[$row['term']] = $unique;
+            }
+        }
+        return $anchors;
+    }
+
+    /**
      * Get the Glossary terms grouped by the transliterated first letter
      *
      * @return array
@@ -143,6 +172,7 @@ class Glossary
     {
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
+        $anchors = $this->getTermAnchors();
         $letters = [];
         if ($showEmptySections) {
             foreach (range('A', 'Z') as $value) {
@@ -151,6 +181,7 @@ class Glossary
         }
         foreach ($terms as $termObj) {
             $term = $termObj->toArray();
+            $term['anchor'] = $anchors[$term['term']] ?? $this->getAnchor($term['term']);
             $firstLetter = mb_strtoupper(mb_substr($this->getAnchor($term['term']), 0, 1));
             if (!isset($letters[$firstLetter])) {
                 $letters[$firstLetter] = [];
@@ -186,11 +217,12 @@ class Glossary
 
         /** @var Term[] $terms */
         $terms = $this->modx->getCollection('Term');
+        $anchors = $this->getTermAnchors();
         $result = [];
         foreach ($terms as $term) {
             $result[$term->get('term')] = $this->modx->getChunk($chunkName, [
                 'term' => $term->get('term'),
-                'link' => $target . '#' . $this->getAnchor($term->get('term')),
+                'link' => $target . '#' . ($anchors[$term->get('term')] ?? $this->getAnchor($term->get('term'))),
                 'explanation' => htmlspecialchars($term->get('explanation'), ENT_QUOTES, $this->modx->getOption('modx_charset')),
                 'html' => ($html) ? '1' : ''
             ]);
@@ -226,18 +258,21 @@ class Glossary
             return mb_strlen($b) - mb_strlen($a);
         });
 
-        // No replacements in already masked terms, html comments, disabled tags and html tags (including their attributes)
+        // No replacements in already masked terms, html comments, script, style and textarea contents,
+        // disabled tags, html tags (including their attributes) and MODX tags (including nested tags)
         $protected = [
             '\x1A\d+\x1A',
             '<!--.*?-->',
+            '(?<modx>\[\[(?:[^\[\]]++|\[(?!\[)|\](?!\])|(?&modx))*+\]\])',
         ];
-        $disabledTags = array_filter(array_map('trim', explode(',', (string)$this->getOption('disabledTags'))));
-        foreach ($disabledTags as $disabledTag) {
+        $disabledTags = array_merge(['script', 'style', 'textarea'], array_map('trim', explode(',', (string)$this->getOption('disabledTags'))));
+        foreach (array_unique(array_filter($disabledTags)) as $disabledTag) {
             $disabledTag = preg_quote($disabledTag, '~');
             $protected[] = '<' . $disabledTag . '(?=[\s>/]).*?</' . $disabledTag . '\s*>';
         }
         $protected[] = '<[a-z/!](?:[^>"\']|"[^"]*"|\'[^\']*\')*>';
-        $splitExDisabled = '~(' . implode('|', $protected) . ')~isu';
+        // Only the protected html is matched case insensitive, the terms are matched case sensitive
+        $protectedEx = '(?i:' . implode('|', $protected) . ')';
 
         // Mask all terms first
         $fullwords = $this->getOption('fullwords', null, true);
@@ -250,26 +285,23 @@ class Glossary
             $mask = "\x1A" . count($masks) . "\x1A";
             $masks[$mask] = $termValue;
             $termEx = ($fullwords) ?
-                '~(?<![\p{L}\p{M}\p{N}_])' . preg_quote($termText, '~') . '(?![\p{L}\p{M}\p{N}_])~u' :
-                '~' . preg_quote($termText, '~') . '~u';
+                '(?<![\p{L}\p{M}\p{N}_])' . preg_quote($termText, '~') . '(?![\p{L}\p{M}\p{N}_])' :
+                preg_quote($termText, '~');
+            // A protected part is matched before a term starting at the same position and is kept unchanged
+            $replaceEx = '~' . $protectedEx . '|(?<term>' . $termEx . ')~su';
             foreach ($sections as $i => $section) {
                 if ($enableSections && strpos($section, $sectionsStart) !== 0) {
                     continue;
                 }
-                if (!preg_match($termEx, $section)) {
+                if (!preg_match('~' . $termEx . '~u', $section)) {
                     continue;
                 }
-                $parts = preg_split($splitExDisabled, $section, -1, PREG_SPLIT_DELIM_CAPTURE);
-                if ($parts === false) {
-                    continue;
+                $replaced = preg_replace_callback($replaceEx, function ($matches) use ($mask) {
+                    return (isset($matches['term']) && $matches['term'] !== '') ? $mask : $matches[0];
+                }, $section);
+                if ($replaced !== null) {
+                    $sections[$i] = $replaced;
                 }
-                // The even parts are the unprotected text, the odd parts are the captured protected parts
-                foreach ($parts as $j => $part) {
-                    if ($j % 2 === 0 && $part !== '') {
-                        $parts[$j] = preg_replace($termEx, $mask, $part);
-                    }
-                }
-                $sections[$i] = implode('', $parts);
             }
         }
         $text = implode('', $sections);

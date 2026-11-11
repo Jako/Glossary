@@ -11,6 +11,36 @@ use xPDO;
 
 class OnLoadWebDocument extends Plugin
 {
+    /**
+     * The mime types of resources, in which the terms are highlighted
+     * @var string[]
+     */
+    protected $mimeTypes = ['text/html', 'application/xhtml+xml'];
+
+    /**
+     * {@inheritDoc}
+     * @return bool
+     */
+    public function init()
+    {
+        $resource = $this->modx->resource;
+        if (!$resource) {
+            return false;
+        }
+        // The content of static resources, weblinks and symlinks is a path, url or resource id
+        foreach (['modStaticResource', 'modWebLink', 'modSymLink'] as $class) {
+            if (is_a($resource, $class) || is_a($resource, 'MODX\\Revolution\\' . $class)) {
+                return false;
+            }
+        }
+        /** @var \modContentType $contentType */
+        $contentType = $resource->getOne('ContentType');
+        if ($contentType && !in_array(strtolower($contentType->get('mime_type')), $this->mimeTypes)) {
+            return false;
+        }
+        return true;
+    }
+
     public function process()
     {
         $contexts = $this->glossary->getOption('enabledContexts');

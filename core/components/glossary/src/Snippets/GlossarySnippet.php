@@ -76,7 +76,7 @@ class GlossarySnippet extends Snippet
                 // Prepare Terms HTML
                 foreach ($terms as $term) {
                     $params = array_merge($term, [
-                        'anchor' => $this->glossary->getAnchor($term['term']),
+                        'anchor' => $term['anchor'],
                         'letter' => $letter
                     ]);
                     $termsHTML .= $this->modx->getChunk($this->getProperty('termTpl'), $params);
