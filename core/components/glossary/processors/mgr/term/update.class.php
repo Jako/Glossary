@@ -22,7 +22,7 @@ class GlossaryTermUpdateProcessor extends ObjectUpdateProcessor
         $term = $this->getProperty('term');
         if (empty($term)) {
             $this->addFieldError('term', $this->modx->lexicon('glossary.term_err_ns_term'));
-        } elseif (preg_match('/[^\d\w-_.:,; ]+/\u', $term)) {
+        } elseif (preg_match('/[^\w.:,; -]/u', $term)) {
             $this->addFieldError('term', $this->modx->lexicon('glossary.term_err_nv_term'));
         }
 

@@ -19,11 +19,11 @@ class GlossarySnippet extends Snippet
     {
         return [
             'outerTpl' => 'Glossary.listOuterTpl',
-            'groupTpl' => 'tplGlossaryIntervalRow',
-            'termTpl' => 'tplGlossaryIntervalWrapper',
+            'groupTpl' => 'Glossary.listGroupTpl',
+            'termTpl' => 'Glossary.listItemTpl',
             'showNav::bool' => true,
-            'navOuterTpl' => 'tplGlossaryEventCategory',
-            'navItemTpl' => 'tplGlossaryEventImage',
+            'navOuterTpl' => 'Glossary.navOuterTpl',
+            'navItemTpl' => 'Glossary.navItemTpl',
             'showEmptySections::bool' => false,
             'toPlaceholder' => ''
         ];
@@ -70,14 +70,13 @@ class GlossarySnippet extends Snippet
 
         // Output all terms (grouped)
         $groupsHTML = '';
-        $termsHTML = '';
         foreach ($letters as $letter => $terms) {
             $termsHTML = '';
             if (count($terms)) {
                 // Prepare Terms HTML
                 foreach ($terms as $term) {
                     $params = array_merge($term, [
-                        'anchor' => mb_strtolower(str_replace(' ', '-', $term['term'])),
+                        'anchor' => $this->glossary->getAnchor($term['term']),
                         'letter' => $letter
                     ]);
                     $termsHTML .= $this->modx->getChunk($this->getProperty('termTpl'), $params);
@@ -91,14 +90,15 @@ class GlossarySnippet extends Snippet
         }
 
         // Add groups to outer wrapper
-        $output .= $this->modx->getChunk($this->getProperty('outerTpl'), [
+        $itemsHTML = $this->modx->getChunk($this->getProperty('outerTpl'), [
             'groups' => $groupsHTML
         ]);
+        $output .= $itemsHTML;
 
         if ($this->getProperty('toPlaceholder') != '') {
             $this->modx->setPlaceholders([
                 '.nav' => $navHTML,
-                '.items' => $termsHTML,
+                '.items' => $itemsHTML,
                 '' => $output,
             ], $this->getProperty('toPlaceholder'));
             $output = '';

@@ -15,14 +15,14 @@ class OnLoadWebDocument extends Plugin
     {
         $contexts = $this->glossary->getOption('enabledContexts');
         if ($contexts) {
-            $contexts = explode(',', $contexts);
+            $contexts = array_map('trim', explode(',', $contexts));
             if (!in_array($this->modx->context->key, $contexts)) {
                 return;
             }
         }
         $templates = $this->glossary->getOption('enabledTemplates');
         if ($templates) {
-            $templates = explode(',', $templates);
+            $templates = array_map('trim', explode(',', $templates));
             if (!in_array($this->modx->resource->get('template'), $templates)) {
                 return;
             }
@@ -40,7 +40,7 @@ class OnLoadWebDocument extends Plugin
             }
         } else {
             if ($this->glossary->getOption('debug')) {
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The MODX System Setting "glossary.resid" does not point to a published and undeleted resource.', '', 'GlossaryPlugin');
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The MODX System Setting "glossary.resid" does not point to an existing resource.', '', 'GlossaryPlugin');
             }
         }
     }

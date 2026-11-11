@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Validate the characters of a Glossary term again when it is created or updated
+- Use the same anchor for the highlighter link and the Glossary snippet list item
+- Don't break the output when a Glossary term is part of another term
+- Don't replace Glossary terms in single quoted html tag attributes and html comments
+- Don't disable replacements in html tags that only start with the name of a disabled tag (i.e. article for a)
+- Highlight full word Glossary terms that start or end with a special character (i.e. C++)
+- Allow special characters in the sectionsStart and sectionsEnd system settings
+- Trim the values of the enabledContexts and enabledTemplates settings
+- Fill the .items placeholder of the toPlaceholder snippet property with all terms
+- Use the right default chunk names in the Glossary snippet
+- Fix PHP 8.1+ deprecation notices
+
 ## [2.5.1] - 2022-11-30
 
 ### Changed

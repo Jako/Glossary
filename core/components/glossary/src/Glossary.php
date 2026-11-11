@@ -151,8 +151,7 @@ class Glossary
         }
         foreach ($terms as $termObj) {
             $term = $termObj->toArray();
-            $cleanTerm = $this->cleanAlias($term['term']);
-            $firstLetter = strtoupper(substr($cleanTerm, 0, 1));
+            $firstLetter = mb_strtoupper(mb_substr($this->getAnchor($term['term']), 0, 1));
             if (!isset($letters[$firstLetter])) {
                 $letters[$firstLetter] = [];
             }
@@ -191,7 +190,7 @@ class Glossary
         foreach ($terms as $term) {
             $result[$term->get('term')] = $this->modx->getChunk($chunkName, [
                 'term' => $term->get('term'),
-                'link' => $target . '#' . $this->cleanAlias($term->get('term')),
+                'link' => $target . '#' . $this->getAnchor($term->get('term')),
                 'explanation' => htmlspecialchars($term->get('explanation'), ENT_QUOTES, $this->modx->getOption('modx_charset')),
                 'html' => ($html) ? '1' : ''
             ]);
@@ -208,83 +207,100 @@ class Glossary
      */
     public function highlightTerms($text, $terms)
     {
+        $sectionsStart = (string)$this->getOption('sectionsStart');
+        $sectionsEnd = (string)$this->getOption('sectionsEnd');
+
         // Enable section markers
-        $enableSections = $this->getOption('sections', null, false);
+        $enableSections = $this->getOption('sections', null, false) && $sectionsStart !== '' && $sectionsEnd !== '';
+        $sections = false;
         if ($enableSections) {
-            $splitEx = '~((?:' . $this->getOption('sectionsStart') . ').*?(?:' . $this->getOption('sectionsEnd') . '))~isu';
-            $sections = preg_split($splitEx, $text, null, PREG_SPLIT_DELIM_CAPTURE);
-        } else {
+            $splitEx = '~(' . preg_quote($sectionsStart, '~') . '.*?' . preg_quote($sectionsEnd, '~') . ')~isu';
+            $sections = preg_split($splitEx, $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+        }
+        if ($sections === false) {
             $sections = [$text];
         }
 
-        // Mask all terms first
-        $maskStart = '<_^_>';
-        $maskEnd = '<_$_>';
-        $fullwords = $this->getOption('fullwords', null, true);
-        $disabledTags = array_map('trim', explode(',', $this->getOption('disabledTags')));
-        $splitExTags = [];
+        // Mask longer terms first, so that a term contained in another term does not break the longer one
+        uksort($terms, function ($a, $b) {
+            return mb_strlen($b) - mb_strlen($a);
+        });
+
+        // No replacements in already masked terms, html comments, disabled tags and html tags (including their attributes)
+        $protected = [
+            '\x1A\d+\x1A',
+            '<!--.*?-->',
+        ];
+        $disabledTags = array_filter(array_map('trim', explode(',', (string)$this->getOption('disabledTags'))));
         foreach ($disabledTags as $disabledTag) {
-            $splitExTags[] = '<' . $disabledTag . '.*?</' . $disabledTag . '>';
+            $disabledTag = preg_quote($disabledTag, '~');
+            $protected[] = '<' . $disabledTag . '(?=[\s>/]).*?</' . $disabledTag . '\s*>';
         }
-        // No replacements in html tag attributes and disabled tags
-        $splitExDisabled = '~([a-z0-9-]+\s*=\s*".*?"|' . implode('|', $splitExTags) . ')~isu';
+        $protected[] = '<[a-z/!](?:[^>"\']|"[^"]*"|\'[^\']*\')*>';
+        $splitExDisabled = '~(' . implode('|', $protected) . ')~isu';
+
+        // Mask all terms first
+        $fullwords = $this->getOption('fullwords', null, true);
+        $masks = [];
         foreach ($terms as $termText => $termValue) {
-            if ($fullwords) {
-                foreach ($sections as &$section) {
-                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && preg_match('/\b' . preg_quote($termText, '/') . '\b/u', $section)) ||
-                        (!$enableSections && preg_match('/\b' . preg_quote($termText, '/') . '\b/u', $section))
-                    ) {
-                        $subSections = preg_split($splitExDisabled, $section, null, PREG_SPLIT_DELIM_CAPTURE);
-                        foreach ($subSections as &$subSection) {
-                            if (!preg_match($splitExDisabled, $subSection)) {
-                                $subSection = preg_replace('/\b' . preg_quote($termText, '/') . '\b/u', $maskStart . $termText . $maskEnd, $subSection);
-                            }
-                        }
-                        $section = implode('', $subSections);
+            $termText = (string)$termText;
+            if ($termText === '') {
+                continue;
+            }
+            $mask = "\x1A" . count($masks) . "\x1A";
+            $masks[$mask] = $termValue;
+            $termEx = ($fullwords) ?
+                '~(?<![\p{L}\p{M}\p{N}_])' . preg_quote($termText, '~') . '(?![\p{L}\p{M}\p{N}_])~u' :
+                '~' . preg_quote($termText, '~') . '~u';
+            foreach ($sections as $i => $section) {
+                if ($enableSections && strpos($section, $sectionsStart) !== 0) {
+                    continue;
+                }
+                if (!preg_match($termEx, $section)) {
+                    continue;
+                }
+                $parts = preg_split($splitExDisabled, $section, -1, PREG_SPLIT_DELIM_CAPTURE);
+                if ($parts === false) {
+                    continue;
+                }
+                // The even parts are the unprotected text, the odd parts are the captured protected parts
+                foreach ($parts as $j => $part) {
+                    if ($j % 2 === 0 && $part !== '') {
+                        $parts[$j] = preg_replace($termEx, $mask, $part);
                     }
                 }
-            } else {
-                foreach ($sections as &$section) {
-                    if (($enableSections && strpos($section, $this->getOption('sectionsStart')) === 0 && strpos($section, $termText) !== false) ||
-                        (!$enableSections && strpos($section, $termText) !== false)
-                    ) {
-                        $subSections = preg_split($splitExDisabled, $section, null, PREG_SPLIT_DELIM_CAPTURE);
-                        foreach ($subSections as &$subSection) {
-                            if (!preg_match($splitExDisabled, $subSection)) {
-                                $subSection = str_replace($termText, $maskStart . $termText . $maskEnd, $subSection);
-                            }
-                        }
-                        $section = implode('', $subSections);
-                    }
-                }
+                $sections[$i] = implode('', $parts);
             }
         }
         $text = implode('', $sections);
 
-        // Replace the terms after to avoid nested replacement
-        foreach ($terms as $termText => $termValue) {
-            $text = str_replace($maskStart . $termText . $maskEnd, $termValue, $text);
-        }
+        // Replace the masks after to avoid nested replacement
+        $text = strtr($text, $masks);
 
         // Remove remaining section markers
-        $text = str_replace([
-            $this->getOption('sectionsStart'), $this->getOption('sectionsEnd')
-        ], '', $text);
+        if ($sectionsStart !== '' && $sectionsEnd !== '') {
+            $text = str_replace([$sectionsStart, $sectionsEnd], '', $text);
+        }
         return $text;
     }
 
     /**
-     * Translit a string with iconv or with a core MODX method
+     * Get the anchor of a term, transliterated with iconv or with a core MODX method
      *
-     * @param $string
+     * @param string $term
      * @return string
      */
-    private function cleanAlias($string)
+    public function getAnchor($term)
     {
+        $anchor = '';
         if (function_exists('iconv')) {
-            return preg_replace('[^\W]', '', str_replace(' ', '-', iconv($this->modx->getOption('modx_charset', null, 'UTF-8'), 'ASCII//TRANSLIT//IGNORE', $string)));
-        } else {
-            return modResource::filterPathSegment($this->modx, $string);
+            $anchor = @iconv($this->modx->getOption('modx_charset', null, 'UTF-8'), 'ASCII//TRANSLIT//IGNORE', $term);
+            // Characters that can't be transliterated (i.e. cyrillic with some iconv implementations) are removed
+            $anchor = ($anchor !== false) ? trim(strtolower(preg_replace('/[^a-z0-9_-]+/i', '', str_replace(' ', '-', $anchor))), '-') : '';
         }
+        if ($anchor === '') {
+            $anchor = modResource::filterPathSegment($this->modx, $term);
+        }
+        return $anchor;
     }
 }
