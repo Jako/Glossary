@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add the missing lexicon entries for the term processor errors
 - Escape the term in the manager grid
 - Generate unique anchors for terms with the same transliterated anchor
+- Fix the Enter key in the rich text editor fields of the manager windows
+- Alter only the changed columns and indexes of the database tables during a package update
 
 ## [2.5.1] - 2022-11-30
 

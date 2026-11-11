@@ -197,6 +197,7 @@ async function taskBump() {
 async function taskScripts() {
     await compileScripts([
         'source/js/mgr/glossary.js',
+        'source/js/mgr/helper/util.js',
         'source/js/mgr/widgets/home.panel.js',
         'source/js/mgr/widgets/terms.grid.js',
         'source/js/mgr/widgets/settings.panel.js',
