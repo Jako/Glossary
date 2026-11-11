@@ -4,7 +4,7 @@
   "description": "Maintain a Glossary",
   "author": "Thomas Jakobi <office@treehillstudio.com>",
   "private": true,
-  "version": "2.5.1",
+  "version": "2.6.0",
   "phpversion": "7.2",
   "modxversion": "2.8",
   "startYear": "2016",

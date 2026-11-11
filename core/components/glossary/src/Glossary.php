@@ -3,7 +3,7 @@
  * Glossary
  *
  * Copyright 2012-2016 by Alan Pich <alan.pich@gmail.com>
- * Copyright 2016-2022 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2016-2026 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package glossary
  * @subpackage classfile
@@ -42,7 +42,7 @@ class Glossary
      * The version
      * @var string $version
      */
-    public $version = '2.5.1';
+    public $version = '2.6.0';
 
     /**
      * The class options

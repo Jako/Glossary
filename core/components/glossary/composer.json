@@ -1,7 +1,7 @@
 {
   "name": "treehillstudio/glossary",
   "description": "Maintain a Glossary",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "authors": [
     {
       "name": "Alan Pich",
@@ -17,11 +17,11 @@
   "license": "GPL-2.0-or-later",
   "config": {
     "platform": {
-      "php": "7.2.5"
+      "php": "7.2"
     }
   },
   "require": {
-    "php": ">=7.2.5"
+    "php": ">=7.2"
   },
   "autoload": {
     "psr-4": {
