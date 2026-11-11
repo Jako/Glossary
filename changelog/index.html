@@ -1495,7 +1495,17 @@
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <h2 id="260-2026-11-11">[2.6.0] - 2026-11-11</h2>
 <h3 id="fixed">Fixed</h3>
-<p>bui</p>
+<ul>
+<li>Validate the characters of a Glossary term again</li>
+<li>Don't replace terms in html attributes, comments and entities, scripts, styles, textareas, MODX tags and in longer terms</li>
+<li>Don't replace terms in static resources, weblinks, symlinks and non html resources</li>
+<li>Highlight full word terms with special characters and allow special characters in the section markers</li>
+<li>Use the same unique anchor for the highlighter link and the snippet list</li>
+<li>Clear the resource cache when a term is changed</li>
+<li>Fix the default chunks and the .items placeholder of the Glossary snippet</li>
+<li>Fix the Enter key in the rich text editor fields and escape the term in the manager</li>
+<li>Fix missing lexicon entries, untrimmed setting values and PHP 8.1+ deprecation notices</li>
+</ul>
 <h2 id="251-2022-11-30">[2.5.1] - 2022-11-30</h2>
 <h3 id="changed">Changed</h3>
 <ul>
