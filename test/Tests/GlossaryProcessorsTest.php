@@ -152,6 +152,27 @@ class GlossaryProcessorsTest extends GlossaryTestCase
     }
 
     /**
+     * @dataProvider notFoundProvider
+     */
+    public function testNotFoundErrorMessage(string $action)
+    {
+        $response = $this->runProcessor($action, ['id' => PHP_INT_MAX, 'term' => 'Foo', 'explanation' => 'Foo']);
+
+        $this->assertTrue($response->isError());
+        $this->assertSame($this->modx->lexicon('glossary.term_err_nfs', ['id' => PHP_INT_MAX]), $response->getMessage());
+        $this->assertStringContainsString((string)PHP_INT_MAX, $response->getMessage());
+        $this->assertStringNotContainsString('glossary.', $response->getMessage());
+    }
+
+    public static function notFoundProvider(): array
+    {
+        return [
+            'update' => ['update'],
+            'remove' => ['remove'],
+        ];
+    }
+
+    /**
      * Run a Glossary term processor.
      *
      * @param string $action

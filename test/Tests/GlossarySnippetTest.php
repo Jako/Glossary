@@ -89,6 +89,18 @@ class GlossarySnippetTest extends GlossaryTestCase
         $this->assertStringContainsString($anchor . ':' . $term . ':Z;', $output);
     }
 
+    public function testDuplicateAnchorsAreUnique()
+    {
+        $this->createTerm($this->prefix . ' Foo Bar');
+        $this->createTerm($this->prefix . ' Foo-Bar');
+
+        $output = $this->runSnippet();
+
+        $anchor = strtolower($this->prefix) . '-foo-bar';
+        $this->assertStringContainsString($anchor . ':' . $this->prefix . ' Foo Bar:Z;', $output);
+        $this->assertStringContainsString($anchor . '-2:' . $this->prefix . ' Foo-Bar:Z;', $output);
+    }
+
     public function testHideNav()
     {
         $this->createTerm($this->prefix);

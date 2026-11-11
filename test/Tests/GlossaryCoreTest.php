@@ -133,6 +133,21 @@ class GlossaryCoreTest extends GlossaryTestCase
             ],
             'multiline disabled tag' => ["<form>\nFoo\n</form> Foo", "<form>\nFoo\n</form> [F]"],
             'less than in text' => ['<p>1 < 2 Foo</p>', '<p>1 < 2 [F]</p>'],
+            'script' => ['<script>var Foo = "<b>Foo</b>";</script> Foo', '<script>var Foo = "<b>Foo</b>";</script> [F]'],
+            'script with attributes' => ['<SCRIPT type="module">Foo()</SCRIPT> Foo', '<SCRIPT type="module">Foo()</SCRIPT> [F]'],
+            'style' => ['<style>.Foo { color: red }</style> Foo', '<style>.Foo { color: red }</style> [F]'],
+            'textarea' => ['<textarea name="x">Foo</textarea> Foo', '<textarea name="x">Foo</textarea> [F]'],
+            'modx chunk' => ['[[$Foo]] Foo', '[[$Foo]] [F]'],
+            'modx tags' => ['[[*Foo]] [[+Foo]] [[++Foo]] [[~1? &Foo=`1`]] Foo', '[[*Foo]] [[+Foo]] [[++Foo]] [[~1? &Foo=`1`]] [F]'],
+            'modx snippet properties' => [
+                '[[!getResources? &tpl=`Foo` &where=`{"pagetitle":"Foo"}`]] Foo',
+                '[[!getResources? &tpl=`Foo` &where=`{"pagetitle":"Foo"}`]] [F]'
+            ],
+            'nested modx tags' => ['[[!Foo? &id=`[[*Foo]]` &x=`[[+Foo:is=`1`:then=`Foo`]]`]] Foo', '[[!Foo? &id=`[[*Foo]]` &x=`[[+Foo:is=`1`:then=`Foo`]]`]] [F]'],
+            'modx tag with html' => ['[[+x:then=`<b>Foo</b>`]] Foo', '[[+x:then=`<b>Foo</b>`]] [F]'],
+            'modx tag in attribute' => ['<a href="[[~[[*Foo]]]]">x</a><p data-x="[[+Foo]]">Foo</p>', '<a href="[[~[[*Foo]]]]">x</a><p data-x="[[+Foo]]">[F]</p>'],
+            'unbalanced brackets' => ['<p>[[ Foo ] Foo]</p>', '<p>[[ [F] ] [F]]</p>'],
+            'single brackets' => ['<p>[Foo] [[+a]] Foo</p>', '<p>[[F]] [[+a]] [F]</p>'],
         ];
     }
 
@@ -262,6 +277,38 @@ class GlossaryCoreTest extends GlossaryTestCase
         $terms = $this->glossary->getTerms($this->createChunk('[[+link]]'));
 
         $this->assertStringEndsWith('#' . $this->glossary->getAnchor($term), $terms[$term]);
+    }
+
+    public function testGetTermAnchorsAreUnique()
+    {
+        $prefix = self::TEST_PREFIX . uniqid();
+        $this->createTerm($prefix . ' Foo Bar');
+        $this->createTerm($prefix . ' Foo-Bar');
+        $this->createTerm($prefix . ' Foo Bar 2');
+
+        $anchors = $this->glossary->getTermAnchors();
+
+        $anchor = strtolower($prefix) . '-foo-bar';
+        $this->assertSame($anchor, $anchors[$prefix . ' Foo Bar']);
+        $this->assertSame($anchor . '-2', $anchors[$prefix . ' Foo-Bar']);
+        $this->assertSame($anchor . '-2-2', $anchors[$prefix . ' Foo Bar 2']);
+        $this->assertSame(count($anchors), count(array_unique($anchors)));
+    }
+
+    public function testGetTermsAndGroupedTermsUseUniqueAnchors()
+    {
+        $prefix = 'Zz' . strtolower(self::TEST_PREFIX) . uniqid();
+        $this->createTerm($prefix . ' Foo Bar');
+        $this->createTerm($prefix . ' Foo-Bar');
+
+        $links = $this->glossary->getTerms($this->createChunk('[[+link]]'));
+        $grouped = array_column($this->glossary->getGroupedTerms(false)['Z'], 'anchor', 'term');
+
+        $anchor = strtolower($prefix) . '-foo-bar';
+        $this->assertStringEndsWith('#' . $anchor, $links[$prefix . ' Foo Bar']);
+        $this->assertStringEndsWith('#' . $anchor . '-2', $links[$prefix . ' Foo-Bar']);
+        $this->assertSame($anchor, $grouped[$prefix . ' Foo Bar']);
+        $this->assertSame($anchor . '-2', $grouped[$prefix . ' Foo-Bar']);
     }
 
     public function testGetGroupedTerms()

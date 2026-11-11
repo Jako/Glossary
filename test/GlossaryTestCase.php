@@ -31,11 +31,20 @@ abstract class GlossaryTestCase extends TestCase
     private $createdObjects = [];
 
     /**
+     * @var bool The lexicon cache is refreshed once per test run, so that changed lexicon files are used
+     */
+    private static $lexiconRefreshed = false;
+
+    /**
      * Ensure all tests have a reference to the MODX and Glossary objects
      */
     public function setUp(): void
     {
         $this->modx = GlossaryTestHarness::_getConnection();
+        if (!self::$lexiconRefreshed) {
+            $this->modx->getCacheManager()->refresh(['lexicon_topics' => []]);
+            self::$lexiconRefreshed = true;
+        }
 
         $corePath = $this->modx->getOption('glossary.core_path', null, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/glossary/');
         require_once $corePath . 'model/glossary/glossary.class.php';
@@ -45,6 +54,8 @@ abstract class GlossaryTestCase extends TestCase
         $this->glossary->options['debug'] = true;
 
         $this->modx->placeholders = [];
+        // Snippets, plugins and processors get this instance with getService
+        $this->modx->services['glossary'] = &$this->glossary;
         $this->modx->glossary = &$this->glossary;
 
         error_reporting(E_ALL);
@@ -60,6 +71,7 @@ abstract class GlossaryTestCase extends TestCase
         }
         $this->createdObjects = [];
 
+        unset($this->modx->services['glossary'], $this->modx->glossary);
         $this->modx = null;
         $this->glossary = null;
     }
