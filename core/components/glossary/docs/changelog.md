@@ -9,25 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Validate the characters of a Glossary term again when it is created or updated
-- Use the same anchor for the highlighter link and the Glossary snippet list item
-- Don't break the output when a Glossary term is part of another term
-- Don't replace Glossary terms in single quoted html tag attributes and html comments
-- Don't disable replacements in html tags that only start with the name of a disabled tag (i.e. article for a)
-- Highlight full word Glossary terms that start or end with a special character (i.e. C++)
-- Allow special characters in the sectionsStart and sectionsEnd system settings
-- Trim the values of the enabledContexts and enabledTemplates settings
-- Fill the .items placeholder of the toPlaceholder snippet property with all terms
-- Use the right default chunk names in the Glossary snippet
-- Fix PHP 8.1+ deprecation notices
-- Don't replace Glossary terms in script, style and textarea elements and in MODX tags
-- Don't replace Glossary terms in static resources, weblinks, symlinks and resources with a non html content type
-- Keep the glossary.resid system setting value during a package upgrade
-- Add the missing lexicon entries for the term processor errors
-- Escape the term in the manager grid
-- Generate unique anchors for terms with the same transliterated anchor
-- Fix the Enter key in the rich text editor fields of the manager windows
-- Alter only the changed columns and indexes of the database tables during a package update
+- Validate the characters of a Glossary term again
+- Don't replace terms in html attributes, comments and entities, scripts, styles, textareas, MODX tags and in longer terms
+- Don't replace terms in static resources, weblinks, symlinks and non html resources
+- Highlight full word terms with special characters and allow special characters in the section markers
+- Use the same unique anchor for the highlighter link and the snippet list
+- Clear the resource cache when a term is changed
+- Fix the default chunks and the .items placeholder of the Glossary snippet
+- Fix the Enter key in the rich text editor fields and escape the term in the manager
+- Fix missing lexicon entries, untrimmed setting values and PHP 8.1+ deprecation notices
 
 ## [2.5.1] - 2022-11-30
 

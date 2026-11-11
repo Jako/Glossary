@@ -36,6 +36,16 @@ class GlossaryTermUpdateProcessor extends ObjectUpdateProcessor
 
         return parent::beforeSave();
     }
+
+    /**
+     * {@inheritDoc}
+     * @return bool
+     */
+    public function afterSave()
+    {
+        $this->glossary->clearResourceCache();
+        return parent::afterSave();
+    }
 }
 
 return 'GlossaryTermUpdateProcessor';

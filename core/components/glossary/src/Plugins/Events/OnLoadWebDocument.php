@@ -33,6 +33,13 @@ class OnLoadWebDocument extends Plugin
                 return false;
             }
         }
+        // The output of a cached resource already contains the highlighted terms. Only an uncached content
+        // tag in the template uses the content field again.
+        if ($resource->getProcessed() && $resource->get('cacheable') && $resource->_content &&
+            strpos($resource->_content, '[[!*content') === false
+        ) {
+            return false;
+        }
         /** @var \modContentType $contentType */
         $contentType = $resource->getOne('ContentType');
         if ($contentType && !in_array(strtolower($contentType->get('mime_type')), $this->mimeTypes)) {

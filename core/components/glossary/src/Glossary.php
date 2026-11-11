@@ -258,11 +258,12 @@ class Glossary
             return mb_strlen($b) - mb_strlen($a);
         });
 
-        // No replacements in already masked terms, html comments, script, style and textarea contents,
+        // No replacements in already masked terms, html comments, html entities, script, style and textarea contents,
         // disabled tags, html tags (including their attributes) and MODX tags (including nested tags)
         $protected = [
             '\x1A\d+\x1A',
             '<!--.*?-->',
+            '&(?:[a-z][a-z0-9]*|#[0-9]+|#x[0-9a-f]+);',
             '(?<modx>\[\[(?:[^\[\]]++|\[(?!\[)|\](?!\])|(?&modx))*+\]\])',
         ];
         $disabledTags = array_merge(['script', 'style', 'textarea'], array_map('trim', explode(',', (string)$this->getOption('disabledTags'))));
@@ -314,6 +315,22 @@ class Glossary
             $text = str_replace([$sectionsStart, $sectionsEnd], '', $text);
         }
         return $text;
+    }
+
+    /**
+     * Clear the resource cache of all contexts, so that changed terms are used in cached resources
+     */
+    public function clearResourceCache()
+    {
+        $contexts = [];
+        $c = $this->modx->newQuery('modContext');
+        $c->select($this->modx->escape('key'));
+        if ($c->prepare() && $c->stmt->execute()) {
+            $contexts = $c->stmt->fetchAll(\PDO::FETCH_COLUMN);
+        }
+        $this->modx->getCacheManager()->refresh([
+            'resource' => ['contexts' => array_values(array_diff($contexts, ['mgr']))],
+        ]);
     }
 
     /**

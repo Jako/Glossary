@@ -38,6 +38,16 @@ class GlossaryTermCreateProcessor extends ObjectCreateProcessor
 
         return parent::beforeSave();
     }
+
+    /**
+     * {@inheritDoc}
+     * @return bool
+     */
+    public function afterSave()
+    {
+        $this->glossary->clearResourceCache();
+        return parent::afterSave();
+    }
 }
 
 return 'GlossaryTermCreateProcessor';
