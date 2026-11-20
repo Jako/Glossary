@@ -55,7 +55,8 @@ abstract class GlossaryTestCase extends TestCase
 
         $this->modx->placeholders = [];
         // Snippets, plugins and processors get this instance with getService
-        $this->modx->services['glossary'] = &$this->glossary;
+        // The services are an array in MODX 2 and a container in MODX 3
+        $this->modx->services['glossary'] = $this->glossary;
         $this->modx->glossary = &$this->glossary;
 
         error_reporting(E_ALL);
